@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class cliente_direccion extends Model
 {
-    use HasFactory;
+    protected $primaryKey='cliente_direccion_id';
+    public $timestamps = false;
 }

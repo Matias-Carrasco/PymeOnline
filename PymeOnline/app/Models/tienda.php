@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class tienda extends Model
 {
-    use HasFactory;
+    protected $primaryKey='tienda_id';
+    public $timestamps = false;
 }

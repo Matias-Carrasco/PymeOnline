@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Schema;
 class comuna extends Model
 {
    
-    use HasFactory;
+    protected $primaryKey='comuna_id';
+    public $timestamps = false;
     
 }

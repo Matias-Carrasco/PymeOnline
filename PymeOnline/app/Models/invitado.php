@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class invitado extends Model
 {
-    use HasFactory;
+    protected $primaryKey='invitado_id';
+    public $timestamps = false;
 }
