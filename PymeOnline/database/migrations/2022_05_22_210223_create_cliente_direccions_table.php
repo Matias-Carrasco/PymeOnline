@@ -14,8 +14,11 @@ class CreateClienteDireccionsTable extends Migration
     public function up()
     {
         Schema::create('cliente_direccions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('cliente_direccion_id');
+            $table->bigInteger('direccion_id')->unsigned();
+            $table->foreign('direccion_id')->references('direccion_id')->on('direccions');
+            $table->bigInteger('cliente_id')->unsigned();
+            $table->foreign('cliente_id')->references('cliente_id')->on('clientes');
         });
     }
 

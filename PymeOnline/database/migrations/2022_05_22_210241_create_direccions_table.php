@@ -14,8 +14,13 @@ class CreateDireccionsTable extends Migration
     public function up()
     {
         Schema::create('direccions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('direccion_id');
+            $table->bigInteger('comuna_id')->unsigned();
+            $table->foreign('comuna_id')->references('comuna_id')->on('comunas');
+            $table->String('direccion_nombre');
+            $table->String('direccion_calle');
+            $table->integer('direccion_numero');
+            $table->String('direccion_detalles');
         });
     }
 
