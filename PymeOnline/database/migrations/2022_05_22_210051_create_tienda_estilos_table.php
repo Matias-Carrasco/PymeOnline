@@ -14,8 +14,11 @@ class CreateTiendaEstilosTable extends Migration
     public function up()
     {
         Schema::create('tienda_estilos', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+           $table->id('estilo_id');
+           $table->primary('estilo_id');
+           $table->String("tienda_banner_url");
+           $table->String('tienda_color_principal');
+           $table->String('tienda_color_secundario');
         });
     }
 
