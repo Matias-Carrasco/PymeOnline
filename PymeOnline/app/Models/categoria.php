@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class tag extends Model
+class categoria extends Model
 {
-    protected $table = 'tags';
+    protected $table = 'categorias';
 
-    protected $primarykey = 'tag_id';
+    protected $primarykey = 'categoria_id';
 }

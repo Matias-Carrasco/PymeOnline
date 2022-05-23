@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tag_publicacion extends Model
 {
-    use HasFactory;
+    protected $table = 'tag_publicaciones';
+
+    protected $primarykey = 'tag_publicacion_id';
 }
