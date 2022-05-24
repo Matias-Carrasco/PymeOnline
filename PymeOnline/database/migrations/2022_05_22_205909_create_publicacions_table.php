@@ -15,7 +15,7 @@ class CreatePublicacionsTable extends Migration
     public function up()
     {
         Schema::create('publicacions', function (Blueprint $table) {
-            $table->id('publicaciones_id');
+            $table->id('publicacion_id');
             $table->integer('tienda_id')->references('tienda_id')->on('tiendas');
             $table->integer('producto_id')->references('producto_id')->on('productos');
             $table->integer('categoria_id')->references('categoria_id')->on('categorias');
