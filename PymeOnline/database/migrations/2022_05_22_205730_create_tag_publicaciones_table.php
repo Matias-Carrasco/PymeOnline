@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTagPublicacionsTable extends Migration
+class CreateTagPublicacionesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,8 +15,10 @@ class CreateTagPublicacionsTable extends Migration
     {
         Schema::create('tag_publicaciones', function (Blueprint $table) {
             $table->bigIncrements('tag_publicacion_id');
-            $table->foreignId('tag_id')->constrained('tags');
-            $table->foreignId('publicacion_id')->constrained('publicacions');
+            $table->bigInteger('tag_id')->unsigned();
+            $table->foreign('tag_id')->references('tag_id')->on('tags');
+            $table->bigInteger('publicacion_id')->unsigned();
+            $table->foreign('publicacion_id')->references('publicacion_id')->on('publicacions');
             $table->timestamps();
         });
     }

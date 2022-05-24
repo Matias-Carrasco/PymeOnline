@@ -14,8 +14,11 @@ class CreatePreguntasTable extends Migration
     public function up()
     {
         Schema::create('preguntas', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('pregunta_id');
+            $table->bigInteger('publicacion_id')->unsigned();
+            $table->foreign('publicacion_id')->references('publicacion_id')->on('publicacions');
+            $table->text('pregunta_texto');
+            $table->date('pregunta_fecha');
         });
     }
 

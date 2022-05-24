@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class pregunta extends Model
 {
-    use HasFactory;
+    protected $primaryKey='pregunta_id';
+    public $timestamps = false;
 }
