@@ -14,7 +14,8 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+        $datos['productos']= producto::paginate();//productos es el nombre de la tabla, producto es el modelo
+        return view('producto.index',$datos);
     }
 
     /**
@@ -24,7 +25,7 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        //
+        return view('producto/create');
     }
 
     /**
@@ -35,7 +36,17 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $campos=[
+
+        ];
+        $mensaje=[
+
+      ];
+
+      $this->validate($request,$campos,$mensaje);
+      $datosprod=$request->except('_token');
+      producto::insert($datosprod);
+      return redirect('/producto');
     }
 
     /**
@@ -78,8 +89,9 @@ class ProductoController extends Controller
      * @param  \App\Models\producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(producto $producto)
+    public function destroy(producto $producto_id)
     {
-        //
+        producto::destroy($producto_id);
+        return redirect('/producto');
     }
 }
