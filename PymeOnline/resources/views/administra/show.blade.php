@@ -16,8 +16,8 @@
             </div>
 
             <div class="form-group">
-                <label for="usuario_id">{{'Id de Usuario'}}</label>
-                <input type="text" name="usuario_id" id="usuario_id" value="{{$datosVermas->usuario_id}}"
+                <label for="id">{{'Id de Usuario'}}</label>
+                <input type="text" name="id" id="id" value="{{$datosVermas->id}}"
                     class="form-control" readonly>
             </div>
 

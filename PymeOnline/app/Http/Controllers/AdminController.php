@@ -56,13 +56,13 @@ class AdminController extends Controller
     public function show($id)
     {
         //
-        $usuariosVermas = User::where('usuario_id',$id)->value('rol_id');
+        $usuariosVermas = User::where('id',$id)->value('rol_id');
         if($usuariosVermas == 2){
-            $datosVermas = cliente::where('usuario_id',$id)->first();
+            $datosVermas = cliente::where('id',$id)->first();
             return view('administra.show', compact('datosVermas'));
         }elseif ($usuariosVermas == 3){
-            $datosVermas = tienda::where('usuario_id',$id)->first();
-            $idDireccion = tienda::where('usuario_id',$id)->value('direccion_id');
+            $datosVermas = tienda::where('id',$id)->first();
+            $idDireccion = tienda::where('id',$id)->value('direccion_id');
             $direccionTienda = direccion::where('direccion_id',$idDireccion)->first();
             $idComuna = direccion::where('direccion_id',$idDireccion)->value('comuna_id');
             $comunaTienda = comuna::where('comuna_id',$idComuna)->first();

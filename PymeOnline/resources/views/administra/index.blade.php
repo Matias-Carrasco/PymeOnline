@@ -22,7 +22,7 @@
                     <tr>
 
                         <td>
-                            {{$usr->usuario_id}}
+                            {{$usr->id}}
                         </td>
                         <td>
                             {{$usr->email}}
@@ -38,7 +38,7 @@
                         @else
 
                             <td>
-                                <form method="post" action="{{url('/admin/'.$usr->usuario_id)}}">
+                                <form method="post" action="{{url('/admin/'.$usr->id)}}">
                                 {{csrf_field() }}
                                 {{method_field('GET')}}
                                 <button type="submit" class="btn btn-block btn-success">Ver mas</button>
@@ -47,7 +47,7 @@
                             </td>
                             
                             <td>
-                                <a href="{{url('/admin/'.$usr->usuario_id.'/edit')}}">
+                                <a href="{{url('/admin/'.$usr->id.'/edit')}}">
                                     <button type="submit" class="btn btn-block btn-warning"
                                         onclick="return confirm('¿Esta seguro de Editar?');">Editar</button>
                                 </a>
