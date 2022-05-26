@@ -24,7 +24,7 @@ class PublicacionController extends Controller
      */
     public function create()
     {
-        //
+        return view('Publicaciones/create');
     }
 
     /**
@@ -35,7 +35,7 @@ class PublicacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
     }
 
     /**
