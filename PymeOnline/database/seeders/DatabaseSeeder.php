@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create();
-
+        
         $this->insertarRoles();
         $this->insertarRegiones();
         $this->insertarComunas();

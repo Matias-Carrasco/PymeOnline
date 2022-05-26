@@ -17,8 +17,8 @@ class CreateTiendasTable extends Migration
             $table->id('tienda_id');
             $table->bigInteger('estilo_id')->unsigned();
             $table->foreign('estilo_id')->references('estilo_id')->on('tienda_estilos');
-            $table->bigInteger('usuario_id')->unsigned();
-            $table->foreign('usuario_id')->references('usuario_id')->on('users');
+            $table->bigInteger('id')->unsigned();
+            $table->foreign('id')->references('id')->on('users');
             $table->bigInteger('direccion_id')->unsigned();
             $table->foreign('direccion_id')->references('direccion_id')->on('direccions');
             $table->String('tienda_rut_responsable')->unique();
