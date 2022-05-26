@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class rol extends Model
 {
-    use HasFactory;
+
+    protected $primarykey = 'rol_id';
+    public $timestamps = false;
+
+   
+
 }
