@@ -26,10 +26,10 @@ class DatabaseSeeder extends Seeder
         $this->insertarInvitados( $faker , 1500 );
         $this->insertarClientes( $faker );
         $this->insertarTiendaEstilos( $faker , 40 );
-        #$this->insertarTiendas( $faker );
-        #$this->insertarCompras( $faker , 10000 );
-        #$this->insertarProductos( $faker , 1000 );
-        #$this->insertarTags( $faker , 10 );
+        $this->insertarTiendas( $faker );
+        $this->insertarCompras( $faker , 10000 );
+        $this->insertarProductos( $faker , 1000 );
+        $this->insertarTags( $faker , 10 );
         #this->insertarPublicacions();
         #$this->insertarResenas();
         #$this->insertarPreguntas();
@@ -521,11 +521,11 @@ class DatabaseSeeder extends Seeder
     public function insertarClientes( $faker )
     {
 
-        $ID_Usuarios = DB::table('users')->where('rol_id','2')->pluck('usuario_id');
+        $ID_Usuarios = DB::table('users')->where('rol_id','2')->pluck('id');
 
         foreach ($ID_Usuarios as $usuario_id) {
             DB::table('clientes')->insert([
-                'usuario_id' => $usuario_id,
+                'id' => $usuario_id,
                 'cliente_rut' => $faker->unique()->randomNumber(9, true),
                 'cliente_nombre' =>  $faker->firstName(),
                 'cliente_apellido' =>  $faker->lastName()
@@ -555,13 +555,13 @@ class DatabaseSeeder extends Seeder
     {
 
         $ID_Estilos = DB::table('tienda_estilos')->pluck('estilo_id');
-        $ID_Usuarios = DB::table('users')->pluck('id');
+        $ID_Usuarios = DB::table('users')->where('rol_id','3')->pluck('id');
         $ID_Direcciones = DB::table('direccions')->pluck('direccion_id');
      
-        foreach (range(1,$numero) as $index) {
+        foreach ($ID_Usuarios as $usuario_id) {
             DB::table('tiendas')->insert([
                 'estilo_id' => $faker->randomElement($ID_Estilos),
-                'id' => $faker->randomElement($ID_Usuarios),
+                'id' => $usuario_id,
                 'direccion_id' => $faker->randomElement($ID_Direcciones),
                 'tienda_rut_responsable' => $faker->unique()->randomNumber(9, true),
                 'tienda_nombre_responsable' =>  $faker->firstName(),
