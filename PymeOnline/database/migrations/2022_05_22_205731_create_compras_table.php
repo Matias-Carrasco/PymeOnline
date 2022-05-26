@@ -17,9 +17,9 @@ class CreateComprasTable extends Migration
             $table->id('compra_id');
             $table->bigInteger('tienda_id')->unsigned();
             $table->foreign('tienda_id')->references('tienda_id')->on('tiendas');
-            $table->bigInteger('cliente_id')->unsigned();
+            $table->bigInteger('cliente_id')->unsigned()->nullable();
             $table->foreign('cliente_id')->references('cliente_id')->on('clientes');
-            $table->bigInteger('invitado_id')->unsigned();
+            $table->bigInteger('invitado_id')->unsigned()->nullable();
             $table->foreign('invitado_id')->references('invitado_id')->on('invitados');
             $table->integer('compra_precio');
             $table->date('compra_fecha');
