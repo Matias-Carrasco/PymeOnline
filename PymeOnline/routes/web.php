@@ -21,4 +21,4 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('publicacion','\App\Http\Controllers\PublicacionController');
-
+Route::resource('admin', '\App\Http\Controllers\AdminController');
