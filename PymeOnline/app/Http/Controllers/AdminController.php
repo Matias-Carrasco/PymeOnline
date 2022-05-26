@@ -66,7 +66,13 @@ class AdminController extends Controller
             $direccionTienda = direccion::where('direccion_id',$idDireccion)->first();
             $idComuna = direccion::where('direccion_id',$idDireccion)->value('comuna_id');
             $comunaTienda = comuna::where('comuna_id',$idComuna)->first();
-            return view('administra.showTienda', compact('datosVermas','comunaTienda','direccionTienda'));
+
+            $data = [];
+            $data['datosVermas'] = $datosVermas;
+            $data['comunaTienda'] = $comunaTienda;
+            $data['direccionTienda'] = $direccionTienda;
+
+            return view('administra.showTienda', $data);
         }        
     }
 
