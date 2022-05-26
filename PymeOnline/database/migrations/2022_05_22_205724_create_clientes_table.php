@@ -15,8 +15,8 @@ class CreateClientesTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id('cliente_id');
-            $table->bigInteger('usuario_id')->unsigned();
-            $table->foreign('usuario_id')->references('usuario_id')->on('users');
+            $table->bigInteger('id')->unsigned();
+            $table->foreign('id')->references('id')->on('users');
             $table->String('cliente_rut')->unique();
             $table->String('cliente_nombre');
             $table->String('cliente_apellido');

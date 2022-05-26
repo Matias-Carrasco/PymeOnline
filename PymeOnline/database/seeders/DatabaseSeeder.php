@@ -555,13 +555,13 @@ class DatabaseSeeder extends Seeder
     {
 
         $ID_Estilos = DB::table('tienda_estilos')->pluck('estilo_id');
-        $ID_Usuarios = DB::table('users')->pluck('usuario_id');
+        $ID_Usuarios = DB::table('users')->pluck('id');
         $ID_Direcciones = DB::table('direccions')->pluck('direccion_id');
      
         foreach (range(1,$numero) as $index) {
             DB::table('tiendas')->insert([
                 'estilo_id' => $faker->randomElement($ID_Estilos),
-                'usuario_id' => $faker->randomElement($ID_Usuarios),
+                'id' => $faker->randomElement($ID_Usuarios),
                 'direccion_id' => $faker->randomElement($ID_Direcciones),
                 'tienda_rut_responsable' => $faker->unique()->randomNumber(9, true),
                 'tienda_nombre_responsable' =>  $faker->firstName(),
@@ -624,7 +624,7 @@ class DatabaseSeeder extends Seeder
             foreach (range(1,$numeroPorTienda) as $index) {
                 DB::table('tags')->insert([
                     'tienda_id' => $tienda_id,
-                    'tag_nombre' => $faker->unique()->word(),
+                    'tag_nombre' => $faker->word(),
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);
