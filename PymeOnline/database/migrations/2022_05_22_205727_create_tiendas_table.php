@@ -25,9 +25,9 @@ class CreateTiendasTable extends Migration
             $table->String('tienda_nombre_responsable');
             $table->String('tienda_primer_apellido_responsable');
             $table->String('tienda_segundo_apellido_responsable');
-            $table->String('tienda_nombre');
+            $table->String('tienda_nombre')->unique();
             $table->String('tienda_numero_contacto');
-            $table->String('tienda_mail_contacto');
+            $table->String('tienda_mail_contacto')->unique();
         });
     }
 

@@ -21,20 +21,21 @@ class DatabaseSeeder extends Seeder
         $this->insertarRoles();
         $this->insertarRegiones();
         $this->insertarComunas();
-        $this->insertarUsuarios($faker,100);
-        $this->insertarDireccions($faker,500);
-        #$this->insertarInvitados();
-        $this->insertarClientes($faker,500);
+        $this->insertarUsuarios( $faker, 1000 );
+        $this->insertarDireccions( $faker , 500 );
+        $this->insertarInvitados( $faker , 1500 );
+        $this->insertarClientes( $faker , 900 );
+        $this->insertarTiendaEstilos( $faker , 40 );
+        $this->insertarTiendas( $faker , 100 );
+        $this->insertarCompras( $faker , 10000 );
+        $this->insertarProductos( $faker , 1000 );
+        $this->insertarTags( $faker , 10 );
         #this->insertarPublicacions();
         #$this->insertarResenas();
-        #$this->insertarTiendaEstilos();
         #$this->insertarPreguntas();
         #$this->insertarRespuestas();
         #$this->insertarClienteDireccions();
-        #$this->insertarTiendas();
         #$this->insertarCategorias();
-        #$this->insertarProductos();
-        #$this->insertarTags();
         #$this->insertarTagsPublicaciones();
         #$this->insertarCompras();
         #$this->insertarLineaCompras();
@@ -456,8 +457,8 @@ class DatabaseSeeder extends Seeder
 
     }
 
-    public function insertarUsuarios($faker,$numero){
-        
+    public function insertarUsuarios( $faker , $numero )
+    {    
         if ($numero < 1) return false;
 
         foreach (range(1,$numero) as $index) {
@@ -466,7 +467,7 @@ class DatabaseSeeder extends Seeder
 
             DB::table('users')->insert([
                 'rol_id' => $rolRandom ,
-                'email' => $faker->email() ,
+                'email' => $faker->unique()->email() ,
                 'email_verified_at' => now() ,
                 'password' => $faker->password() ,
                 'baneado' => false ,
@@ -478,7 +479,7 @@ class DatabaseSeeder extends Seeder
         return true;
     }
 
-    public function insertarDireccions($faker,$numero)
+    public function insertarDireccions( $faker , $numero )
     {
 
         if ($numero < 1) return false;
@@ -498,7 +499,26 @@ class DatabaseSeeder extends Seeder
         return true;
     }
 
-    public function insertarClientes($faker,$numero)
+    public function insertarInvitados( $faker , $numero )
+    {
+
+        if ($numero < 1) return false;
+
+        $ID_Direcciones = DB::table('direccions')->pluck('direccion_id');
+     
+        foreach (range(1,$numero) as $index) {
+            DB::table('invitados')->insert([
+                'direccion_id' => $faker->randomElement($ID_Direcciones),
+                'invitado_rut' => $faker->unique()->randomNumber(9, true),
+                'invitado_nombre' =>  $faker->firstName(),
+                'invitado_apellido' =>  $faker->lastName()
+            ]);
+        }
+
+        return true;
+    }
+
+    public function insertarClientes( $faker , $numero )
     {
 
         if ($numero < 1) return false;
@@ -508,10 +528,110 @@ class DatabaseSeeder extends Seeder
         foreach (range(1,$numero) as $index) {
             DB::table('clientes')->insert([
                 'usuario_id' => $faker->randomElement($ID_Usuarios),
-                'cliente_rut' => $faker->randomNumber(9, true),
+                'cliente_rut' => $faker->unique()->randomNumber(9, true),
                 'cliente_nombre' =>  $faker->firstName(),
                 'cliente_apellido' =>  $faker->lastName()
             ]);
+        }
+
+        return true;
+    }
+
+    public function insertarTiendaEstilos( $faker , $numero )
+    {
+
+        if ($numero < 1) return false;
+     
+        foreach (range(1,$numero) as $index) {
+            DB::table('tienda_estilos')->insert([
+                'tienda_banner_url' => $faker->url(),
+                'tienda_color_principal_hex' => ltrim($faker->hexColor(),'#'),
+                'tienda_color_secundario_hex' =>  ltrim($faker->hexColor(),'#')
+            ]);
+        }
+
+        return true;
+    }
+
+    public function insertarTiendas( $faker , $numero )
+    {
+        if ($numero < 1) return false;
+
+        $ID_Estilos = DB::table('tienda_estilos')->pluck('estilo_id');
+        $ID_Usuarios = DB::table('users')->pluck('usuario_id');
+        $ID_Direcciones = DB::table('direccions')->pluck('direccion_id');
+     
+        foreach (range(1,$numero) as $index) {
+            DB::table('tiendas')->insert([
+                'estilo_id' => $faker->randomElement($ID_Estilos),
+                'usuario_id' => $faker->randomElement($ID_Usuarios),
+                'direccion_id' => $faker->randomElement($ID_Direcciones),
+                'tienda_rut_responsable' => $faker->unique()->randomNumber(9, true),
+                'tienda_nombre_responsable' =>  $faker->firstName(),
+                'tienda_primer_apellido_responsable' =>  $faker->lastName(),
+                'tienda_segundo_apellido_responsable' =>  $faker->lastName(),
+                'tienda_nombre' =>  $faker->unique()->company(),
+                'tienda_numero_contacto' =>  $faker->phoneNumber(),
+                'tienda_mail_contacto' =>  $faker->unique()->email(),
+            ]);
+        }
+
+        return true;
+    }
+
+    public function insertarCompras( $faker , $numero )
+    {
+        if ($numero < 1) return false;
+
+        $ID_Estilos = DB::table('tienda_estilos')->pluck('estilo_id');
+        $ID_Clientes = DB::table('clientes')->pluck('cliente_id');
+        $ID_Invitados = DB::table('invitados')->pluck('invitado_id');
+     
+        foreach (range(1,$numero) as $index) {
+            DB::table('compras')->insert([
+                'tienda_id' => $faker->randomElement($ID_Estilos),
+                'cliente_id' => $faker->randomElement($ID_Clientes),
+                'invitado_id' => $faker->randomElement($ID_Invitados),
+                'compra_precio' => $faker->numberBetween(1, 999999),
+                'compra_fecha' =>  $faker->dateTimeBetween('-1 year','now')
+            ]);
+        }
+
+        return true;
+    }
+
+    public function insertarProductos( $faker , $numero )
+    {
+        if ($numero < 1) return false;
+     
+        $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
+
+        foreach (range(1,$numero) as $index) {
+            DB::table('productos')->insert([
+                'tienda_id' => $faker->randomElement($ID_Tiendas),
+                'producto_nombre' => $faker->word(),
+                'producto_descripcion' => $faker->sentence()
+            ]);
+        }
+
+        return true;
+    }
+
+    public function insertarTags( $faker , $numeroPorTienda )
+    {
+        if ($numeroPorTienda < 1) return false;
+     
+        $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
+
+        foreach ($ID_Tiendas as $tienda_id) {
+            foreach (range(1,$numeroPorTienda) as $index) {
+                DB::table('tags')->insert([
+                    'tienda_id' => $tienda_id,
+                    'tag_nombre' => $faker->unique()->word(),
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
         }
 
         return true;
