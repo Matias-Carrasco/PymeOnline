@@ -12,9 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion de Tags</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
     <!-- Boostrap -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -97,46 +94,4 @@
 
 <!-- Scripts -->
 
-<!-- Estilos / datatables y bs5 -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
-
-<!-- Tooltip list -->
-<script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-</script>
-
-<!-- Creacion DataTable -->
-<script>
-    $(document).ready(function() {
-        $('#tablaTags').DataTable({
-            responsive: true,
-            autoWidth: false,
-            "language": {
-                "lengthMenu": "Mostrar _MENU_ tags por pagina",
-                "info": "Mostrando pagina _PAGE_ de _PAGES_",
-                "infoEmpty": "No existen tags que mostrar",
-                "infoFiltered": "(filtrado de un total de _MAX_ tags)",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "Buscar:",
-                "zeroRecords": "No se encontraron coincidencias",
-                "paginate": {
-                    "first": "Primera",
-                    "last": "Ultima",
-                    "next": "Siguente",
-                    "previous": "Anterior"
-                },
-                "aria": {
-                    "sortAscending": ": ordenar columna de forma ascendente",
-                    "sortDescending": ": ordenar columna de forma descendente"
-                }
-            }
-        });
-    });
-</script>
 @endsection
