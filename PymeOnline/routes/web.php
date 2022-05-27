@@ -21,9 +21,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-<<<<<<< HEAD
 Route::resource('producto', '\App\Http\Controllers\ProductoController');
 
-=======
 Route::resource('admin', '\App\Http\Controllers\AdminController');
->>>>>>> desarrollo

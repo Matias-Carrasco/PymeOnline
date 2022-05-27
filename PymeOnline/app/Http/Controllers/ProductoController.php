@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\producto;
+use App\Models\tienda;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductoController extends Controller
 {
@@ -14,8 +16,11 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $datos['productos']= producto::paginate();//productos es el nombre de la tabla, producto es el modelo
-        return view('productos.index',$datos);
+        $id = Auth::id();
+        $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
+        $producto['productos']=producto::where('tienda_id','=',$id_tienda)->get();
+        //$datos['productos']= producto::all();//productos es el nombre de la tabla, producto es el modelo
+        return view('productos.index',$producto);
 
     }
 
@@ -38,6 +43,8 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
+        $id = Auth::id();
+        $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
         $campos=[
           'producto_nombre'=>'required|string',
           'producto_descripcion' => 'required|string|'
@@ -49,6 +56,7 @@ class ProductoController extends Controller
 
       $this->validate($request,$campos,$mensaje);
       $datosprod=$request->except('_token');
+      $datosprod->tienda_id = $id_tienda;
       producto::insert($datosprod);
       return redirect('/producto');
     }
@@ -70,9 +78,10 @@ class ProductoController extends Controller
      * @param  \App\Models\producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function edit(producto $producto_id)
+    public function edit($producto_id)
     {
-        $productos=producto::findOrFail($producto_id);
+        $productos=producto::where('producto_id',$producto_id)->first();
+        
         return view('productos/edit',compact('productos'));
     }
 
@@ -112,3 +121,4 @@ class ProductoController extends Controller
         return redirect('/producto');
     }
 }
+                                                        
