@@ -56,7 +56,9 @@ class ProductoController extends Controller
 
       $this->validate($request,$campos,$mensaje);
       $datosprod=$request->except('_token');
-      $datosprod->tienda_id = $id_tienda;
+
+      $datosprod['tienda_id'] = $id_tienda;
+
       producto::insert($datosprod);
       return redirect('/producto');
     }
@@ -115,8 +117,8 @@ class ProductoController extends Controller
      * @param  \App\Models\producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(producto $producto_id)
-    {
+    public function destroy($producto_id)
+    {   
         producto::destroy($producto_id);
         return redirect('/producto');
     }
