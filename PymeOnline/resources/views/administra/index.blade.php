@@ -53,16 +53,20 @@
                                 </a>
                             </td>
 
-                            @if (($usr->Baneado) == 0)
+                            @if (($usr->baneado) == 0)
 
                                 <td>
+                                    <a href="{{url('/admin/banear/'.$usr->id)}}">
                                     <button type="submit" class="btn btn-block btn-danger" onclick="return confirm('¿Esta seguro de Banear?');">Banear</button>
+                                    </a>
                                 </td>
 
-                            @else (($usr->rol_id) == 1)
+                            @else (($usr->baneado) == 1)
                                 
                                 <td>
-                                    <button type="submit" class="btn btn-block btn-danger" onclick="return confirm('¿Esta seguro de Desbanear?');">Desbanear</button>
+                                    <a href="{{url('/admin/desbanear/'.$usr->id)}}">
+                                        <button type="submit" class="btn btn-block btn-danger" onclick="return confirm('¿Esta seguro de Desbanear?');">Desbanear</button>
+                                        </a>
                                 </td>
                                 
                             @endif

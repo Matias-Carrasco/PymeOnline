@@ -21,4 +21,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+Route::get('admin/banear/{id}','\App\Http\Controllers\AdminController@banear');
+Route::get('admin/desbanear/{id}','\App\Http\Controllers\AdminController@desbanear');
 Route::resource('admin', '\App\Http\Controllers\AdminController');

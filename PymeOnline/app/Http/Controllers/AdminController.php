@@ -85,6 +85,17 @@ class AdminController extends Controller
     public function edit($id)
     {
         //
+        $usuariosVermas = User::where('id',$id)->value('rol_id');
+        if($usuariosVermas == 2){
+            $datosVermas = cliente::where('id',$id)->first();
+            return view('administra.edit', compact('datosVermas'));
+        }elseif ($usuariosVermas == 3){
+            $datosVermas = tienda::where('id',$id)->first();
+            
+            $data = [];
+            $data['datosVermas'] = $datosVermas;
+            return view('administra.editTienda', $data);
+        }        
     }
 
     /**
@@ -97,6 +108,59 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $usuariosVermas = User::where('id',$id)->value('rol_id');
+        if($usuariosVermas == 2){
+
+            $campos=[
+                'cliente_rut' => 'required|alpha_num',
+                'cliente_nombre' => 'required|alpha',
+                'cliente_apellido' => 'required|alpha'                
+            ];
+            $mensaje=[
+                "cliente_rut.required"=>'El Rut es requerido',
+                "cliente_rut.alpha_num"=>'El Rut debe poseer numeros o letras',
+                "cliente_nombre.required"=>'El Nombre es requerido',
+                "cliente_nombre.alpha"=>'El Nombre debe poseer solo letras',
+                "cliente_apellido.required"=>'El Apellido es requerido',
+                "cliente_apellido.alpha"=>'El Apellido debe poseer solo letras',
+            ];
+    
+            $this->validate($request,$campos,$mensaje);
+            $modificar=$request->except('_token','_method');
+            cliente::where('id','=',$id)->update($modificar);
+            return redirect('/admin');
+
+        }elseif ($usuariosVermas == 3){
+            $campos=[
+                'tienda_numero_contacto' => 'required|alpha_dash',
+                'tienda_mail_contacto' => 'required|email',
+                'tienda_rut_responsable' => 'required|alpha_num', 
+                'tienda_nombre_responsable' => 'required|alpha',
+                'tienda_primer_apellido_responsable' => 'required|alpha',
+                'tienda_segundo_apellido_responsable' => 'required|alpha', 
+            ];
+            $mensaje=[
+                "tienda_numero_contacto.required"=>'El Número de Contacto es requerido',
+                "tienda_numero_contacto.alpha_dash"=>'El Número de Contacto debe poseer números, letras o guiones',
+                "tienda_mail_contacto.required"=>'El Mail es requerido',
+                "tienda_mail_contacto.email"=>'El Mail no es valido',
+                "tienda_rut_responsable.required"=>'El Rut del Responsable es requerido',
+                "tienda_rut_responsable.alpha"=>'El Rut del Responsable debe poseer números o letras',
+                "tienda_nombre_responsable.required"=>'El Nombre del Responsable es requerido',
+                "tienda_nombre_responsable.alpha"=>'El Nombre del Responsable debe poseer solo letras',
+                "tienda_primer_apellido_responsable.required"=>'El Primer Apellido del Responsable es requerido',
+                "tienda_primer_apellido_responsable.alpha"=>'El Primer Apellido del Responsable debe poseer solo letras',
+                "tienda_segundo_apellido_responsable.required"=>'El Segundo Apellido del Responsable es requerido',
+                "tienda_segundo_apellido_responsable.alpha"=>'El Segundo Apellido del Responsable debe poseer solo letras',
+            ];
+    
+            $this->validate($request,$campos,$mensaje);
+            $modificar=$request->except('_token','_method');
+            tienda::where('id','=',$id)->update($modificar);
+            return redirect('/admin');
+        }    
+
+        
     }
 
     /**
@@ -108,5 +172,36 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function banear($id)
+    {
+        $usuario = User::find($id);
+        $usuario->baneado = 1;
+        $usuario->save();
+        return redirect('/admin');
+        
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function desbanear($id)
+    {
+        $usuario = User::find($id);
+        $usuario->baneado = 0;
+        $usuario->save();
+        return redirect('/admin');
+        
     }
 }
