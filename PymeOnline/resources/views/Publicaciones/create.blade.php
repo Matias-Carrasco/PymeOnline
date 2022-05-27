@@ -29,6 +29,18 @@
 
                     <div class="card-body" style="display: block;">
 
+                       <div class="row">
+                           <div class="col-6">
+                            <select class="form-select" name="productos" id="productos">
+
+                                <option value="">-- Seleccione Producto--</option>
+                                @foreach ($producto as $productos)
+                                <option value="{{$productos['producto_id']}}"> {{$productos['producto_nombre']}} </option>
+                                @endforeach
+    
+                            </select>
+                           </div>
+                       </div>
 
                     </div>
                 </div>
@@ -42,12 +54,13 @@
 
 
 @section('css')
-<link rel="stylesheet" href="/css/admin_custom.css">
+
 @stop
 
 @section('js')
 <script>
-    console.log('Hi!');
-
+    
+  
+    
 </script>
 @stop

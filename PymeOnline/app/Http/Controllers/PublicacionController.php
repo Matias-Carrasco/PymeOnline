@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\publicacion;
 use Illuminate\Http\Request;
+use App\Models\producto;
+use App\Models\tienda;
+use Illuminate\Support\Facades\Auth;
+
 
 class PublicacionController extends Controller
 {
@@ -24,7 +28,11 @@ class PublicacionController extends Controller
      */
     public function create()
     {
-        return view('Publicaciones/create');
+        $id = Auth::id();
+        $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
+        $data['producto']=producto::where('tienda_id','=',$id_tienda)->get();
+        
+        return view('Publicaciones/create',$data);
     }
 
     /**
