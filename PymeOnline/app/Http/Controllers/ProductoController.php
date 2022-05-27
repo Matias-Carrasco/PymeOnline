@@ -15,7 +15,8 @@ class ProductoController extends Controller
     public function index()
     {
         $datos['productos']= producto::paginate();//productos es el nombre de la tabla, producto es el modelo
-        return view('producto.index',$datos);
+        return view('productos.index',$datos);
+
     }
 
     /**
@@ -24,8 +25,9 @@ class ProductoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('producto/create');
+    {   
+        $productos=producto::all();
+        return view('producto/create',compact('productos'));
     }
 
     /**
@@ -37,10 +39,12 @@ class ProductoController extends Controller
     public function store(Request $request)
     {
         $campos=[
-
+          'producto_nombre'=>'required|string',
+          'producto_descripcion' => 'required|string|'
         ];
         $mensaje=[
-
+            "producto_nombre.required"=>'El nombre del producto es requerido',
+            "producto_descripcion.required"=>'La descripción del producto es requerida',
       ];
 
       $this->validate($request,$campos,$mensaje);
