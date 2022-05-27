@@ -27,7 +27,7 @@ class ProductoController extends Controller
     public function create()
     {   
         $productos=producto::all();
-        return view('producto/create',compact('productos'));
+        return view('productos/create',compact('productos'));
     }
 
     /**
@@ -70,9 +70,10 @@ class ProductoController extends Controller
      * @param  \App\Models\producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function edit(producto $producto)
+    public function edit(producto $producto_id)
     {
-        //
+        $productos=producto::findOrFail($producto_id);
+        return view('productos/edit',compact('productos'));
     }
 
     /**
@@ -82,9 +83,21 @@ class ProductoController extends Controller
      * @param  \App\Models\producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, producto $producto)
+    public function update(Request $request, $producto_id)
     {
-        //
+        $campos=[
+            'producto_nombre'=>'required|string',
+            'producto_descripcion' => 'required|string|'
+          ];
+          $mensaje=[
+              "producto_nombre.required"=>'El nombre del producto es requerido',
+              "producto_descripcion.required"=>'La descripción del producto es requerida',
+        ];
+  
+        $this->validate($request,$campos,$mensaje);
+        $modificar=$request->except('_token','_method');
+        producto::where('producto_id','=',$producto_id)->update($modificar);
+        return redirect('/producto');
     }
 
     /**
