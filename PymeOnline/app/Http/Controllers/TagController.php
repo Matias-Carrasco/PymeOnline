@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\tag;
+use App\Models\tienda;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -17,7 +18,9 @@ class TagController extends Controller
 
     public function create()
     {
-        return view('tags.create');
+        //TODO remover esto y pasar solo los tags asociados a la tienda
+        $tiendas = tienda::all();
+        return view('tags.create',['tiendas'=>$tiendas]);
     }
 
 
@@ -41,7 +44,7 @@ class TagController extends Controller
         $datosTag = request()->except(['_token','_method']);
         tag::insert($datosTag);
 
-        return redirect('tag')->with('mensaje','Tag agregado exitosamente.');
+        return redirect('tags')->with('mensaje','Tag agregado exitosamente.');
     }
 
 
@@ -54,7 +57,11 @@ class TagController extends Controller
     public function edit($tag_id)
     {
         $tag = tag::where('tag_id', '=', $tag_id)->firstOrFail();
-        return view('tags.edit', ['tag']); //se pasan los datos del formulario
+        
+        //TODO remover esto y pasar solo los tags asociados a la tienda
+        $tiendas = tienda::all();
+
+        return view('tags.edit', ['tag'=>$tag,'tiendas'=>$tiendas]); //se pasan los datos del formulario
     }
 
     
@@ -78,7 +85,7 @@ class TagController extends Controller
         $datosTag = request()->except(['_token','_method']);
         tag::where("tag_id","=",$tag_id)->update($datosTag);
 
-        return redirect('tag')->with('mensaje','Tag agregado exitosamente.');
+        return redirect('tags')->with('mensaje','Tag editado exitosamente.');
     }
 
     
