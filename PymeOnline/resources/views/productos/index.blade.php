@@ -27,7 +27,7 @@
         <thead>
             <tr>
                 <th>Nombre Producto</th>
-                <th>Producto descripción</th>
+                <th>Descripción Producto</th>
                 <th></th>
                 <th></th>
                 <th></th>
