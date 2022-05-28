@@ -10,4 +10,8 @@ class tag extends Model
     protected $table = 'tags';
 
     protected $primarykey = 'tag_id';
+
+    protected $fillable = [
+        'tag_nombre'
+    ];
 }
