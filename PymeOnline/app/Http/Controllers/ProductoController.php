@@ -46,8 +46,8 @@ class ProductoController extends Controller
         $id = Auth::id();
         $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
         $campos=[
-          'producto_nombre'=>'required|string',
-          'producto_descripcion' => 'required|string|'
+          'producto_nombre'=>'required|string|max:100',
+          'producto_descripcion' => 'required|string|max:1000'
         ];
         $mensaje=[
             "producto_nombre.required"=>'El nombre del producto es requerido',
@@ -97,12 +97,13 @@ class ProductoController extends Controller
     public function update(Request $request, $producto_id)
     {
         $campos=[
-            'producto_nombre'=>'required|string',
-            'producto_descripcion' => 'required|string|'
+            'producto_nombre'=>'required|string|max:100',
+            'producto_descripcion' => 'required|string|max:1000'
           ];
           $mensaje=[
               "producto_nombre.required"=>'El nombre del producto es requerido',
               "producto_descripcion.required"=>'La descripción del producto es requerida',
+              "producto_descripcion.max"=>'La descripción del producto no puede contener mas de 1000 letras',
         ];
   
         $this->validate($request,$campos,$mensaje);
