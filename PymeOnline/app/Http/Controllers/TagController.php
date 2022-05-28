@@ -5,35 +5,39 @@ namespace App\Http\Controllers;
 use App\Models\tag;
 use App\Models\tienda;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TagController extends Controller
 {
     
     public function index()
     {
-        $tags = tag::paginate(50);
+        $id = Auth::id();
+        $id_tienda = tienda::where('id','=',$id)->first()->tienda_id;
+
+        $tags = tag::where('tienda_id','=',$id_tienda)->get();
+
         return view('tags.index',['tags'=>$tags]);
     }
 
 
     public function create()
     {
-        //TODO remover esto y pasar solo los tags asociados a la tienda
-        $tiendas = tienda::all();
-        return view('tags.create',['tiendas'=>$tiendas]);
+        return view('tags.create');
     }
 
 
     public function store(Request $request)
     {
+        $id = Auth::id();
+        $id_tienda = tienda::where('id','=',$id)->first()->tienda_id;
+
         $camposTags=[
-            'tienda_id' => 'required|int',
             'tag_nombre' => 'required|string|max:32',
         ];
 
         $mensaje = [
             'required'=>'El :attribute es requerido',
-            'tienda_id.required' => 'El identificador de la tienda no es valido',
             'tag_nombre.required' => 'El nombre para el tag es requerido',
         ];
 
@@ -42,9 +46,10 @@ class TagController extends Controller
 
         // Dropea el token e inserta los datos
         $datosTag = request()->except(['_token','_method']);
+        $datosTag['tienda_id'] = $id_tienda;
         tag::insert($datosTag);
 
-        return redirect('tags')->with('mensaje','Tag agregado exitosamente.');
+        return redirect('tags')->with('alert_success','Tag agregado exitosamente.');
     }
 
 
@@ -67,14 +72,15 @@ class TagController extends Controller
     
     public function update(Request $request, $tag_id)
     {
+        $id = Auth::id();
+        $id_tienda = tienda::where('id','=',$id)->first()->tienda_id;
+
         $camposTags=[
-            'tienda_id' => 'required|int',
             'tag_nombre' => 'required|string|max:32',
         ];
 
         $mensaje = [
             'required'=>'El :attribute es requerido',
-            'tienda_id.required' => 'El identificador de la tienda no es valido',
             'tag_nombre.required' => 'El nombre para el tag es requerido',
         ];
 
@@ -83,9 +89,10 @@ class TagController extends Controller
         
         // Dropea el token e inserta los datos
         $datosTag = request()->except(['_token','_method']);
+        $datosTag['tienda_id'] = $id_tienda;
         tag::where("tag_id","=",$tag_id)->update($datosTag);
 
-        return redirect('tags')->with('mensaje','Tag editado exitosamente.');
+        return redirect('tags')->with('alert_success','Tag editado exitosamente.');
     }
 
     

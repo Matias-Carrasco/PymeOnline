@@ -39,19 +39,11 @@
 
 <body>
 
-    @if(Session::has('mensaje'))
-    <!--Si hay algun mensaje este de debe mostrar-->
-    <div class="alert alert-primary alert-dismissible" role="alert">
-        {{Session::get('mensaje')}}
-
-        <!--Para hacer desaparecer el alert-->
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-        </button>
-    </div>
-    @endif
+    <!-- Alertas usando Bootstrap5 -->
+    @include('common.alerts')
 
     <div>
-        <!-- Card que contiene la tabla de tags -->
+        <!-- Card izq. que contiene la tabla de tags -->
         <div class="card cardTablaTags" style="float: left; width:50%">
             <div class="card-body">
                 <table class="table-hover display" style="width: 100%" id="tablaTags">
@@ -121,6 +113,12 @@
                 </table>
             </div>
         </div>
+
+        <!-- Card der.  -->
+        <div class="card cardTablaTags" style="float: right; width:50%">
+            <div class="card-body">
+            </div>
+        </div>
     </div>
 
 </body>
@@ -138,29 +136,12 @@
 <script>
     $(document).ready(function() {
         $('#tablaTags').DataTable({
-            responsive:true,
+            responsive: true,
             scrollY: '50vh',
             scrollCollapse: true,
-            paging: true,
+            paging: false,
             "language": {
-                "lengthMenu": "_MENU_ Tags por página",
-                "info": "Mostrando página _PAGE_ de _PAGES_",
-                "infoEmpty": "No existen tags que mostrar",
-                "infoFiltered": "(filtrado de un total de _MAX_ tags)",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "Buscar:",
-                "zeroRecords": "No se encontraron coincidencias",
-                "paginate": {
-                    "first": "Primera",
-                    "last": "Última",
-                    "next": "Siguente",
-                    "previous": "Anterior"
-                },
-                "aria": {
-                    "sortAscending": ": Ordenar columna de forma ascendente",
-                    "sortDescending": ": Ordenar columna de forma descendente"
-                }
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             }
         });
     });
