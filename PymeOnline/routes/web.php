@@ -22,7 +22,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
 Route::resource( 'tags', TagController::class );
 
 Route::resource('admin', '\App\Http\Controllers\AdminController');

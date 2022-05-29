@@ -131,6 +131,8 @@
 <!-- DataTables -->
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+<!-- TableEdit -->
+<script src={{asset('/js/jquery.tabledit.js')}}></script>
 
 <!-- Asignar formato DataTable a Tabla de tags -->
 <script>
@@ -145,6 +147,26 @@
             }
         });
     });
+    // jQuery('#ajaxSubmit').click(function(e) {
+    //     e.preventDefault();
+    //     $.ajaxSetup({
+    //         headers: {
+    //             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    //         }
+    //     });
+    //     jQuery.ajax({
+    //         url: "{{ url('/grocery/post') }}",
+    //         method: 'post',
+    //         data: {
+    //             name: jQuery('#name').val(),
+    //             type: jQuery('#type').val(),
+    //             price: jQuery('#price').val()
+    //         },
+    //         success: function(result) {
+    //             console.log(result);
+    //         }
+    //     });
+    // });
 </script>
 
 @endsection('js')
