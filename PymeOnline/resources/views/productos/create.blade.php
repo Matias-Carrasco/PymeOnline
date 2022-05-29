@@ -49,6 +49,13 @@
                         {!! $errors->first('producto_descripcion','<div class="invalid-feedback"> :message</div>') !!}
                     </div>
 
+                    <div class="form-group">
+                        <input type="file" id="" name="file" accept="image/*">
+                        @error('file')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
+                    </div>
+
 
                 </div>
             </div>

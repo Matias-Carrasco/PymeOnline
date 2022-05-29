@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class imagen extends Model
 {
-    use HasFactory;
+    protected $primaryKey='imagen_id';
+    public $timestamps = false;
+    protected $fillable = ['imagen_url'];
 }

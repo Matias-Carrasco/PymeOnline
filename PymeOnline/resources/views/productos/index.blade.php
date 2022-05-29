@@ -28,6 +28,7 @@
             <tr>
                 <th>Nombre Producto</th>
                 <th>Descripción Producto</th>
+                <th>Imagen</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -39,9 +40,18 @@
         <tbody>
             @foreach($productos as $pro)
             <tr>
-
+                
                 <td>{{$pro->producto_nombre}}</td>
                 <td>{{$pro->producto_descripcion}}</td>
+                <td class="border px-14 py-1">
+                    @foreach ($imagenes as $img)
+                        @if ($img['producto_id'] == $pro['producto_id'])
+                            <img src="{{$img->imagen_url}}" width="30%">
+                        @endif
+                        
+                    @endforeach
+                    
+                </td>
 
 
                 <td>

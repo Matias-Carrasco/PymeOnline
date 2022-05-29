@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\producto;
+use App\Models\imagen;
 use App\Models\tienda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+
 
 class ProductoController extends Controller
 {
@@ -19,8 +23,10 @@ class ProductoController extends Controller
         $id = Auth::id();
         $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
         $producto['productos']=producto::where('tienda_id','=',$id_tienda)->get();
+        
+        $imagenes=imagen::all();
         //$datos['productos']= producto::all();//productos es el nombre de la tabla, producto es el modelo
-        return view('productos.index',$producto);
+        return view('productos.index',$producto,compact('imagenes'));
 
     }
 
@@ -47,19 +53,40 @@ class ProductoController extends Controller
         $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
         $campos=[
           'producto_nombre'=>'required|string|max:100',
-          'producto_descripcion' => 'required|string|max:1000'
+          'producto_descripcion' => 'required|string|max:1000',
+          'file'=>'required|image|max:2048'
         ];
         $mensaje=[
             "producto_nombre.required"=>'El nombre del producto es requerido',
             "producto_descripcion.required"=>'La descripción del producto es requerida',
+            "producto_descripcion.max"=>'La descripción del producto no puede contener mas de 1000 letras',
+            "file.required"=>'La imagen del producto es requerida',
+            "file.image"=>'El archivo debe ser tipo imagen',
+            "file.max"=>'El tamaño maximo del archivo es 2 MB'
       ];
 
       $this->validate($request,$campos,$mensaje);
-      $datosprod=$request->except('_token');
+      $datosprod=$request->except('_token','file');
+      $imagen = $request->file('file')->store('public/imagenes');//guarda la imagen en la carpeta del server
+      $url = Storage::url($imagen);//obtiene url de la imagen guardada
+      
+      //$datosprod['tienda_id'] = $id_tienda;
+      
+      $producto = new producto;
+      $producto->producto_nombre= $datosprod['producto_nombre']; 
+      $producto->producto_descripcion= $datosprod['producto_descripcion']; 
+      $producto->tienda_id= $id_tienda; 
+      $producto->save();
 
-      $datosprod['tienda_id'] = $id_tienda;
+      //producto::insert($datosprod);
+      $ultimo_id = $producto->producto_id;//obtiene el id del producto guardado en bd
 
-      producto::insert($datosprod);
+      $img = new imagen;
+      $img->imagen_url = $url;
+      $img->producto_id = $ultimo_id;
+
+      $img->save();
+
       return redirect('/producto');
     }
 
