@@ -107,11 +107,11 @@ class ProductoController extends Controller
      * @param  \App\Models\producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function edit($producto_id)
+    public function edit($producto_id, $imagen_id)
     {
         $productos=producto::where('producto_id',$producto_id)->first();
-        
-        return view('productos/edit',compact('productos'));
+        $imagenes=imagen::where('producto_id',$producto_id)->first();
+        return view('productos/edit',compact('productos'),compact('imagenes'));
     }
 
     /**
@@ -134,8 +134,18 @@ class ProductoController extends Controller
         ];
   
         $this->validate($request,$campos,$mensaje);
-        $modificar=$request->except('_token','_method');
+        $modificar=$request->except('_token','_method','file');
         producto::where('producto_id','=',$producto_id)->update($modificar);
+        dd($request);
+        $imagen = $request->file('file')->store('public/imagenes');//guarda la imagen en la carpeta del server
+        $url = Storage::url($imagen);//obtiene url de la imagen guardada
+
+        $img = new imagen;
+        $img->imagen_url = $url;
+        $img->producto_id = $producto_id;
+
+        imagen::where('producto_id','=',$producto_id)->update($img);
+
         return redirect('/producto');
     }
 

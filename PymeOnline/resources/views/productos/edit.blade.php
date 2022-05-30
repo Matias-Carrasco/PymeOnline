@@ -50,6 +50,17 @@
                         {!! $errors->first('producto_descripcion','<div class="invalid-feedback"> :message</div>') !!}
                     </div>
 
+                    <div class="grid grid-cols-1 mt-5 mx-7">
+                        <img src="{{ $imagenes->imagen_url }}" width="200px" id="imagenSeleccionada">
+                    </div>
+                    <div class="form-group">
+                        <input type="file" id="file" name="file" accept="image/*">
+                        @error('file')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
+                    </div>
+
+
                 </div>
             </div>
 
@@ -85,5 +96,19 @@ function countChars(obj){
         document.getElementById("charNum").innerHTML = strLength+' de '+maxLength+' letras';
     }
 }
+</script>
+
+<!-- Script para ver la imagen antes de CREAR UN NUEVO PRODUCTO -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+<script>   
+    $(document).ready(function (e) {   
+        $('#file').change(function(){            
+            let reader = new FileReader();
+            reader.onload = (e) => { 
+                $('#imagenSeleccionada').attr('src', e.target.result); 
+            }
+            reader.readAsDataURL(this.files[0]); 
+        });
+    });
 </script>
 @stop
