@@ -91,14 +91,22 @@ class ProductoController extends Controller
 
       //$img->save();
       $datosprod['tienda_id']= $id_tienda;
-      $producto_ingresado = producto::create($datosprod);
+      //dd($datosprod);
+      $producto = new producto;
+      $producto->producto_nombre= $datosprod['producto_nombre']; 
+      $producto->producto_descripcion= $datosprod['producto_descripcion']; 
+      $producto->tienda_id= $id_tienda; 
+      $producto->save();
+      $producto_ingresado = producto::latest('producto_id')->first();
+      //dd($producto_ingresado['producto_id']);
+      //$producto_ingresado = producto::create($datosprod);
       if($request->has('file')){
         foreach($request->file('file')as $image){
 
             $imagen = $image->store('public/imagenes');//guarda la imagen en la carpeta del server
             $url = Storage::url($imagen);//obtiene url de la imagen guardada
             imagen::create([
-                'producto_producto_id'=>$producto_ingresado->producto_id,
+                'producto_id'=>$producto_ingresado['producto_id'],
                 'imagen_url'=>$url
             ]);
         }
@@ -182,8 +190,7 @@ class ProductoController extends Controller
     public function destroy($id)
     {   
         
-        //producto::destroy($id);
-        producto::findOrFail($id)->delete();
+        producto::destroy($id);
         return redirect('/producto');
     }
 }
