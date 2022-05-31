@@ -55,7 +55,7 @@
 
 
                 <td>
-                    <form method="post" action="{{url('/producto/'.$pro->producto_id)}}">
+                    <form method="post" action="{{url('/producto/'.$pro->pro_id)}}">
                         {{csrf_field() }}
                         {{method_field('GET')}}
                         <button type="submit" class="btn btn-block btn-success">Ver mas</button>
@@ -63,14 +63,15 @@
                     </form>
                 </td>
                 <td>
-                    <a href="{{url('/producto/'.$pro->producto_id.'/edit')}}">
+                    <a href="{{url('/producto/'.$pro->id.'/edit')}}">
                         <button type="submit" class="btn btn-block btn-warning"
                             onclick="return confirm('Editar');">Editar</button>
                     </a>
 
                 </td>
                 <td>
-                    <form method="post" action="{{url('/producto/'.$pro->producto_id)}}">
+                    dd({{$pro->id}});
+                    <form method="post" action="{{url('/producto/'.$pro->id)}}">
                         {{csrf_field() }}
                         {{method_field('DELETE')}}
                         <button type="submit" class="btn btn-block btn-danger"

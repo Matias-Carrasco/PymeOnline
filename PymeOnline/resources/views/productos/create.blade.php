@@ -54,7 +54,9 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="file" id="file" name="file" accept="image/*">
+                        <label for="files">Subir imagenes</label>
+                        <br>
+                        <input class="form-control" type="file" id="file" name="file[]" accept="image/*" multiple>
                         @error('file')
                             <small class="text-danger">{{$message}}</small>
                         @enderror

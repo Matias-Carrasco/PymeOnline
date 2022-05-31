@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class imagen extends Model
 {
-    protected $primaryKey='imagen_id';
-    public $timestamps = false;
-    protected $fillable = ['imagen_url'];
+    use HasFactory;
+    protected $guarded = [];
+
+    
 }

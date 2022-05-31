@@ -6,7 +6,7 @@
 
 
 
-<form action="{{url('/producto/'.$productos->producto_id)}}" method="post" enctype="multipart/form-data">
+<form action="{{url('/producto/'.$productos->id)}}" method="post" enctype="multipart/form-data">
     {{csrf_field()}}
     {{method_field('PATCH')}}
     <section class="content">
@@ -49,16 +49,21 @@
 
                         {!! $errors->first('producto_descripcion','<div class="invalid-feedback"> :message</div>') !!}
                     </div>
+                    @foreach($imagenes as $img)
+                        @if($img->producto_id == $productos->producto_id)
+                        <div class="grid grid-cols-1 mt-5 mx-7">
+                            <img src="{{ $img->imagen_url }}" width="200px" id="imagenSeleccionada">
+                        </div>
+                        <div class="form-group">
+                            <input type="file" id="file" name="file" accept="image/*">
+                            @error('file')
+                                <small class="text-danger">{{$message}}</small>
+                            @enderror
+                        </div>
+                        @endif
+                    @endforeach
 
-                    <div class="grid grid-cols-1 mt-5 mx-7">
-                        <img src="{{ $imagenes->imagen_url }}" width="200px" id="imagenSeleccionada">
-                    </div>
-                    <div class="form-group">
-                        <input type="file" id="file" name="file" accept="image/*">
-                        @error('file')
-                            <small class="text-danger">{{$message}}</small>
-                        @enderror
-                    </div>
+                    
 
 
                 </div>
