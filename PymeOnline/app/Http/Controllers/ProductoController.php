@@ -75,21 +75,7 @@ class ProductoController extends Controller
       
       $this->validate($request,$campos,$mensaje);
       $datosprod=$request->except('_token','file');
-      //$imagen = $request->file('file')->store('public/imagenes');//guarda la imagen en la carpeta del server
-      //$url = Storage::url($imagen);//obtiene url de la imagen guardada
       
-      //$datosprod['tienda_id'] = $id_tienda;
-      
-      //$producto = new producto;
-      //$producto->producto_nombre= $datosprod['producto_nombre']; 
-      //$producto->producto_descripcion= $datosprod['producto_descripcion']; 
-      //$producto->tienda_id= $id_tienda; 
-      //$producto->save();
-
-      //producto::insert($datosprod);
-      //$ultimo_id = $producto->id;//obtiene el id del producto guardado en bd
-
-      //$img->save();
       $datosprod['tienda_id']= $id_tienda;
       //dd($datosprod);
       $producto = new producto;
@@ -98,8 +84,7 @@ class ProductoController extends Controller
       $producto->tienda_id= $id_tienda; 
       $producto->save();
       $producto_ingresado = producto::latest('producto_id')->first();
-      //dd($producto_ingresado['producto_id']);
-      //$producto_ingresado = producto::create($datosprod);
+
       if($request->has('file')){
         foreach($request->file('file')as $image){
 
@@ -136,11 +121,8 @@ class ProductoController extends Controller
      */
     public function edit($producto_id)
     {
-        $productos=producto::where('id',$producto_id)->firstOrFail();
-        
-        $images = $productos->images;
-        //$imagenes=imagen::all();
-        dd($productos);
+        $productos= producto::where('producto_id',$producto_id)->firstOrFail();
+        $imagenes=imagen::where('producto_id',$producto_id)->get();
         
         return view('productos/edit',compact('productos'),compact('imagenes'));
     }
@@ -157,26 +139,44 @@ class ProductoController extends Controller
     {
         $campos=[
             'producto_nombre'=>'required|string|max:100',
-            'producto_descripcion' => 'required|string|max:1000'
+            'producto_descripcion' => 'required|string|max:1000',
+            'file.*'=>'required|image|max:2048'
           ];
           $mensaje=[
-              "producto_nombre.required"=>'El nombre del producto es requerido',
-              "producto_descripcion.required"=>'La descripción del producto es requerida',
-              "producto_descripcion.max"=>'La descripción del producto no puede contener mas de 1000 letras',
+            "producto_nombre.required"=>'El nombre del producto es requerido',
+            "producto_descripcion.required"=>'La descripción del producto es requerida',
+            "producto_descripcion.max"=>'La descripción del producto no puede contener mas de 1000 letras',
+            "file.required"=>'La imagen del producto es requerida',
+            "file.image"=>'El archivo debe ser tipo imagen',
+            "file.max"=>'El tamaño maximo del archivo es 2 MB'
         ];
-  
+        
         $this->validate($request,$campos,$mensaje);
         $modificar=$request->except('_token','_method','file');
         producto::where('producto_id','=',$producto_id)->update($modificar);
-        dd($request);
-        $imagen = $request->file('file')->store('public/imagenes');//guarda la imagen en la carpeta del server
-        $url = Storage::url($imagen);//obtiene url de la imagen guardada
+        
+        //$imagen = $request->file('file')->store('public/imagenes');//guarda la imagen en la carpeta del server
+        //$url = Storage::url($imagen);//obtiene url de la imagen guardada
 
-        $img = new imagen;
-        $img->imagen_url = $url;
-        $img->producto_id = $producto_id;
+        //$img = new imagen;
+       // $img->imagen_url = $url;
+        //$img->producto_id = $producto_id;
 
-        imagen::where('producto_id','=',$producto_id)->update($img);
+        //imagen::where('producto_id','=',$producto_id)->update($img);
+        //sdd($request);
+        if($request->has('file')){
+            //borrar todas las imagenes anteriores
+            imagen::where('producto_id', $producto_id)->delete();
+            foreach($request->file('file')as $image){
+    
+                $imagen = $image->store('public/imagenes');//guarda la imagen en la carpeta del server
+                $url = Storage::url($imagen);//obtiene url de la imagen guardada
+                imagen::create([
+                    'producto_id'=>$producto_id,
+                    'imagen_url'=>$url
+                ]);
+            }
+        }
 
         return redirect('/producto');
     }
@@ -187,10 +187,10 @@ class ProductoController extends Controller
      * @param  \App\Models\producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_producto)
     {   
         
-        producto::destroy($id);
+        producto::destroy($id_producto);
         return redirect('/producto');
     }
 }
