@@ -21,10 +21,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-<<<<<<< HEAD
-Route::resource('publicacion','\App\Http\Controllers\PublicacionController');
-Route::resource('admin', '\App\Http\Controllers\AdminController');
-=======
 
 
 /*
@@ -50,6 +46,7 @@ Route::resource('admin', '\App\Http\Controllers\AdminController');
 //Route::group(['middleware' => 'CheckRole:tienda'], function () {
     Route::resource('producto', '\App\Http\Controllers\ProductoController');
     Route::resource( 'tags', TagController::class );
+    
 
 
 //});
@@ -57,4 +54,3 @@ Route::resource('admin', '\App\Http\Controllers\AdminController');
 
 
 
->>>>>>> desarrollo
