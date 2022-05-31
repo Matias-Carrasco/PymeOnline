@@ -26,4 +26,7 @@ Route::resource('producto', '\App\Http\Controllers\ProductoController');
 
 Route::resource( 'tags', TagController::class );
 
+
+Route::get('admin/banear/{id}','\App\Http\Controllers\AdminController@banear');
+Route::get('admin/desbanear/{id}','\App\Http\Controllers\AdminController@desbanear');
 Route::resource('admin', '\App\Http\Controllers\AdminController');
