@@ -18,7 +18,7 @@ class CreateProductosTable extends Migration
             $table->bigInteger('tienda_id')->unsigned();
             $table->foreign('tienda_id')->references('tienda_id')->on('tiendas');
             $table->string('producto_nombre');
-            $table->string('producto_descripcion');
+            $table->Text('producto_descripcion');
         });
     }
 
