@@ -24,7 +24,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 /*
-    NO BORRAR LOS COMENTARIOS!!!!!
+    NO BORRAR LOS COMENTARIOS Route::group!!!
     Agregar dentro de los grupos las vistas que correspondan a cada rol.
 
     Dscomentar los grupos cuando se terminen de hacer pruebas o se suba todo a la main branch!
