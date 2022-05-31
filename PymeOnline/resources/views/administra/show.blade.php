@@ -45,7 +45,7 @@
 
         <div class="row">
             <div class="col-12">
-                <a href="{{url('/admin/')}}" class="btn btn-primary btn-lg " >Volver</a>
+                <a href="{{url('/admin/')}}" class="btn btn-primary" >Volver</a>
                 <br>
                 <br>
             </div>

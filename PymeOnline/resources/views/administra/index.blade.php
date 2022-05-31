@@ -1,10 +1,8 @@
 @extends('adminlte::page')
 
 @section('content')
-<div class="card-body table-responsive p-0" style="height: 700px;">
-    <!-- /.card-header -->
-    <div class="card-body table-responsive p-0" style="height: 700px;">
-        <table class="table table-head-fixed text-nowrap" id="tabla1">
+
+        <table class="table" id="tabla1">
             <thead>
                 <tr>
                     <th>ID usuario</th>
@@ -12,12 +10,12 @@
                     <th>Verificado</th>
                     <th> </th>
                     <th>Opciones</th>
-                    <th> </th>               
+                    <th> </th>
                 </tr>
             </thead>
             <tbody>
-                               
-                
+
+
                     @foreach ($usuarios as $usr)
                     <tr>
 
@@ -29,8 +27,8 @@
                         </td>
                         <td>
                             {{$usr->email_verified_at}}
-                        </td>             
-                        
+                        </td>
+
                         @if (($usr->rol_id)==1)
                             <td> </td>
                             <td><h3>ADMIN</h3></td>
@@ -42,10 +40,10 @@
                                 {{csrf_field() }}
                                 {{method_field('GET')}}
                                 <button type="submit" class="btn btn-block btn-success">Ver mas</button>
-                
+
                                 </form>
                             </td>
-                            
+
                             <td>
                                 <a href="{{url('/admin/'.$usr->id.'/edit')}}">
                                     <button type="submit" class="btn btn-block btn-warning"
@@ -53,43 +51,38 @@
                                 </a>
                             </td>
 
-                            @if (($usr->Baneado) == 0)
+                            @if (($usr->baneado) == 0)
 
                                 <td>
+                                    <a href="{{url('/admin/banear/'.$usr->id)}}">
                                     <button type="submit" class="btn btn-block btn-danger" onclick="return confirm('¿Esta seguro de Banear?');">Banear</button>
+                                    </a>
                                 </td>
 
-                            @else (($usr->rol_id) == 1)
-                                
+                            @else (($usr->baneado) == 1)
+
                                 <td>
-                                    <button type="submit" class="btn btn-block btn-danger" onclick="return confirm('¿Esta seguro de Desbanear?');">Desbanear</button>
+                                    <a href="{{url('/admin/desbanear/'.$usr->id)}}">
+                                        <button type="submit" class="btn btn-block btn-danger" onclick="return confirm('¿Esta seguro de Desbanear?');">Desbanear</button>
+                                        </a>
                                 </td>
-                                
+
                             @endif
 
                         @endif
 
-                        
-                        
-                        
-
-                        
                     </tr>
-                        
+
                     @endforeach
 
 
-                
-               
+
+
+
             </tbody>
-            
+
         </table>
-        
 
-
-
-    </div>
-</div>
 @stop
 
 @section('css')
