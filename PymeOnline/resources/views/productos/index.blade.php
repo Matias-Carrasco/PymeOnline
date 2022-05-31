@@ -22,8 +22,8 @@
 
 
     </div>
-
-    <table class="table" id="tabla3">
+    
+    <table class="table" id="tabla3" >
         <thead>
             <tr>
                 <th>Nombre Producto</th>
@@ -43,7 +43,7 @@
                 
                 <td>{{$pro->producto_nombre}}</td>
                 <td>{{$pro->producto_descripcion}}</td>
-                <td class="border px-14 py-1">
+                <td class="border px-10 py-2">
                     @foreach ($imagenes as $img)
                         @if ($img['producto_id'] == $pro['producto_id'])
                             <img src="{{$img->imagen_url}}" width="30%">
