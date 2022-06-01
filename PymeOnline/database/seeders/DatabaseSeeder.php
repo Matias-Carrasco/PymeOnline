@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->insertarRegiones();
         $this->insertarComunas();
         $this->insertarUsuarios( $faker, 1000 );
+        $this->insertarAdmin();
+        $this->insertarTiendaTest();
         $this->insertarDireccions( $faker , 500 );
         $this->insertarInvitados( $faker , 1500 );
         $this->insertarClientes( $faker );
@@ -463,10 +465,10 @@ class DatabaseSeeder extends Seeder
 
         foreach (range(1,$numero) as $index) {
             
-            $rolRandom = random_int(2,3);
+            //$rolRandom = random_int(2,3);
 
             DB::table('users')->insert([
-                'rol_id' => $rolRandom ,
+                'rol_id' => 3 ,
                 'email' => $faker->unique()->email() ,
                 'email_verified_at' => now() ,
                 'password' => $faker->password() ,
@@ -476,6 +478,34 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        return true;
+    }
+
+    public function insertarAdmin()
+    {    
+        DB::table('users')->insert([
+            'rol_id' => 1 ,
+            'email' => 'admin@admin.com',
+            'email_verified_at' => now() ,
+            'password' => Hash::make('adminadmin'),
+            'baneado' => false ,
+            'created_at' => now() ,
+            'updated_at' => now()
+        ]);
+        return true;
+    }
+
+    public function insertarTiendaTest()
+    {    
+        DB::table('users')->insert([
+            'rol_id' => 3 ,
+            'email' => 'tienda@tienda.com',
+            'email_verified_at' => now() ,
+            'password' => Hash::make('tiendatienda'),
+            'baneado' => false ,
+            'created_at' => now() ,
+            'updated_at' => now()
+        ]);
         return true;
     }
 
