@@ -33,8 +33,6 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-
-
 </head>
 
 <body>
@@ -57,8 +55,12 @@
 
                     <thead class="thead-sm">
                         <div style="display: flex; justify-content: space-between;">
+
                             <h4>Tabla de tags</h4>
-                            <a href="{{url('tags/create')}}" class="btn btn-success" style="align-self: center"> Crear nuevo Tag </a>
+
+                            <!-- Boton Crear, Modal -->
+                            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#ModalCreate" style="align-self: center"> Crear nuevo Tag </a>
+
                         </div>
                         <br>
 
@@ -82,10 +84,8 @@
                                     
 
                                     <!--Boton para editar Tag -->
-                                    <form action="{{url('/tags/'.$tag->tag_id.'/edit')}}" class="d-inline">
-                                        <button type="submit" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar Tag"><i class="fas fa-edit"></i></button>
-                                    </form>
-
+                                    <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#ModalEditar{{$tag->tag_id}}" >Editar</a>
+                                    
                                     <!--Boton eliminar Tag -->
                                     <form action="{{url('/tags/'.$tag->tag_id)}}" class="d-inline" method="post">
                                         @csrf
@@ -98,6 +98,7 @@
                                 </div>
                                 <!-- ./Contenedor de botones para acciones en la tupla -->
                             </td>
+                            @include('tags.modal.edit')
                         </tr>
                         @endforeach
                     </tbody>
@@ -121,6 +122,7 @@
         </div>
     </div>
 
+    @include('tags.modal.create')
 </body>
 
 </html>
