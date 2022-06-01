@@ -1,4 +1,4 @@
-<form action="{{ route('tags.store') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('tags.store') }}" method="post">
     @csrf
     <!-- Modal Create-->
     <div class="modal fade" id="ModalCreate" tabindex="-1" role="dialog" aria-labelledby="modalCreateTitle" aria-hidden="true">

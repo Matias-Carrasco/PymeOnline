@@ -45,9 +45,8 @@ class TagController extends Controller
         return redirect('tags')->with('alert_success','Tag agregado exitosamente.');
     }
     
-    public function update($request, $tag_id)
+    public function update(Request $request, $tag_id)
     {
-        dd($tag_id);
         $id = Auth::id();
         $id_tienda = tienda::where('id','=',$id)->first()->tienda_id;
 
