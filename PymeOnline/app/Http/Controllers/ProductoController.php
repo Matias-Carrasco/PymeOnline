@@ -33,6 +33,7 @@ class ProductoController extends Controller
         //$imagenes=imagen::$producto->imagen;
         //dd($imagenes);
         $imagenes=imagen::all();
+        //zdd($imagenes);
         //$datos['productos']= producto::all();//productos es el nombre de la tabla, producto es el modelo
         return view('productos.index',$producto,compact('imagenes'));
 
