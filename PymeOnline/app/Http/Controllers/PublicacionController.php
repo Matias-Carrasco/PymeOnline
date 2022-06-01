@@ -6,6 +6,7 @@ use App\Models\publicacion;
 use Illuminate\Http\Request;
 use App\Models\producto;
 use App\Models\tienda;
+use App\Models\categoria;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -31,8 +32,10 @@ class PublicacionController extends Controller
         $id = Auth::id();
         $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
         $data['producto']=producto::where('tienda_id','=',$id_tienda)->get();
+        $cat['categorias']=categoria::all();
+
         
-        return view('Publicaciones/create',$data);
+        return view('Publicaciones/create',$data,$cat);
     }
 
     /**
@@ -43,6 +46,8 @@ class PublicacionController extends Controller
      */
     public function store(Request $request)
     {
+
+        dd("entre");
        
     }
 

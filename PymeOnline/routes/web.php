@@ -47,6 +47,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Route::resource('producto', '\App\Http\Controllers\ProductoController');
     Route::resource( 'tags', TagController::class );
     
+    Route::resource('publicacion', '\App\Http\Controllers\PublicacionController');
+    
+
 
 
 //});

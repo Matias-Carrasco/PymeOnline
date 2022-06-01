@@ -27,20 +27,86 @@
                         <h3 class="card-title">Rellene los datos</h3>
                     </div>
 
-                    <div class="card-body" style="display: block;">
+                    <div class="card-body card-shadow mb-3" style="display: block;">
 
-                       <div class="row">
-                           <div class="col-6">
-                            <select class="form-select" name="productos" id="productos">
+                        <div class=" form-group">
 
-                                <option value="">-- Seleccione Producto--</option>
-                                @foreach ($producto as $productos)
-                                <option value="{{$productos['producto_id']}}"> {{$productos['producto_nombre']}} </option>
-                                @endforeach
-    
-                            </select>
-                           </div>
-                       </div>
+                            <div class="row">
+
+                                <div class="col-6"> <label class="form-label" for="productos">Seleccione producto a publicar: </label>
+                                    
+                                </div>
+                                <div class="col-6"> <label  class="form-label" for="categoria">Seleccione categoria: </label>
+                                </div>
+
+                                <div class="col-6">
+
+                                    <select class="form-select form-control" name="productos" id="productos">
+                                        <option value="">--Seleccione Producto--</option>
+                                        @foreach ($producto as $productos)
+                                        <option value="{{$productos['producto_id']}}"> {{$productos['producto_nombre']}}
+                                        </option>
+                                        @endforeach
+
+                                    </select>
+
+                                </div>
+
+                                <div class="col-6">
+
+                                    <select class="form-select form-control" name="categoria" id="categoria">
+                                        <option value="">--Seleccione Categoria--</option>
+                                        @foreach ($categorias as $categoria)
+                                        <option value="{{$categoria['categoria_id']}}">
+                                            {{$categoria['categoria_nombre']}} </option>
+                                        @endforeach
+
+                                    </select>
+
+                                </div>
+                                <div class="col-12"><br></div>
+                                <div class="col-12"><br></div>
+                                
+                                <div class="col-6">  <label class="form-label" for="publicacion_titulo">{{'Titulo publicacion:'}}</label>
+                                </div>
+                                <div class="col-6">  <label class="form-label"for="publicacion_titulo">{{'Precio:'}}</label>
+                                </div>
+                              
+                                <div class="col-6">
+                                  
+                                    <input class="form-control" type="text" name="publicacion_titulo" id="publicacion_titulo">           
+                                </div>
+
+                                <div class="col-6">
+                                  
+                                    <input class="form-control"type="text" name="publicacion_precio" id="publicacion_precio">           
+                                </div>
+
+                                <div class="col-12"><br></div>
+
+                            </div>
+
+                            <div class="row justify-content-center">
+                                <div class="col-4">
+                                    
+                                    <label class="form-label"for="publicacion_oferta_porcentual ">{{'Oferta porcentual:'}}</label>
+                                    <input class="form-control"type="text" name="publicacion_oferta_porcentual " id="publicacion_oferta_porcentual ">      
+                                  
+                                </div>
+
+                            
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <a href="{{url('/publiciacion')}}" class="btn btn-secondary">Cancel</a>
+                                <input type="submit" value="Agregar" class="btn btn-success float-right">
+                            </div>
+                        </div>
+
+
 
                     </div>
                 </div>
@@ -59,8 +125,8 @@
 
 @section('js')
 <script>
-    
-  
-    
+
+
+
 </script>
 @stop
