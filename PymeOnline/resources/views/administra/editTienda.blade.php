@@ -20,7 +20,7 @@
                             class="form-control {{$errors->has('tienda_numero_contacto')?'is-invalid':''}}">
                             {!! $errors->first('tienda_numero_contacto','<div class="invalid-feedback"> :message</div>') !!}
                     </div>
-        
+
                     <div class="form-group">
                         <label for="tienda_mail_contacto">{{'Mail de contacto de Tienda'}}</label>
                         <input type="text" name="tienda_mail_contacto" id="tienda_mail_contacto" value="{{$datosVermas->tienda_mail_contacto}}"
@@ -34,21 +34,21 @@
                             class="form-control {{$errors->has('tienda_rut_responsable')?'is-invalid':''}}">
                             {!! $errors->first('tienda_rut_responsable','<div class="invalid-feedback"> :message</div>') !!}
                     </div>
-        
+
                     <div class="form-group">
                         <label for="tienda_nombre_responsable">{{'Nombre de Responsable'}}</label>
                         <input type="text" name="tienda_nombre_responsable" id="tienda_nombre_responsable" value="{{$datosVermas->tienda_nombre_responsable}}"
                             class="form-control {{$errors->has('tienda_nombre_responsable')?'is-invalid':''}}">
                             {!! $errors->first('tienda_nombre_responsable','<div class="invalid-feedback"> :message</div>') !!}
                     </div>
-        
+
                     <div class="form-group">
                         <label for="tienda_primer_apellido_responsable">{{'Primer Apellido de Responsable'}}</label>
                         <input type="text" name="tienda_primer_apellido_responsable" id="tienda_primer_apellido_responsable" value="{{$datosVermas->tienda_primer_apellido_responsable}}"
                             class="form-control {{$errors->has('tienda_primer_apellido_responsable')?'is-invalid':''}}">
                             {!! $errors->first('tienda_primer_apellido_responsable','<div class="invalid-feedback"> :message</div>') !!}
                     </div>
-        
+
                     <div class="form-group">
                         <label for="tienda_segundo_apellido_responsable">{{'Segundo Apellido de Responsable'}}</label>
                         <input type="text" name="tienda_segundo_apellido_responsable" id="tienda_segundo_apellido_responsable" value="{{$datosVermas->tienda_segundo_apellido_responsable}}"
@@ -56,14 +56,14 @@
                             {!! $errors->first('tienda_segundo_apellido_responsable','<div class="invalid-feedback"> :message</div>') !!}
                     </div>
 
-                
+
 
                 </div>
 
                 <div class="row">
                     <div class="col-12">
-                        <a href="{{url('/admin/')}}" class="btn btn-primary" >Volver</a>
-                        <input type="submit" value="Editar" class="btn btn-success float-right">
+                        <a href="{{url('/admin/')}}" class="btn btn-secondary" >Volver</a>
+                        <input type="submit" value="Actualizar" class="btn btn-primary float-right">
                         <br>
                         <br>
                     </div>

@@ -39,13 +39,16 @@
                     class="form-control" readonly>
             </div>
 
-           
+
 
         </div>
 
         <div class="row">
             <div class="col-12">
-                <a href="{{url('/admin/')}}" class="btn btn-primary" >Volver</a>
+                <a href="{{url('/admin/')}}" class="btn btn-secondary" >Volver</a>
+                <a href="{{url('/admin/'.$datosVermas->id.'/edit')}}">
+                    <input type="submit" value="Editar" class="btn btn-warning float-right">
+                </a>
                 <br>
                 <br>
             </div>
