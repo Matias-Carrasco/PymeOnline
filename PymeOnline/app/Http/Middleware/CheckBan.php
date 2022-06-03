@@ -17,14 +17,14 @@ class CheckBan
     public function handle(Request $request, Closure $next)
     {
     
-        if(auth()->check() && (auth()->user()->baneado != 0)){
+        if(auth()->check() && (auth()->user()->baneado == 1)){
             \Auth::logout();
 
             $request->session()->invalidate();
 
             $request->session()->regenerateToken();
 
-            return redirect()->route('login')->with('error', 'Tu cuenta ha sido suspendida, por favor contacta a un administrador.');
+            return redirect()->route('login')->with('error', 'Tu cuenta ha sido deshabilitada, por favor contacta a un administrador.');
 
         }
 
