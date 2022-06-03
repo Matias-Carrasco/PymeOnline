@@ -18,7 +18,7 @@
             <div class="form-group">
                 <label for="id">{{'Id de Usuario'}}</label>
                 <input type="text" name="id" id="id" value="{{$datosVermas->id}}"
-                    class="form-control" readonly>  
+                    class="form-control" readonly>
             </div>
 
             <div class="form-group">
@@ -103,7 +103,10 @@
 
         <div class="row">
             <div class="col-12">
-                <a href="{{url('/admin/')}}" class="btn btn-primary btn-lg " >Volver</a>
+                <a href="{{url('/admin/')}}" class="btn btn-secondary" >Volver</a>
+                <a href="{{url('/admin/'.$datosVermas->id.'/edit')}}">
+                    <input type="submit" value="Editar" class="btn btn-warning float-right">
+                </a>
                 <br>
                 <br>
             </div>

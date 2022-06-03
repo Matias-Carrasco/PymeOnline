@@ -20,13 +20,6 @@ class TagController extends Controller
         return view('tags.index',['tags'=>$tags]);
     }
 
-
-    public function create()
-    {
-        return view('tags.create');
-    }
-
-
     public function store(Request $request)
     {
         $id = Auth::id();
@@ -51,24 +44,6 @@ class TagController extends Controller
 
         return redirect('tags')->with('alert_success','Tag agregado exitosamente.');
     }
-
-
-    public function show(tag $tag)
-    {
-        //
-    }
-
-    
-    public function edit($tag_id)
-    {
-        $tag = tag::where('tag_id', '=', $tag_id)->firstOrFail();
-        
-        //TODO remover esto y pasar solo los tags asociados a la tienda
-        $tiendas = tienda::all();
-
-        return view('tags.edit', ['tag'=>$tag,'tiendas'=>$tiendas]); //se pasan los datos del formulario
-    }
-
     
     public function update(Request $request, $tag_id)
     {
