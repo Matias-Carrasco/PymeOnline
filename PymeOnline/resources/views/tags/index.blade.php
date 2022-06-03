@@ -8,6 +8,12 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 
+<style>
+    .acciones {
+        display: inline-block;
+    }
+</style>
+
 @endsection
 
 @section('content')
@@ -35,15 +41,15 @@
 
     <div>
         <!-- Card izq. que contiene la tabla de tags -->
-        <div class="card cardTablaTags" style="float: left; width:50%">
+        <div class="card" style="float: left; width:50%">
             <div class="card-body">
                 <table class="table-hover display" style="width: 100%" id="tablaTags">
 
                     <!-- Ancho de cada columna en la tabla -->
                     <colgroup>
                         <col style="width:40%">
-                        <col style="width:30%">
-                        <col style="width:30%">
+                        <col style="width:40%">
+                        <col style="width:20%">
                     </colgroup>
 
                     <thead class="thead-sm">
@@ -52,7 +58,9 @@
                             <h4>Tabla de tags</h4>
 
                             <!-- Boton Crear, Modal -->
-                            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#ModalCreate" style="align-self: center"> Crear nuevo Tag </a>
+                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalCreate" style="align-self: center">
+                                <i class="fas fa-plus-circle"></i>
+                            </a>
 
                         </div>
                         <br>
@@ -70,20 +78,26 @@
                             <td>{{ $tag->tag_nombre }}</td>
                             <td>placeholder</td>
                             <td>
-                                <!-- Contenedor de botones para acciones en la tupla -->
-                                <div class="container-md" id="contenedorAccionesTupla">
+                                <div>
                                     <!--Boton para editar Tag -->
-                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditar" data-bs-id="{{$tag->tag_id}}" data-bs-nombre="{{$tag->tag_nombre}}">Editar</a>
+                                    <div class="acciones">
+                                        <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditar" data-bs-id="{{$tag->tag_id}}" data-bs-nombre="{{$tag->tag_nombre}}">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
 
                                     <!--Boton eliminar Tag -->
-                                    <form action="{{url('/tags/'.$tag->tag_id)}}" class="d-inline" method="post">
-                                        @csrf
-                                        {{method_field('DELETE')}}
+                                    <div class="acciones">
+                                        <form action="{{url('/tags/'.$tag->tag_id)}}" class="d-inline" method="post">
+                                            @csrf
+                                            {{method_field('DELETE')}}
 
-                                        <button class="btn btn-danger" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar Tag" onclick="return confirm('¿Estás seguro/a que deseas eliminar este Tag? Esto  no es reversible y lo eliminara de todas las publicaciones')">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                            <button class="btn btn-danger" type="submit" onclick="return confirm('¿Estás seguro/a que deseas eliminar este Tag? Esto  no es reversible y lo eliminara de todas las publicaciones')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+
                                 </div>
                             </td>
                         </tr>
@@ -162,6 +176,13 @@
 <!-- DataTables -->
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- Js Tooltips -->
+<script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 
 <!-- Asignar formato DataTable a Tabla de tags -->
 <script>
