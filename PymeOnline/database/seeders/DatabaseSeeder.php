@@ -455,7 +455,7 @@ class DatabaseSeeder extends Seeder
             ];
         },$comunas);
 
-        \DB::table('comunas')->insert($comunas);
+        DB::table('comunas')->insert($comunas);
 
     }
 
