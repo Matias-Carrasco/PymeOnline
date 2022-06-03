@@ -8,6 +8,7 @@
 <form action="{{url('/producto')}}" method="post" enctype="multipart/form-data">
     {{csrf_field()}}
     <section class="content">
+        
 
         @if(count($errors)>0)
         <div class="alert alert-danger" role="alert">
@@ -21,7 +22,7 @@
         </div>
         @endif
 
-        <div class="container">
+        
             <h1>Crear producto</h1>
             <div class="card card-primary">
 
@@ -30,7 +31,7 @@
                 </div>
 
                 <div class="card-body" style="display: block;">
-
+                    @include('common.alerts')
 
                     <div class="form-group">
                         <label for="producto_nombre">{{'Nombre producto'}}</label>
@@ -62,19 +63,21 @@
                         @enderror
                     </div>
 
-
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="{{url('/producto')}}" class="btn btn-secondary">Cancelar</a>
+        
+                            <input type="submit" value="Agregar" class="btn btn-success float-right">
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <a href="{{url('/producto')}}" class="btn btn-secondary">Cancelar</a>
-                    <input type="submit" value="Agregar" class="btn btn-success float-right">
-                </div>
-            </div>
-        </div>
+            
+        
 
-
+        
     </section>
 </form>
 @stop

@@ -99,7 +99,8 @@ class ProductoController extends Controller
     }
       
 
-      return redirect('/producto');
+      //return redirect('/producto');
+      return redirect('producto')->with('alert_success','Producto agregado exitosamente.');
     }
 
     /**
@@ -126,6 +127,7 @@ class ProductoController extends Controller
         $imagenes=imagen::where('producto_id',$producto_id)->get();
         
         return view('productos/edit',compact('productos'),compact('imagenes'));
+        
     }
 
     /**
@@ -179,7 +181,8 @@ class ProductoController extends Controller
             }
         }
 
-        return redirect('/producto');
+        //return redirect('/producto');
+        return redirect('/producto')->with('alert_success','Producto editado exitosamente.');
     }
 
     /**
@@ -192,7 +195,8 @@ class ProductoController extends Controller
     {   
         
         producto::destroy($id_producto);
-        return redirect('/producto');
+        //return redirect('/producto');
+        return redirect('/producto')->with('alert_danger','Producto borrado exitosamente.');
     }
 }
                                                         
