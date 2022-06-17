@@ -51,30 +51,8 @@
                                 @php
                                     $numimg = 0;
                                 @endphp
-                                <div id="carousel{{ $pro->producto_id }}" class="carousel slide" data-bs-ride="true">
-                                    <div class="carousel-indicators">
-                                        @foreach ($imagenes as $img)
-                                            @if ($img['producto_id'] == $pro['producto_id'])
-                                                @if ($numimg == 0)
-                                                    <button type="button"
-                                                        data-bs-target="#carousel{{ $pro->producto_id }}"
-                                                        data-bs-slide-to="0" class="active" aria-current="true"
-                                                        aria-label="Slide 1"></button>
-                                                @else
-                                                    <button type="button"
-                                                        data-bs-target="#carousel{{ $pro->producto_id }}"
-                                                        data-bs-slide-to="{{ $numimg }}"
-                                                        aria-label="Slide {{ $numimg }}"></button>
-                                                @endif
-                                                @php
-                                                    $numimg = $numimg + 1;
-                                                @endphp
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                    @php
-                                        $numimg = 0;
-                                    @endphp
+                                <div id="carousel{{ $pro->producto_id }}" class="carousel slide" data-ride="carousel">
+                                    
                                     <div class="carousel-inner">
                                         @foreach ($imagenes as $img)
                                             @if ($img['producto_id'] == $pro['producto_id'])
@@ -95,16 +73,7 @@
                                             @endif
                                         @endforeach
                                     </div>
-                                    <button class="carousel-control-prev" type="button"
-                                        data-bs-target="#carousel{{ $pro->producto_id }}" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button"
-                                        data-bs-target="carousel{{ $pro->producto_id }}" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                    </button>
+                                    
                                 </div>
 
 
@@ -172,6 +141,12 @@
         .acciones {
             display: inline-block;
         }
+        .truncate {
+        max-width:400px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        } 
 
     </style>
 @stop
@@ -192,6 +167,12 @@
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 },
+                columnDefs:[{targets:[0,1],className:"truncate"}],
+                createdRow: function(row){
+                    $(row).find(".truncate").each(function(){
+                        $(this).attr("title", this.innerText);
+                    });
+                }
             });
         });
     </script>

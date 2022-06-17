@@ -63,14 +63,16 @@ class ProductoController extends Controller
         $campos=[
           'producto_nombre'=>'required|string|max:100',
           'producto_descripcion' => 'required|string|max:1000',
+          "file" => "required|array",
           'file.*'=>'required|image|max:2048'
         ];
         $mensaje=[
             "producto_nombre.required"=>'El nombre del producto es requerido',
+            "producto_nombre.max"=>'El nombre del producto no puede contener mas de 100 letras',
             "producto_descripcion.required"=>'La descripción del producto es requerida',
             "producto_descripcion.max"=>'La descripción del producto no puede contener mas de 1000 letras',
-            "file.required"=>'La imagen del producto es requerida',
-            "file.image"=>'El archivo debe ser tipo imagen',
+            "file.required"=>'La o las imagenes del producto son requeridas',
+            "file.*.image"=>'El archivo debe ser tipo imagen',
             "file.max"=>'El tamaño maximo del archivo es 2 MB'
       ];
       
@@ -109,9 +111,12 @@ class ProductoController extends Controller
      * @param  \App\Models\producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function show(producto $producto)
+    public function show($producto_id)
     {
-        //
+        $productos= producto::where('producto_id',$producto_id)->firstOrFail();
+        $imagenes=imagen::where('producto_id',$producto_id)->get();
+        
+        return view('productos.show',compact('productos'),compact('imagenes'));
     }
 
     /**
@@ -143,30 +148,23 @@ class ProductoController extends Controller
         $campos=[
             'producto_nombre'=>'required|string|max:100',
             'producto_descripcion' => 'required|string|max:1000',
+            "file" => "required|array",
             'file.*'=>'required|image|max:2048'
           ];
           $mensaje=[
-            "producto_nombre.required"=>'El nombre del producto es requerido',
-            "producto_descripcion.required"=>'La descripción del producto es requerida',
-            "producto_descripcion.max"=>'La descripción del producto no puede contener mas de 1000 letras',
-            "file.required"=>'La imagen del producto es requerida',
-            "file.image"=>'El archivo debe ser tipo imagen',
-            "file.max"=>'El tamaño maximo del archivo es 2 MB'
+              "producto_nombre.required"=>'El nombre del producto es requerido',
+              "producto_nombre.max"=>'El nombre del producto no puede contener mas de 100 letras',
+              "producto_descripcion.required"=>'La descripción del producto es requerida',
+              "producto_descripcion.max"=>'La descripción del producto no puede contener mas de 1000 letras',
+              "file.required"=>'La o las imagenes del producto son requeridas',
+              "file.*.image"=>'El archivo debe ser tipo imagen',
+              "file.max"=>'El tamaño maximo del archivo es 2 MB'
         ];
         
         $this->validate($request,$campos,$mensaje);
         $modificar=$request->except('_token','_method','file');
         producto::where('producto_id','=',$producto_id)->update($modificar);
         
-        //$imagen = $request->file('file')->store('public/imagenes');//guarda la imagen en la carpeta del server
-        //$url = Storage::url($imagen);//obtiene url de la imagen guardada
-
-        //$img = new imagen;
-       // $img->imagen_url = $url;
-        //$img->producto_id = $producto_id;
-
-        //imagen::where('producto_id','=',$producto_id)->update($img);
-        //sdd($request);
         if($request->has('file')){
             //borrar todas las imagenes anteriores
             imagen::where('producto_id', $producto_id)->delete();
@@ -181,7 +179,6 @@ class ProductoController extends Controller
             }
         }
 
-        //return redirect('/producto');
         return redirect('/producto')->with('alert_success','Producto editado exitosamente.');
     }
 
