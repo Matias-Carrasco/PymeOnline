@@ -26,7 +26,7 @@
             <h3 class="card-title">Tabla de Productos</h3>
         </div>
         <div class="card-body">
-            <table class="table" id="tabla3">
+            <table class="table-hover display" id="tabla3" style="width:100%">
                 <thead class="thead-sm">
 
                     <br>
