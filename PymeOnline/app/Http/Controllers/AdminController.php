@@ -22,7 +22,7 @@ class AdminController extends Controller
         //
         $rol = rol::all();
         $usuarios = User::all();
-        
+
         return view('administra.index',compact('usuarios'));
     }
 
@@ -73,7 +73,7 @@ class AdminController extends Controller
             $data['direccionTienda'] = $direccionTienda;
 
             return view('administra.showTienda', $data);
-        }        
+        }
     }
 
     /**
@@ -91,11 +91,11 @@ class AdminController extends Controller
             return view('administra.edit', compact('datosVermas'));
         }elseif ($usuariosVermas == 3){
             $datosVermas = tienda::where('id',$id)->first();
-            
+
             $data = [];
             $data['datosVermas'] = $datosVermas;
             return view('administra.editTienda', $data);
-        }        
+        }
     }
 
     /**
@@ -114,7 +114,7 @@ class AdminController extends Controller
             $campos=[
                 'cliente_rut' => 'required|alpha_num',
                 'cliente_nombre' => 'required|alpha',
-                'cliente_apellido' => 'required|alpha'                
+                'cliente_apellido' => 'required|alpha'
             ];
             $mensaje=[
                 "cliente_rut.required"=>'El Rut es requerido',
@@ -124,7 +124,7 @@ class AdminController extends Controller
                 "cliente_apellido.required"=>'El Apellido es requerido',
                 "cliente_apellido.alpha"=>'El Apellido debe poseer solo letras',
             ];
-    
+
             $this->validate($request,$campos,$mensaje);
             $modificar=$request->except('_token','_method');
             cliente::where('id','=',$id)->update($modificar);
@@ -134,10 +134,10 @@ class AdminController extends Controller
             $campos=[
                 'tienda_numero_contacto' => 'required|alpha_dash',
                 'tienda_mail_contacto' => 'required|email',
-                'tienda_rut_responsable' => 'required|alpha_num', 
+                'tienda_rut_responsable' => 'required|alpha_num',
                 'tienda_nombre_responsable' => 'required|alpha',
                 'tienda_primer_apellido_responsable' => 'required|alpha',
-                'tienda_segundo_apellido_responsable' => 'required|alpha', 
+                'tienda_segundo_apellido_responsable' => 'required|alpha',
             ];
             $mensaje=[
                 "tienda_numero_contacto.required"=>'El Número de Contacto es requerido',
@@ -153,14 +153,14 @@ class AdminController extends Controller
                 "tienda_segundo_apellido_responsable.required"=>'El Segundo Apellido del Responsable es requerido',
                 "tienda_segundo_apellido_responsable.alpha"=>'El Segundo Apellido del Responsable debe poseer solo letras',
             ];
-    
+
             $this->validate($request,$campos,$mensaje);
             $modificar=$request->except('_token','_method');
             tienda::where('id','=',$id)->update($modificar);
             return redirect('/admin');
-        }    
+        }
 
-        
+
     }
 
     /**
@@ -184,10 +184,15 @@ class AdminController extends Controller
     public function banear($id)
     {
         $usuario = User::find($id);
-        $usuario->baneado = 1;
-        $usuario->save();
-        return redirect('/admin');
-        
+        if($usuario->baneado == 1){
+            abort(404, "El Usuario ya esta baneado");
+        }else{
+            $usuario->baneado = 1;
+            $usuario->save();
+            return redirect('/admin');
+        }
+
+
     }
 
     /**
@@ -199,9 +204,13 @@ class AdminController extends Controller
     public function desbanear($id)
     {
         $usuario = User::find($id);
-        $usuario->baneado = 0;
-        $usuario->save();
-        return redirect('/admin');
-        
+        if($usuario->baneado == 0){
+            abort(404, "El Usuario ya esta baneado");
+        }else{
+            $usuario->baneado = 0;
+            $usuario->save();
+            return redirect('/admin');
+        }
+
     }
 }
