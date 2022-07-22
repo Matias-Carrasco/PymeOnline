@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,26 +22,28 @@ class DatabaseSeeder extends Seeder
         $this->insertarRoles();
         $this->insertarRegiones();
         $this->insertarComunas();
-        $this->insertarUsuarios( $faker, 1000 );
-        $this->insertarAdmin();
+        
+        //Usuarios de pruebas
+        $this->insertarAdminTest();
         $this->insertarTiendaTest();
+
+        $this->insertarUsuarios( $faker, 100);
         $this->insertarDireccions( $faker , 500 );
-        $this->insertarInvitados( $faker , 1500 );
+        $this->insertarInvitados( $faker , 100 );
         $this->insertarClientes( $faker );
         $this->insertarTiendaEstilos( $faker , 40 );
         $this->insertarTiendas( $faker );
-        $this->insertarCompras( $faker , 10000 );
-        $this->insertarProductos( $faker , 1000 );
+        $this->insertarCompras( $faker , 100 );
+        $this->insertarProductos( $faker , 10);
         $this->insertarTags( $faker , 10 );
-        #this->insertarPublicacions();
-        #$this->insertarResenas();
-        #$this->insertarPreguntas();
-        #$this->insertarRespuestas();
-        #$this->insertarClienteDireccions();
-        #$this->insertarCategorias();
-        #$this->insertarTagsPublicaciones();
-        #$this->insertarCompras();
-        #$this->insertarLineaCompras();
+        $this->insertarCategorias($faker, 3);
+        $this->insertarPublicacions($faker);
+        $this->insertarResenas($faker);
+        $this->insertarPreguntas($faker);
+        $this->insertarRespuestas($faker);
+        $this->insertarClienteDireccions($faker);
+        $this->insertarTagsPublicaciones($faker);
+        $this->insertarLineaCompras($faker);
         
     }
 
@@ -465,10 +468,10 @@ class DatabaseSeeder extends Seeder
 
         foreach (range(1,$numero) as $index) {
             
-            //$rolRandom = random_int(2,3);
+            
 
             DB::table('users')->insert([
-                'rol_id' => 3 ,
+                'rol_id' => random_int(2,3),
                 'email' => $faker->unique()->email() ,
                 'email_verified_at' => now() ,
                 'password' => $faker->password() ,
@@ -480,8 +483,9 @@ class DatabaseSeeder extends Seeder
 
         return true;
     }
+    
 
-    public function insertarAdmin()
+    public function insertarAdminTest()
     {    
         DB::table('users')->insert([
             'rol_id' => 1 ,
@@ -632,15 +636,16 @@ class DatabaseSeeder extends Seeder
         if ($numero < 1) return false;
      
         $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
-
-        foreach (range(1,$numero) as $index) {
-            DB::table('productos')->insert([
-                'tienda_id' => $faker->randomElement($ID_Tiendas),
-                'producto_nombre' => $faker->word(),
-                'producto_descripcion' => $faker->sentence()
-            ]);
+        foreach($ID_Tiendas as $tienda_id){
+            foreach (range(1,$numero) as $index) {
+                DB::table('productos')->insert([
+                    'tienda_id' => $tienda_id,
+                    'producto_nombre' => $faker->word(),
+                    'producto_descripcion' => $faker->sentence()
+                ]);
+            }
         }
-
+        
         return true;
     }
 
@@ -663,4 +668,186 @@ class DatabaseSeeder extends Seeder
 
         return true;
     }
+
+
+
+
+
+    public function insertarCategorias($faker,$numeroPorTienda){
+        if ($numeroPorTienda < 1) return false;
+     
+        $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
+
+        foreach ($ID_Tiendas as $tienda_id) {
+            foreach (range(1,$numeroPorTienda) as $index) {
+                DB::table('categorias')->insert([
+                    'categoria_id_padre' => NULL,
+                    'categoria_nombre' => $faker->word(),
+                ]);
+            }
+        }
+
+    }
+
+
+    public function insertarPublicacions($faker)
+    {
+        $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
+        foreach ($ID_Tiendas as $tienda_id) {
+            
+            $ID_Productos = DB::table('productos')->where('tienda_id',$tienda_id)->pluck('producto_id');
+            //$ID_Categorias = DB::table('categorias')->where('tienda_id',$tienda_id)->pluck('categoria_id');
+            $ID_Categorias = DB::table('categorias')->pluck('categoria_id');
+            foreach($ID_Productos as $producto_id) {
+                DB::table('publicacions')->insert([
+                    'tienda_id' => $tienda_id,
+                    'producto_id' => $producto_id,
+                    'categoria_id' => $faker->randomElement($ID_Categorias),
+                    'pulicacion_activo' => rand(0,1),
+                    'publicacion_titulo' => $faker->word(),
+                    'publicacion_precio' => rand(20000,50000),
+                    'publicacion_oferta_porcentual' => rand(0,50),
+                ]);
+            }
+        }
+
+
+        return true;
+    }
+
+   
+
+    public function  insertarResenas($faker){
+       
+        $ID_Publicaciones = DB::table('publicacions')->pluck('publicacion_id');
+        foreach($ID_Publicaciones as $publicacion_id) {
+            DB::table('resenas')->insert([
+                'publicacion_id' => $publicacion_id,
+                'resena_califacion' => rand(1,5),
+                'resena_texto' => $faker->word(),
+            ]);
+        }
+        
+
+        return true;
+    }
+
+
+
+    public function insertarPreguntas($faker){
+
+        
+        $ID_Publicaciones = DB::table('publicacions')->pluck('publicacion_id');
+        foreach($ID_Publicaciones as $publicacion_id) {
+
+            $year = rand(2021, 2022);
+            $month = rand(1, 12);
+            $day = rand(1, 28);
+
+            $date = Carbon::create($year,$month ,$day , 0, 0, 0);
+
+
+            DB::table('preguntas')->insert([
+                'publicacion_id' => $publicacion_id,
+                'pregunta_texto' => $faker->word(),
+                'pregunta_fecha' => $date->format('Y-m-d H:i:s'),
+            ]);
+        }
+        
+
+        return true;
+    }
+
+    public function  insertarRespuestas($faker){
+       
+     
+        $ID_Preguntas = DB::table('preguntas')->pluck('pregunta_id');
+        
+        foreach ($ID_Preguntas as $preguntas_id) {
+
+            $year = rand(2021, 2022);
+            $month = rand(1, 12);
+            $day = rand(1, 28);
+
+            $date = Carbon::create($year,$month ,$day , 0, 0, 0);
+            
+            DB::table('respuestas')->insert([
+                'pregunta_id' => $preguntas_id,
+                'respuesta_texto' => $faker->word(),
+                'respuesta_fecha' => $date->format('Y-m-d H:i:s'),
+            ]);
+            
+        }
+
+        return true;
+    }
+
+    public function insertarClienteDireccions($faker){
+       
+        $ID_Clientes = DB::table('clientes')->pluck('cliente_id');
+        $ID_Direcciones = DB::table('direccions')->pluck('direccion_id');
+        
+        foreach ($ID_Clientes as $cliente_id) {
+            
+            DB::table('cliente_direccions')->insert([
+                'direccion_id' => $faker->randomElement($ID_Direcciones),
+                'cliente_id' => $cliente_id,
+            ]);
+        
+        }
+
+        return true;
+    }
+
+
+    public function insertarTagsPublicaciones($faker){
+       
+        
+        $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
+        foreach ($ID_Tiendas as $tienda_id) {
+
+            $ID_Publicaciones = DB::table('publicacions')->where('tienda_id',$tienda_id)->pluck('publicacion_id');
+            $ID_Tags = DB::table('tags')->where('tienda_id',$tienda_id)->pluck('tag_id');
+
+            foreach ($ID_Publicaciones as $publicacion_id) {
+                
+                DB::table('tag_publicaciones')->insert([
+                    'tag_id' => $faker->randomElement($ID_Tags),
+                    'publicacion_id' => $faker->randomElement($ID_Publicaciones),
+                ]);
+            
+            }
+        }
+
+        return true;
+    }
+
+
+   
+    public function insertarLineaCompras($faker){
+       
+        
+
+        $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
+        foreach ($ID_Tiendas as $tienda_id) {
+
+            $ID_Publicaciones = DB::table('publicacions')->where('tienda_id',$tienda_id)->pluck('publicacion_id');
+            $ID_Compras = DB::table('compras')->where('tienda_id',$tienda_id)->pluck('compra_id');
+
+            foreach ($ID_Compras as $compra_id) {
+                
+                for ($i = 0 ; $i < rand(2,7) ; $i++){
+                    DB::table('linea_compras')->insert([
+                        'compra_id' => $compra_id,
+                        'publicacion_id' => $faker->randomElement($ID_Publicaciones),
+                        'cantidad' => rand(1,10),
+                    ]);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    
 }
