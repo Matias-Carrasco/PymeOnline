@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->insertarRoles();
         $this->insertarRegiones();
         $this->insertarComunas();
-        
+
         //Usuarios de pruebas
         $this->insertarAdminTest();
         $this->insertarTiendaTest();
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
         $this->insertarClienteDireccions($faker);
         $this->insertarTagsPublicaciones($faker);
         $this->insertarLineaCompras($faker);
-        
+
     }
 
 
@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         $roles = array_map(function ($rol) use ($now){
-            return[                
+            return[
                 'rol_nombre' => $rol[0]
             ];
         },$roles);
@@ -89,10 +89,10 @@ class DatabaseSeeder extends Seeder
             ['Magallanes y de la Antártica Chilena'],
         ];
         $regions = array_map(function ($region) use ($now){
-            return[                
+            return[
                 'region_nombre' => $region[0],
             ];
-            
+
         }, $regions);
 
         DB::table('regions')->insert($regions);
@@ -463,12 +463,12 @@ class DatabaseSeeder extends Seeder
     }
 
     public function insertarUsuarios( $faker , $numero )
-    {    
+    {
         if ($numero < 1) return false;
 
         foreach (range(1,$numero) as $index) {
-            
-            
+
+
 
             DB::table('users')->insert([
                 'rol_id' => random_int(2,3),
@@ -483,10 +483,10 @@ class DatabaseSeeder extends Seeder
 
         return true;
     }
-    
+
 
     public function insertarAdminTest()
-    {    
+    {
         DB::table('users')->insert([
             'rol_id' => 1 ,
             'email' => 'admin@admin.com',
@@ -500,10 +500,20 @@ class DatabaseSeeder extends Seeder
     }
 
     public function insertarTiendaTest()
-    {    
+    {
         DB::table('users')->insert([
             'rol_id' => 3 ,
             'email' => 'tienda@tienda.com',
+            'email_verified_at' => now() ,
+            'password' => Hash::make('tiendatienda'),
+            'baneado' => false ,
+            'created_at' => now() ,
+            'updated_at' => now()
+        ]);
+
+        DB::table('users')->insert([
+            'rol_id' => 2 ,
+            'email' => 'cliente@cliente.com',
             'email_verified_at' => now() ,
             'password' => Hash::make('tiendatienda'),
             'baneado' => false ,
@@ -519,7 +529,7 @@ class DatabaseSeeder extends Seeder
         if ($numero < 1) return false;
 
         $ID_comunas = DB::table('comunas')->pluck('comuna_id');
-     
+
         foreach (range(1,$numero) as $index) {
             DB::table('direccions')->insert([
                 'comuna_id' => $faker->randomElement($ID_comunas),
@@ -539,7 +549,7 @@ class DatabaseSeeder extends Seeder
         if ($numero < 1) return false;
 
         $ID_Direcciones = DB::table('direccions')->pluck('direccion_id');
-     
+
         foreach (range(1,$numero) as $index) {
             DB::table('invitados')->insert([
                 'direccion_id' => $faker->randomElement($ID_Direcciones),
@@ -573,7 +583,7 @@ class DatabaseSeeder extends Seeder
     {
 
         if ($numero < 1) return false;
-     
+
         foreach (range(1,$numero) as $index) {
             DB::table('tienda_estilos')->insert([
                 'tienda_banner_url' => $faker->url(),
@@ -591,7 +601,7 @@ class DatabaseSeeder extends Seeder
         $ID_Estilos = DB::table('tienda_estilos')->pluck('estilo_id');
         $ID_Usuarios = DB::table('users')->where('rol_id','3')->pluck('id');
         $ID_Direcciones = DB::table('direccions')->pluck('direccion_id');
-     
+
         foreach ($ID_Usuarios as $usuario_id) {
             DB::table('tiendas')->insert([
                 'estilo_id' => $faker->randomElement($ID_Estilos),
@@ -617,7 +627,7 @@ class DatabaseSeeder extends Seeder
         $ID_Estilos = DB::table('tienda_estilos')->pluck('estilo_id');
         $ID_Clientes = DB::table('clientes')->pluck('cliente_id');
         $ID_Invitados = DB::table('invitados')->pluck('invitado_id');
-     
+
         foreach (range(1,$numero) as $index) {
             DB::table('compras')->insert([
                 'tienda_id' => $faker->randomElement($ID_Estilos),
@@ -634,7 +644,7 @@ class DatabaseSeeder extends Seeder
     public function insertarProductos( $faker , $numero )
     {
         if ($numero < 1) return false;
-     
+
         $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
         foreach($ID_Tiendas as $tienda_id){
             foreach (range(1,$numero) as $index) {
@@ -645,14 +655,14 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
-        
+
         return true;
     }
 
     public function insertarTags( $faker , $numeroPorTienda )
     {
         if ($numeroPorTienda < 1) return false;
-     
+
         $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
 
         foreach ($ID_Tiendas as $tienda_id) {
@@ -675,7 +685,7 @@ class DatabaseSeeder extends Seeder
 
     public function insertarCategorias($faker,$numeroPorTienda){
         if ($numeroPorTienda < 1) return false;
-     
+
         $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
 
         foreach ($ID_Tiendas as $tienda_id) {
@@ -694,7 +704,7 @@ class DatabaseSeeder extends Seeder
     {
         $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
         foreach ($ID_Tiendas as $tienda_id) {
-            
+
             $ID_Productos = DB::table('productos')->where('tienda_id',$tienda_id)->pluck('producto_id');
             //$ID_Categorias = DB::table('categorias')->where('tienda_id',$tienda_id)->pluck('categoria_id');
             $ID_Categorias = DB::table('categorias')->pluck('categoria_id');
@@ -715,10 +725,10 @@ class DatabaseSeeder extends Seeder
         return true;
     }
 
-   
+
 
     public function  insertarResenas($faker){
-       
+
         $ID_Publicaciones = DB::table('publicacions')->pluck('publicacion_id');
         foreach($ID_Publicaciones as $publicacion_id) {
             DB::table('resenas')->insert([
@@ -727,7 +737,7 @@ class DatabaseSeeder extends Seeder
                 'resena_texto' => $faker->word(),
             ]);
         }
-        
+
 
         return true;
     }
@@ -736,7 +746,7 @@ class DatabaseSeeder extends Seeder
 
     public function insertarPreguntas($faker){
 
-        
+
         $ID_Publicaciones = DB::table('publicacions')->pluck('publicacion_id');
         foreach($ID_Publicaciones as $publicacion_id) {
 
@@ -753,16 +763,16 @@ class DatabaseSeeder extends Seeder
                 'pregunta_fecha' => $date->format('Y-m-d H:i:s'),
             ]);
         }
-        
+
 
         return true;
     }
 
     public function  insertarRespuestas($faker){
-       
-     
+
+
         $ID_Preguntas = DB::table('preguntas')->pluck('pregunta_id');
-        
+
         foreach ($ID_Preguntas as $preguntas_id) {
 
             $year = rand(2021, 2022);
@@ -770,30 +780,30 @@ class DatabaseSeeder extends Seeder
             $day = rand(1, 28);
 
             $date = Carbon::create($year,$month ,$day , 0, 0, 0);
-            
+
             DB::table('respuestas')->insert([
                 'pregunta_id' => $preguntas_id,
                 'respuesta_texto' => $faker->word(),
                 'respuesta_fecha' => $date->format('Y-m-d H:i:s'),
             ]);
-            
+
         }
 
         return true;
     }
 
     public function insertarClienteDireccions($faker){
-       
+
         $ID_Clientes = DB::table('clientes')->pluck('cliente_id');
         $ID_Direcciones = DB::table('direccions')->pluck('direccion_id');
-        
+
         foreach ($ID_Clientes as $cliente_id) {
-            
+
             DB::table('cliente_direccions')->insert([
                 'direccion_id' => $faker->randomElement($ID_Direcciones),
                 'cliente_id' => $cliente_id,
             ]);
-        
+
         }
 
         return true;
@@ -801,8 +811,8 @@ class DatabaseSeeder extends Seeder
 
 
     public function insertarTagsPublicaciones($faker){
-       
-        
+
+
         $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
         foreach ($ID_Tiendas as $tienda_id) {
 
@@ -810,12 +820,12 @@ class DatabaseSeeder extends Seeder
             $ID_Tags = DB::table('tags')->where('tienda_id',$tienda_id)->pluck('tag_id');
 
             foreach ($ID_Publicaciones as $publicacion_id) {
-                
+
                 DB::table('tag_publicaciones')->insert([
                     'tag_id' => $faker->randomElement($ID_Tags),
                     'publicacion_id' => $faker->randomElement($ID_Publicaciones),
                 ]);
-            
+
             }
         }
 
@@ -823,10 +833,10 @@ class DatabaseSeeder extends Seeder
     }
 
 
-   
+
     public function insertarLineaCompras($faker){
-       
-        
+
+
 
         $ID_Tiendas = DB::table('tiendas')->pluck('tienda_id');
         foreach ($ID_Tiendas as $tienda_id) {
@@ -835,7 +845,7 @@ class DatabaseSeeder extends Seeder
             $ID_Compras = DB::table('compras')->where('tienda_id',$tienda_id)->pluck('compra_id');
 
             foreach ($ID_Compras as $compra_id) {
-                
+
                 for ($i = 0 ; $i < rand(2,7) ; $i++){
                     DB::table('linea_compras')->insert([
                         'compra_id' => $compra_id,
@@ -849,5 +859,5 @@ class DatabaseSeeder extends Seeder
         return true;
     }
 
-    
+
 }

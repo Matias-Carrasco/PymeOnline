@@ -14,7 +14,7 @@ class AdminTest extends TestCase
 
     public function test_AdminUpdate(){
 
-        $response = $this->patch('/admin/4',[
+        $response = $this->patch('/admin/3',[
             'cliente_rut' => '195117985',
             'cliente_nombre' => 'Bastian',
             'cliente_apellido' => 'Candia'
@@ -26,7 +26,7 @@ class AdminTest extends TestCase
 
     public function test_AdminUpdateError(){
 
-        $response = $this->patch('/admin/4',[
+        $response = $this->patch('/admin/3',[
             'cliente_rut' => '-',
             'cliente_nombre' => '!',
             'cliente_apellido' => '!'
