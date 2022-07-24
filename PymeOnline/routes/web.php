@@ -51,13 +51,8 @@ Route::middleware(['CheckBan'])->group(function () {
     Route::group(['middleware' => 'CheckRole:tienda'], function () {
         Route::resource('producto', '\App\Http\Controllers\ProductoController');
         Route::resource( 'tags', TagController::class );
-
-
     });
 
-
 });
-
-
 
 
