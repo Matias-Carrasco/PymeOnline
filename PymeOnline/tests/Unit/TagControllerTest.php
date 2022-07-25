@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class TagControllerTest extends TestCase
 {
-    use DatabaseMigrations;
     
     public function test_index()
     {

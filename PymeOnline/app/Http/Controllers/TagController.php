@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\tag;
+use App\Models\tag_publicacion;
 use App\Models\tienda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
@@ -13,17 +15,27 @@ class TagController extends Controller
     public function index()
     {
         $id = Auth::id();
-        $id_tienda = tienda::where('id','=',$id)->first()->tienda_id;
+        $tiendaID = tienda::where('id','=',$id)->first()->tienda_id;
 
-        $tags = tag::where('tienda_id','=',$id_tienda)->get();
+        $subqueryConteoTags =   tag::where('tienda_id','=',$tiendaID)
+                                ->join('tag_publicaciones','tags.tag_id','=','tag_publicaciones.tag_id')
+                                ->selectRaw('tag_publicaciones.tag_id, COUNT(*) as count')
+                                ->groupBy('tag_publicaciones.tag_id');
 
+        $tags = tag::where('tienda_id','=',$tiendaID)
+                ->leftJoinSub($subqueryConteoTags, 'conteo_tags', function($join){
+                    $join->on('tags.tag_id', '=', 'conteo_tags.tag_id');
+                })
+                ->select('tags.tag_id','tags.tag_nombre','count')
+                ->get();
+        
         return view('tags.index',['tags'=>$tags]);
     }
 
     public function store(Request $request)
     {
         $id = Auth::id();
-        $id_tienda = tienda::where('id','=',$id)->first()->tienda_id;
+        $tiendaID = tienda::where('id','=',$id)->first()->tienda_id;
 
         $camposTags=[
             'tag_nombre' => 'required|string|max:32',
@@ -39,7 +51,7 @@ class TagController extends Controller
 
         // Dropea el token e inserta los datos
         $datosTag = request()->except(['_token','_method']);
-        $datosTag['tienda_id'] = $id_tienda;
+        $datosTag['tienda_id'] = $tiendaID;
         tag::insert($datosTag);
 
         return redirect('tags')->with('alert_success','Tag agregado exitosamente.');
@@ -48,7 +60,7 @@ class TagController extends Controller
     public function update(Request $request, $tag_id)
     {
         $id = Auth::id();
-        $id_tienda = tienda::where('id','=',$id)->first()->tienda_id;
+        $tiendaID = tienda::where('id','=',$id)->first()->tienda_id;
 
         $camposTags=[
             'tag_nombre' => 'required|string|max:32',
@@ -64,7 +76,7 @@ class TagController extends Controller
         
         // Dropea el token e inserta los datos
         $datosTag = request()->except(['_token','_method']);
-        $datosTag['tienda_id'] = $id_tienda;
+        $datosTag['tienda_id'] = $tiendaID;
         tag::where("tag_id","=",$tag_id)->update($datosTag);
 
         return redirect('tags')->with('alert_success','Tag editado exitosamente.');
