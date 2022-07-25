@@ -23,15 +23,21 @@ class ProductoControllerTest extends TestCase
 
     /** @test*/
     public function creacion_producto()
-    {
-        $response = $this->patch('/producto/194',[
-            'producto_nombre' => 'aaaa',
-            'producto_descripcion' => 'asdasdasdasdasd'
-        ]);
+    {   
+        $user = User::factory()->create(['rol_id' => 3]);
 
-        $response->assertSessionHasNoErrors();
+        $request = [
+            'producto_nombre' => 'Zapatos',
+            'producto_descripcion' => 'comodos',
+            'file' => 'urlalgo'
+        ];
+
+        $response = $this->actingAs($user)->post('/producto/',$request);
+
+        //$response->assertSessionHasNoErrors();
+        $response->assertStatus(302);
         $response->assertRedirect('/producto');
-        $this->assertTrue(true);
+        //$this->assertTrue(true);
     }
 
     /**
