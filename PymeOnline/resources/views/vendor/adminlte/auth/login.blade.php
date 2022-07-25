@@ -18,9 +18,21 @@
     @php( $password_reset_url = $password_reset_url ? url($password_reset_url) : '' )
 @endif
 
-@section('auth_header', __('adminlte::adminlte.login_message'))
+
+@section('auth_header')
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @else
+        {{ __('adminlte::adminlte.login_message') }}
+    @endif
+@stop
 
 @section('auth_body')
+
+
+    
     <form action="{{ $login_url }}" method="post">
         @csrf
 

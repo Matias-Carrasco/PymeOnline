@@ -28,9 +28,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion de Tags</title>
 
-    <!-- Boostrap -->
+    <!-- Boostrap-->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Highcharts CSS-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 
 </head>
 
@@ -41,7 +44,7 @@
 
     <div>
         <!-- Card izq. que contiene la tabla de tags -->
-        <div class="card" style="float: left; width:50%">
+        <div class="card" style="float: left; width:50%" id="cardL">
             <div class="card-body">
                 <table class="table-hover display" style="width: 100%" id="tablaTags">
 
@@ -76,7 +79,7 @@
                         @foreach($tags as $tag)
                         <tr>
                             <td>{{ $tag->tag_nombre }}</td>
-                            <td>placeholder</td>
+                            <td>{{ $tag->count ?? '0' }}</td>
                             <td>
                                 <div>
                                     <!--Boton para editar Tag -->
@@ -118,7 +121,7 @@
         <!-- / Card izq. -->
 
         <!-- Card der.  -->
-        <div class="card cardTablaTags" style="float: right; width:50%">
+        <div class="card" style="float: right; width:50%" id="cardR">
             <div class="card-body">
             </div>
         </div>
@@ -171,11 +174,15 @@
 </html>
 
 @section('js')
+
 <!-- JQuery 3.5 -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!-- DataTables -->
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- Highcharts -->
+<script src="//code.highcharts.com/highcharts.js"></script>
 
 <!-- Js Tooltips -->
 <script>
@@ -184,21 +191,108 @@
     })
 </script>
 
-<!-- Asignar formato DataTable a Tabla de tags -->
+<!-- Datable y chart -->
 <script>
     $(document).ready(function() {
-        $('#tablaTags').DataTable({
+
+        // Asignar formato a datatable
+        var tablaTags = $('#tablaTags').DataTable({
             responsive: true,
             scrollY: '50vh',
             scrollCollapse: true,
             paging: false,
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-            }
+            },
+            dom: "Pfrtip"
         });
+
+
+        var container = $('#cardR');
+
+        var datosTabla = getTableData(tablaTags);
+        createHighChart(datosTabla);
+        setTableEvents(tablaTags);
+
+        // Funcion para extraer datos de la tabla al formato usado por el chart
+        function getTableData(table) {
+
+            const dataArray = [],
+                name = [],
+                nusos = [];
+
+            table.rows({
+                search: "applied"
+            }).every(function() {
+                const data = this.data();
+                name.push(data[0]);
+                nusos.push(Number(data[1]));
+            });
+
+            dataArray.push(name, nusos);
+
+            return dataArray;
+        }
+
+        // Funcion para crear un grafico pie usando los datos extraidos
+        function createHighChart(data) {
+            var chart = Highcharts.chart(container[0], {
+                chart: {
+                    type: 'pie',
+                },
+                title: {
+                    text: 'Distribucion de tags',
+                },
+                tooltip:{
+                    headerFormat: ''
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            formatter: function() {
+                                var sliceIndex = this.point.index;
+                                var sliceName = this.series.chart.axes[0].categories[sliceIndex];
+                                return sliceName;
+                            }
+                        }
+                    }
+                },
+                xAxis: {
+                    categories: data[0]
+                },
+                series: [{
+                    name: "numero de usos",
+                    data: data[1]
+                }],
+                credits: {
+                    enabled: false
+                }
+            });
+        }
+
+        // Funcion para agregar eventos y actualizar el grafico segun se actualiza la tabla
+        function setTableEvents(table) {
+            let draw = false;
+            table.on("page", () => {
+                draw = true;
+            });
+            table.on("draw", () => {
+                if (draw) {
+                    draw = false;
+                } else {
+                    const datosTabla = getTableData(tablaTags);
+                    createHighChart(datosTabla);
+                }
+            })
+        }
+
     });
 </script>
 
+<!-- Funcion para invocar al modal de editar -->
 <script>
     $(document).ready(function() {
         var modalEditar = document.getElementById('ModalEditar')
@@ -226,8 +320,6 @@
         });
     })
 </script>
-
-
 
 @endsection('js')
 
