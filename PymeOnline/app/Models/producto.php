@@ -9,4 +9,10 @@ class producto extends Model
 {
     protected $primaryKey='producto_id';
     public $timestamps = false;
+
+    protected $guarded =[];
+
+    public function imagen(){
+        return $this->hasMany('\App\Models\imagen');
+    }
 }

@@ -16,13 +16,5 @@ class ExampleTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function test_example2()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function test_example3()
-    {
-        $this->assertTrue(true);
-    }
+    
 }

@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use App\Models\User;
 
 class AdminTest extends TestCase
 {
@@ -14,7 +15,9 @@ class AdminTest extends TestCase
 
     public function test_AdminUpdate(){
 
-        $response = $this->patch('/admin/3',[
+        $user = User::factory()->create(['rol_id' => 1]);
+
+        $response = $this->actingAs($user)->patch('/admin/3',[
             'cliente_rut' => '195117985',
             'cliente_nombre' => 'Bastian',
             'cliente_apellido' => 'Candia'
@@ -26,7 +29,9 @@ class AdminTest extends TestCase
 
     public function test_AdminUpdateError(){
 
-        $response = $this->patch('/admin/3',[
+        $user = User::factory()->create(['rol_id' => 1]);
+
+        $response = $this->actingAs($user)->patch('/admin/3',[
             'cliente_rut' => '-',
             'cliente_nombre' => '!',
             'cliente_apellido' => '!'
@@ -37,23 +42,27 @@ class AdminTest extends TestCase
 
     public function test_Banear(){
 
-        $response = $this->get('/admin/banear/2');
+        $user = User::factory()->create(['rol_id' => 1]);
+
+        $response = $this->actingAs($user)->get('/admin/banear/2');
 
         $response->assertStatus(302);
 
         //Devuelve al usuario de prueba al estado original
-        $response = $this->get('/admin/desbanear/2');
+        $response = $this->actingAs($user)->get('/admin/desbanear/2');
     }
 
     public function test_BanearYaBaneado(){
 
-        $response = $this->get('/admin/banear/2');
+        $user = User::factory()->create(['rol_id' => 1]);
 
-        $response = $this->get('/admin/banear/2');
+        $response = $this->actingAs($user)->get('/admin/banear/2');
+
+        $response = $this->actingAs($user)->get('/admin/banear/2');
 
         $response->assertStatus(404);
 
         //Devuelve al usuario de prueba al estado original
-        $response = $this->get('/admin/desbanear/2');
+        $response = $this->actingAs($user)->get('/admin/desbanear/2');
     }
 }

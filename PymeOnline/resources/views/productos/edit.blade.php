@@ -10,6 +10,7 @@
     {{csrf_field()}}
     {{method_field('PATCH')}}
     <section class="content">
+        
 
         @if(count($errors)>0)
         <div class="alert alert-danger" role="alert">
@@ -23,7 +24,7 @@
         </div>
         @endif
 
-        <div class="container">
+        
             <h1>Producto</h1>
             <div class="card card-primary">
 
@@ -50,17 +51,41 @@
                         {!! $errors->first('producto_descripcion','<div class="invalid-feedback"> :message</div>') !!}
                     </div>
 
+                    <div class="grid grid-cols-1 mt-5 mx-7">
+                        <img id="imagenSeleccionada" style="max-height: 300px;">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="files">Subir imagenes</label>
+                        
+                        @foreach ($imagenes as $img)
+                         
+                            <img src="{{$img->imagen_url}}" width="30%">
+                            
+                            
+                        @endforeach
+                        <br>
+                        <input class="form-control" type="file" id="file" name="file[]" accept="image/*" multiple>
+                        @error('file')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
+                    </div>
+                    
+
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="{{url('/producto')}}" class="btn btn-secondary">Cancelar</a>
+                            <input type="submit" value="Editar" class="btn btn-success float-right">
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <a href="{{url('/producto')}}" class="btn btn-secondary">Cancelar</a>
-                    <input type="submit" value="Editar" class="btn btn-success float-right">
-                </div>
-            </div>
+            
 
-        </div>
+        
 
 
     </section>
@@ -85,5 +110,19 @@ function countChars(obj){
         document.getElementById("charNum").innerHTML = strLength+' de '+maxLength+' letras';
     }
 }
+</script>
+
+<!-- Script para ver la imagen antes de CREAR UN NUEVO PRODUCTO -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+<script>   
+    $(document).ready(function (e) {   
+        $('#file').change(function(){            
+            let reader = new FileReader();
+            reader.onload = (e) => { 
+                $('#imagenSeleccionada').attr('src', e.target.result); 
+            }
+            reader.readAsDataURL(this.files[0]); 
+        });
+    });
 </script>
 @stop
