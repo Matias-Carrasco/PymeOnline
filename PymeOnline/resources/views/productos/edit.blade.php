@@ -57,7 +57,7 @@
 
                     <div class="form-group">
                         <label for="files">Subir imagenes</label>
-                        <p>Actualmente tiene seleccionadas x imagenes</p>
+                        
                         @foreach ($imagenes as $img)
                          
                             <img src="{{$img->imagen_url}}" width="30%">
