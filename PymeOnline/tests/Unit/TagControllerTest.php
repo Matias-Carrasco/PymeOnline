@@ -111,12 +111,9 @@ class TagControllerTest extends TestCase
         $user = User::factory()->create(['rol_id' => '3']);
         $tienda = tienda::where('id','=',$user->id)->first();
         $tags_tienda = tag::where('tienda_id','=',$tienda->tienda_id)->pluck('tag_id');
-        fwrite(STDERR, print_r($tags_tienda, TRUE));
         $tags_usados = tag_publicacion::whereIn('tag_id',$tags_tienda)->pluck('tag_id');
-        fwrite(STDERR, print_r($tags_usados, TRUE));
         $arr = array_diff($tags_tienda->toArray(),$tags_usados->toArray());
         $primer_tag_sin_uso = reset($arr);
-        fwrite(STDERR, print_r($primer_tag_sin_uso, TRUE));
 
         // Realizar consulta a tags.destroy
         $response = $this->actingAs($user)->delete('/tags/'.$primer_tag_sin_uso);
