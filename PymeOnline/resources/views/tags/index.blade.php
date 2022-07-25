@@ -310,7 +310,7 @@
             action += tag_id
             $('#modalFormEdit').attr('action', action)
 
-            console.log($('#modalFormEdit').attr('action'))
+            //console.log($('#modalFormEdit').attr('action'))
 
             var modalTitle = modalEditar.querySelector('.modal-title')
             var modalBodyInput = modalEditar.querySelector('.modal-body input')
