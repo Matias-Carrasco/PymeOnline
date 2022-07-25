@@ -42,7 +42,7 @@ class UserFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function ( User $user ){
-            $tienda = tienda::find(1);
+            $tienda = tienda::find(3);
             $tienda->id = $user->id;
             $tienda->save();
         });
