@@ -19,6 +19,7 @@ class CreateProductosTable extends Migration
             $table->foreign('tienda_id')->references('tienda_id')->on('tiendas');
             $table->string('producto_nombre');
             $table->Text('producto_descripcion');
+            
         });
     }
 

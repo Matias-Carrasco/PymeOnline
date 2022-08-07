@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Crear produco')
+@section('title', 'Crear producto')
 
 @section('content')
 
@@ -8,6 +8,7 @@
 <form action="{{url('/producto')}}" method="post" enctype="multipart/form-data">
     {{csrf_field()}}
     <section class="content">
+        
 
         @if(count($errors)>0)
         <div class="alert alert-danger" role="alert">
@@ -21,7 +22,7 @@
         </div>
         @endif
 
-        <div class="container">
+        
             <h1>Crear producto</h1>
             <div class="card card-primary">
 
@@ -30,7 +31,7 @@
                 </div>
 
                 <div class="card-body" style="display: block;">
-
+                    @include('common.alerts')
 
                     <div class="form-group">
                         <label for="producto_nombre">{{'Nombre producto'}}</label>
@@ -49,19 +50,34 @@
                         {!! $errors->first('producto_descripcion','<div class="invalid-feedback"> :message</div>') !!}
                     </div>
 
+                    <div class="grid grid-cols-1 mt-5 mx-7">
+                        <img id="imagenSeleccionada" style="max-height: 300px;">
+                    </div>
 
+                    <div class="form-group">
+                        <label for="files">Subir imagenes</label>
+                        <br>
+                        <input class="form-control" type="file" id="file" name="file[]" accept="image/*" multiple>
+                        @error('file')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="{{url('/producto')}}" class="btn btn-secondary">Cancelar</a>
+        
+                            <input type="submit" value="Agregar" class="btn btn-success float-right">
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <a href="{{url('/producto')}}" class="btn btn-secondary">Cancelar</a>
-                    <input type="submit" value="Agregar" class="btn btn-success float-right">
-                </div>
-            </div>
-        </div>
+            
+        
 
-
+        
     </section>
 </form>
 @stop
@@ -85,6 +101,21 @@ function countChars(obj){
     }
 }
 </script>
+
+<!-- Script para ver la imagen antes de CREAR UN NUEVO PRODUCTO -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+<script>   
+    $(document).ready(function (e) {   
+        $('#file').change(function(){            
+            let reader = new FileReader();
+            reader.onload = (e) => { 
+                $('#imagenSeleccionada').attr('src', e.target.result); 
+            }
+            reader.readAsDataURL(this.files[0]); 
+        });
+    });
+</script>
+
 
 
 @stop

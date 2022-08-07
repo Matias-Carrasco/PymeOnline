@@ -4,10 +4,10 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
-class ExampleTest extends TestCase
+class DatabaseSeederTest extends TestCase
 {
     /**
-     * A basic test example.
+     * A basic unit test example.
      *
      * @return void
      */
@@ -15,6 +15,4 @@ class ExampleTest extends TestCase
     {
         $this->assertTrue(true);
     }
-
-    
 }
