@@ -44,23 +44,14 @@ Route::middleware(['CheckBan'])->group(function () {
 
     Route::group(['middleware' => 'CheckRole:cliente'], function () {
 
-<<<<<<< HEAD
-//Route::group(['middleware' => 'CheckRole:tienda'], function () {
-    Route::resource('producto', '\App\Http\Controllers\ProductoController');
-    Route::resource( 'tags', TagController::class );
-    
-    Route::resource('publicacion', '\App\Http\Controllers\PublicacionController');
-    
-
-=======
->>>>>>> desarrollo
-
     });
 
-
+  
     Route::group(['middleware' => 'CheckRole:tienda'], function () {
         Route::resource('producto', '\App\Http\Controllers\ProductoController');
         Route::resource( 'tags', TagController::class );
+        Route::resource('publicacion', '\App\Http\Controllers\PublicacionController');
+
     });
 
 });
