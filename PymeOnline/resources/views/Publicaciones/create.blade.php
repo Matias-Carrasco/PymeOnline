@@ -41,7 +41,7 @@
 
                                 <div class="col-6">
 
-                                    <select class="form-select form-control" name="productos" id="productos">
+                                    <select class="form-select form-control" name="producto_id" id="producto_id">
                                         <option value="">--Seleccione Producto--</option>
                                         @foreach ($producto as $productos)
                                         <option value="{{$productos['producto_id']}}"> {{$productos['producto_nombre']}}
@@ -54,7 +54,7 @@
 
                                 <div class="col-6">
 
-                                    <select class="form-select form-control" name="categoria" id="categoria">
+                                    <select class="form-select form-control" name="categoria_id" id="categoria_id">
                                         <option value="">--Seleccione Categoria--</option>
                                         @foreach ($categorias as $categoria)
                                         <option value="{{$categoria['categoria_id']}}">
@@ -90,7 +90,7 @@
                                 <div class="col-4">
                                     
                                     <label class="form-label"for="publicacion_oferta_porcentual ">{{'Oferta porcentual:'}}</label>
-                                    <input class="form-control"type="text" name="publicacion_oferta_porcentual " id="publicacion_oferta_porcentual ">      
+                                    <input class="form-control"type="text" name="publicacion_oferta_porcentual" id="publicacion_oferta_porcentual">      
                                   
                                 </div>
 
@@ -101,7 +101,7 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <a href="{{url('/publiciacion')}}" class="btn btn-secondary">Cancel</a>
+                                <a href="{{url('/publicacion')}}" class="btn btn-secondary">Cancel</a>
                                 <input type="submit" value="Agregar" class="btn btn-success float-right">
                             </div>
                         </div>
