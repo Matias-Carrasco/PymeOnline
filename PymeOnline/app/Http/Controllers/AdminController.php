@@ -213,4 +213,54 @@ class AdminController extends Controller
         }
 
     }
+
+    public function verificari(){
+        // falta modificar la BD para solo entregar los no verificados
+        $rol = rol::all();
+        $usuarios = User::where('rol_id',3)->get();
+        //$usuarios = User::where('rol_id',3)->where('verificado',0)->get();
+
+        return view('administra.verificar.index',compact('usuarios'));
+    }
+
+    public function verificare($id){
+        $datosVermas = tienda::where('id',$id)->first();
+        $idDireccion = tienda::where('id',$id)->value('direccion_id');
+        $direccionTienda = direccion::where('direccion_id',$idDireccion)->first();
+        $idComuna = direccion::where('direccion_id',$idDireccion)->value('comuna_id');
+        $comunaTienda = comuna::where('comuna_id',$idComuna)->first();
+
+        $data = [];
+        $data['datosVermas'] = $datosVermas;
+        $data['comunaTienda'] = $comunaTienda;
+        $data['direccionTienda'] = $direccionTienda;
+            return view('administra.verificar.edit', $data);
+    }
+
+    public function verificarb($id){
+        //no probada, falta BD
+        // $usuario = User::find($id);
+        // if($usuario->verificado == 0){
+        //     abort(404, "El Usuario ya esta verificado");
+        // }else{
+        //     $usuario->verificado = 1;
+        //     $usuario->save();
+        //     return redirect('/admin/verificari');
+        // }
+        return redirect('/admin/verificari');
+    }
+
+    public function verificarb2($id){
+        $usuario = User::find($id);
+        if($usuario->baneado == 1){
+            abort(404, "El Usuario ya esta baneado");
+        }else{
+            //Si verifico de forma negativa deberia decir que ya lo revise para quitarlo de la lista a verificar
+            //pero lo baneo por x motivo me imagino
+            //$usuario->verificado = 1;
+            $usuario->baneado = 1;
+            $usuario->save();
+            return redirect('/admin/verificari');
+        }
+    }
 }
