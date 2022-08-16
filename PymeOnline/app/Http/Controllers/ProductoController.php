@@ -23,18 +23,8 @@ class ProductoController extends Controller
         $id = Auth::id();
         $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
         $producto['productos']=producto::where('tienda_id','=',$id_tienda)->get();
-        //dd($producto);
-        //foreach($producto['productos'] as $prod){
-        //    dd($prod);
-        //    $imagenes=imagen::$prod->imagen;
-        //    dd($imagenes);
-        //}
-
-        //$imagenes=imagen::$producto->imagen;
-        //dd($imagenes);
+        
         $imagenes=imagen::all();
-        //zdd($imagenes);
-        //$datos['productos']= producto::all();//productos es el nombre de la tabla, producto es el modelo
         return view('productos.index',$producto,compact('imagenes'));
 
     }
@@ -215,5 +205,7 @@ class ProductoController extends Controller
         //return redirect('/producto');
         return redirect('/producto')->with('alert_danger','Producto borrado exitosamente.');
     }
+
+    
 }
                                                         

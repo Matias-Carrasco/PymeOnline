@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,7 @@ Route::middleware(['CheckBan'])->group(function () {
 
     Route::group(['middleware' => 'CheckRole:cliente'], function () {
 
+
     });
 
   
@@ -51,6 +53,17 @@ Route::middleware(['CheckBan'])->group(function () {
         Route::resource('producto', '\App\Http\Controllers\ProductoController');
         Route::resource( 'tags', TagController::class );
         Route::resource('publicacion', '\App\Http\Controllers\PublicacionController');
+
+        //no va aqui, provisional
+
+        Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
+        Route::post('/add', [CartController::class, 'add'])->name('cart.store');
+        Route::post('/update', [CartController::class, 'update'])->name('cart.update');
+        Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
+        Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');
+
+        
+
 
     });
 
