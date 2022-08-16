@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\publicacion;
 use Illuminate\Http\Request;
+use App\Models\producto;
+use App\Models\tienda;
+use App\Models\categoria;
+use App\Models\imagen;
+use Illuminate\Support\Facades\Auth;
+
 
 class PublicacionController extends Controller
 {
@@ -14,7 +20,11 @@ class PublicacionController extends Controller
      */
     public function index()
     {
-        //
+        $id = Auth::id();
+        $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
+        $dataPubli['publicaciones']=publicacion::where('tienda_id','=',$id_tienda)->get();
+        
+        return view('Publicaciones/index',$dataPubli);
     }
 
     /**
@@ -24,7 +34,13 @@ class PublicacionController extends Controller
      */
     public function create()
     {
-        //
+        $id = Auth::id();
+        $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
+        $data['producto']=producto::where('tienda_id','=',$id_tienda)->get();
+        $cat['categorias']=categoria::all();
+
+        
+        return view('Publicaciones/create',$data,$cat);
     }
 
     /**
@@ -35,7 +51,42 @@ class PublicacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $id = Auth::id();
+        $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
+        $campos=[
+            'producto_id'=>'required|numeric',
+            'categoria_id'=>'required|numeric',
+            'publicacion_titulo'=> 'required|string|max:100',
+            'publicacion_precio'=> 'required|numeric',
+            'publicacion_oferta_porcentual'=> 'required|numeric'
+        ];
+        
+        
+        $Mensaje=[
+            "producto_id.required"=>'Debe seleccionar una producto',
+            "categoira_id.required"=>'Debe seleccionar una categoria',
+            "publicacion_titulo.required"=>'Debe ingresar un titulo',
+            "publicacion_precio.required"=>'Debe ingresar un precio',
+            "publicacion_oferta_porcentual.required"=>'Debe ingresar un valor en caso de no querer aplicar oferta ingrese 0'
+            
+
+           
+        ];
+        $this->validate($request,$campos,$Mensaje);
+
+        $datospublicacion=$request->except('_token');
+        $datospublicacion['tienda_id']= $id_tienda;
+        $datospublicacion['pulicacion_activo']= 1;
+
+        //dd($datospublicacion);
+    
+
+
+        publicacion::insert($datospublicacion);
+        return redirect('/publicacion');  
+      
+       
     }
 
     /**
@@ -44,9 +95,15 @@ class PublicacionController extends Controller
      * @param  \App\Models\publicacion  $publicacion
      * @return \Illuminate\Http\Response
      */
-    public function show(publicacion $publicacion)
+    public function show( $publicacion_id)
     {
-        //
+
+        $publicacion=publicacion::find($publicacion_id);
+        $productos=producto::find($publicacion->producto_id);
+        $productos['imagenes']=imagen::where('producto_id',$publicacion_id)->get();
+
+
+        return view('Publicaciones/show',compact('publicacion'),compact('productos'));
     }
 
     /**
@@ -55,7 +112,7 @@ class PublicacionController extends Controller
      * @param  \App\Models\publicacion  $publicacion
      * @return \Illuminate\Http\Response
      */
-    public function edit(publicacion $publicacion)
+    public function edit($publicacion)
     {
         //
     }
@@ -78,8 +135,12 @@ class PublicacionController extends Controller
      * @param  \App\Models\publicacion  $publicacion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(publicacion $publicacion)
+    public function destroy($publicacion_id)
     {
-        //
+         
+        publicacion::destroy($publicacion_id);
+        //return redirect('/producto');
+        return redirect('/publicacion')->with('alert_danger','Publicacion borrado exitosamente.');
+
     }
 }
