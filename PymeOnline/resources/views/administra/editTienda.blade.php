@@ -62,10 +62,8 @@
 
                 <div class="row">
                     <div class="col-12">
-                        <a href="{{url('/admin/')}}" class="btn btn-secondary" >Volver</a>
-                        <input type="submit" value="Actualizar" class="btn btn-primary float-right">
-                        <br>
-                        <br>
+                        <a href="{{url('/admin/')}}" class="btn btn-secondary" style="margin: 10px">Volver</a>
+                        <input type="submit" value="Actualizar" class="btn btn-primary float-right" style="margin: 10px">
                     </div>
                 </div>
 

@@ -51,20 +51,22 @@
                         {!! $errors->first('producto_descripcion','<div class="invalid-feedback"> :message</div>') !!}
                     </div>
 
-                    <div class="grid grid-cols-1 mt-5 mx-7">
-                        <img id="imagenSeleccionada" style="max-height: 300px;">
-                    </div>
+                    
 
                     <div class="form-group">
                         <label for="files">Subir imagenes</label>
+                        <br>
+                        <p>Imagenes previamente subidas (si selecciona nuevas imagenes estas serán reemplazadas)</p>
                         
                         @foreach ($imagenes as $img)
                          
                             <img src="{{$img->imagen_url}}" width="30%">
-                            
-                            
                         @endforeach
-                        <br>
+                        
+                        <div class="grid grid-cols-1 mt-5 mx-7">
+                            <img id="imagenSeleccionada" style="max-height: 300px;">
+                        </div>
+
                         <input class="form-control" type="file" id="file" name="file[]" accept="image/*" multiple>
                         @error('file')
                             <small class="text-danger">{{$message}}</small>
@@ -115,7 +117,7 @@ function countChars(obj){
 <!-- Script para ver la imagen antes de CREAR UN NUEVO PRODUCTO -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
 <script>   
-    $(document).ready(function (e) {   
+    $(document).ready(function (e) {  
         $('#file').change(function(){            
             let reader = new FileReader();
             reader.onload = (e) => { 
