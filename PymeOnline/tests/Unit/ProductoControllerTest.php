@@ -22,24 +22,43 @@ class ProductoControllerTest extends TestCase
     }
 
     /** @test*/
-    public function creacion_producto()
-    {
-        $response = $this->patch('/producto/194',[
-            'producto_nombre' => 'aaaa',
-            'producto_descripcion' => 'asdasdasdasdasd'
+    public function test_productoUpdate(){
+
+        $user = User::factory()->create(['rol_id' => 3]);
+
+        $response = $this->actingAs($user)->patch('/producto/194',[
+            'producto_nombre' => 'Zapatos',
+            'producto_descripcion' => 'comodos',
         ]);
 
         $response->assertSessionHasNoErrors();
         $response->assertRedirect('/producto');
-        $this->assertTrue(true);
     }
 
-    /**
-     * Testing create posts and checked if exists and can be visualed
-     *
-     * @return void
-     */
-    public function testCreatePost()//copiada de internet, por modificar
-    {
+
+    public function test_productoUpdateError(){
+
+        $user = User::factory()->create(['rol_id' => 3]);
+
+        $response = $this->actingAs($user)->patch('/producto/194',[
+            'producto_nombre' => '!',
+            'producto_descripcion' => '-',
+        ]);
+
+        $response->assertSessionHasErrors();
     }
+
+    public function test_productoCreateError(){
+
+        $user = User::factory()->create(['rol_id' => 3]);
+        $request = [
+            'producto_nombre' => 'Zapatillas',
+            'producto_descripcion' => 'Comodas',
+        ];
+
+        $response = $this->actingAs($user)->post('/producto/',$request);
+
+        $response->assertSessionHasErrors();
+    }
+
 }
