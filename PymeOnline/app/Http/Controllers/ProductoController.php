@@ -47,6 +47,7 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {   
+        
         $id = Auth::id();
         $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
         $campos=[

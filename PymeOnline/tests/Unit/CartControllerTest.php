@@ -18,22 +18,7 @@ class CartControllerTest extends TestCase
      */
     
 
-    /** @test*/
-    public function test_insertarProductoACarro(){
-
-        $user = User::factory()->create(['rol_id' => 3]);
-
-        $request = [
-            'id' => 194,
-            'quantity' => 1
-        ];
-
-        // Realizar consulta a tags.store
-        $response = $this->actingAs($user)->post('/add/',$request);
-
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect('/cart');
-    }
+    
 
     /** @test*/
     public function test_aumentarCantidadDeProductoEnCarro(){
