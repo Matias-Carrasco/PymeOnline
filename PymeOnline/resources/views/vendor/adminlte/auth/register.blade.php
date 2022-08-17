@@ -18,6 +18,30 @@
         @csrf
 
 
+        {{-- Rol field --}}
+        <div class="input-group mb-3">
+            <select class="form-control @error('rol_id') is-invalid @enderror" name="rol_id"   >
+                <option value="" selected>*Seleccione un tipo de cuenta*</option>
+                <option value="2">Cliente</option>
+                <option value="3">Tienda</option>
+            </select>
+
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-users"></span>
+                </div>
+            </div>
+            
+            @error('rol_id')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+
+        </div>
+
+       
+
         {{-- Email field --}}
         <div class="input-group mb-3">
             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
@@ -73,10 +97,6 @@
             @enderror
         </div>
 
-        <div class="input-group mb-3">
-            <input type="hidden" name="rol_id" value="3">
-
-        </div>
 
         {{-- Register button --}}
         <button type="submit" class="btn btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-primary') }}">
