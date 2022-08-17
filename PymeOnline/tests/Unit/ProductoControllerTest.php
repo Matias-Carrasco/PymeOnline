@@ -36,16 +36,17 @@ class ProductoControllerTest extends TestCase
     }
 
 
-    public function test_productoUpdateError(){
+    public function test_productoUpdateDescripcionConEspacio(){
 
         $user = User::factory()->create(['rol_id' => 3]);
 
         $response = $this->actingAs($user)->patch('/producto/194',[
-            'producto_nombre' => '!',
-            'producto_descripcion' => '-',
+            'producto_nombre' => 'Zapatillas',
+            'producto_descripcion' => 'Bastante comodas y lindas',
         ]);
 
-        $response->assertSessionHasErrors();
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect('/producto');
     }
 
     public function test_productoCreateError(){

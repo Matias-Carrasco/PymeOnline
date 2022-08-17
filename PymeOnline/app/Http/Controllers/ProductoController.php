@@ -51,13 +51,13 @@ class ProductoController extends Controller
         $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
         $campos=[
             'producto_nombre'=>'required|alpha_num|max:100',
-            'producto_descripcion' => 'required|alpha_num|max:1000',
+            'producto_descripcion' => 'required|string|max:1000',
             "file" => "required|array",
             'file.*'=>'required|image|max:2048'
           ];
         $mensaje=[
               "producto_nombre.required"=>'El nombre del producto es requerido',
-              "producto_nombre.alpha_num"=>'El nombre debe poseer numeros o letras',
+              "producto_nombre.string"=>'El nombre debe poseer numeros o letras',
               "producto_nombre.max"=>'El nombre del producto no puede contener mas de 100 letras',
               "producto_descripcion.required"=>'La descripción del producto es requerida',
               "producto_descripcion.alpha_num"=>'La descripción debe poseer numeros o letras',
@@ -139,7 +139,7 @@ class ProductoController extends Controller
         if($request->has('file')){
             $campos=[
                 'producto_nombre'=>'required|alpha_num|max:100',
-                'producto_descripcion' => 'required|alpha_num|max:1000',
+                'producto_descripcion' => 'required|string|max:1000',
                 "file" => "required|array",
                 'file.*'=>'required|image|max:2048'
               ];
@@ -148,7 +148,7 @@ class ProductoController extends Controller
                   "producto_nombre.alpha_num"=>'El nombre debe poseer numeros o letras',
                   "producto_nombre.max"=>'El nombre del producto no puede contener mas de 100 letras',
                   "producto_descripcion.required"=>'La descripción del producto es requerida',
-                  "producto_descripcion.alpha_num"=>'La descripción debe poseer numeros o letras',
+                  "producto_descripcion.string"=>'La descripción debe poseer numeros o letras',
                   "producto_descripcion.max"=>'La descripción del producto no puede contener mas de 1000 letras',
                   "file.required"=>'La o las imagenes del producto son requeridas',
                   "file.*.image"=>'El archivo debe ser tipo imagen',
@@ -157,14 +157,14 @@ class ProductoController extends Controller
         } else {
             $campos=[
                 'producto_nombre'=>'required|alpha_num|max:100',
-                'producto_descripcion' => 'required|alpha_num|max:1000'
+                'producto_descripcion' => 'required|string|max:1000'
               ];
             $mensaje=[
                   "producto_nombre.required"=>'El nombre del producto es requerido',
                   "producto_nombre.alpha_num"=>'El nombre debe poseer numeros o letras',
                   "producto_nombre.max"=>'El nombre del producto no puede contener mas de 100 letras',
                   "producto_descripcion.required"=>'La descripción del producto es requerida',
-                  "producto_descripcion.alpha_num"=>'La descripción debe poseer numeros o letras',
+                  "producto_descripcion.string"=>'La descripción debe poseer numeros o letras',
                   "producto_descripcion.max"=>'La descripción del producto no puede contener mas de 1000 letras'
             ];
         }

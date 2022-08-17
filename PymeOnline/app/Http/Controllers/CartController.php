@@ -8,12 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    public function shop()
-    {
-        $products = producto::all();
-        //dd($products);
-        return view('shop')->withTitle('E-COMMERCE STORE | SHOP')->with(['products' => $products]);
-    }
+  
 
     public function cart()  {
         $cartCollection = \Cart::getContent();
@@ -22,6 +17,7 @@ class CartController extends Controller
         return view('cart')->withTitle('Carrito')->with(['cartCollection' => $cartCollection]);;
     }
     public function remove(Request $request){
+        //dd($request);
         \Cart::remove($request->id);
         return redirect()->route('cart.index')->with('success_msg', 'El item fue removido!');
     }
@@ -36,7 +32,7 @@ class CartController extends Controller
         //dd($request);
         $id = Auth::id();
         $id_producto = $request->id;
-
+        
         $producto=producto::where('producto_id','=',$id_producto)->first();
         $imagen=imagen::where('producto_id','=',$id_producto)->first();
         
@@ -58,6 +54,7 @@ class CartController extends Controller
     }
 
     public function update(Request $request){
+        //dd($request);
         \Cart::update($request->id,
             array(
                 'quantity' => array(
