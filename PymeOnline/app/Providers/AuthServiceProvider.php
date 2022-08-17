@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -42,6 +43,14 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('tienda-only', function($user){
             if($user->rol_id == 3){
+                return true;
+            }
+            return false;
+        });
+
+        Gate::define('invitado-only', function($user){
+            if(Auth::check()){
+               
                 return true;
             }
             return false;

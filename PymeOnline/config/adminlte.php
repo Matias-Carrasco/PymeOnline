@@ -226,8 +226,8 @@ return [
 
     'menu' => [
         // Navbar items:
+      
         [
-            'key'    => 'cart1',
             'text'    => 'Carrito',
             'icon'    => 'fa fa-shopping-cart',
             'url'  => 'cart',
@@ -235,6 +235,7 @@ return [
             'can' => 'cliente-only',
         ],
 
+    
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
