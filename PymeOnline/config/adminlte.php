@@ -232,7 +232,7 @@ return [
             'icon'    => 'fa fa-shopping-cart',
             'url'  => 'cart',
             'topnav_right' => true,
-            'can' => 'cliente-only',
+            'can' => 'tienda-only',
         ],
         
 
