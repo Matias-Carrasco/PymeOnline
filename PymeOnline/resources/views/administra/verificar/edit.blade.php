@@ -103,8 +103,10 @@
 
                     <div class="form-group">
                         <label for="tienda_segundo_apellido_responsable">{{'Foto Carnet'}}</label>
-                        <input type="text" name="tienda_segundo_apellido_responsable" id="tienda_segundo_apellido_responsable" value="{{$datosVermas->tienda_segundo_apellido_responsable}}"
-                            class="form-control" readonly>
+                        <div>
+                            <img src="/Cedula-de-Identidad.png" class="img-thumbnail" width="500" height="500">
+                        </div>
+                        
                     </div>
 
                 </div>

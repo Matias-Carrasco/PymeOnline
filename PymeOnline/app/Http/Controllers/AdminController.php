@@ -215,10 +215,9 @@ class AdminController extends Controller
     }
 
     public function verificari(){
-        // falta modificar la BD para solo entregar los no verificados
         $rol = rol::all();
-        $usuarios = User::where('rol_id',3)->get();
-        //$usuarios = User::where('rol_id',3)->where('verificado',0)->get();
+        $tiendas = tienda::where('verificado',0)->get('id');
+        $usuarios = User::whereIn('id', $tiendas)->get();
 
         return view('administra.verificar.index',compact('usuarios'));
     }
@@ -238,26 +237,36 @@ class AdminController extends Controller
     }
 
     public function verificarb($id){
-        //no probada, falta BD
-        // $usuario = User::find($id);
-        // if($usuario->verificado == 0){
-        //     abort(404, "El Usuario ya esta verificado");
-        // }else{
-        //     $usuario->verificado = 1;
-        //     $usuario->save();
-        //     return redirect('/admin/verificari');
-        // }
-        return redirect('/admin/verificari');
+        $tienda = tienda::where('id',$id)->first();
+         if($tienda->verificado == 1){
+             abort(404, "El Usuario ya esta verificado");
+         }else{
+             $tienda->verificado = 1;
+             $tienda->save();
+             return redirect('/admin/verificari');
+         }
     }
+    
+    public function deverificarb($id){
+        $tienda = tienda::where('id',$id)->first();
+         if($tienda->verificado == 0){
+             abort(404, "El Usuario ya esta desverificado");
+         }else{
+             $tienda->verificado = 0;
+             $tienda->save();
+             return redirect('/admin/verificari');
+         }
+    }
+
 
     public function verificarb2($id){
         $usuario = User::find($id);
         if($usuario->baneado == 1){
             abort(404, "El Usuario ya esta baneado");
         }else{
-            //Si verifico de forma negativa deberia decir que ya lo revise para quitarlo de la lista a verificar
-            //pero lo baneo por x motivo me imagino
-            //$usuario->verificado = 1;
+            $tienda = tienda::where('id',$id)->first();
+            $tienda->verificado = 1;
+            $tienda->save();
             $usuario->baneado = 1;
             $usuario->save();
             return redirect('/admin/verificari');

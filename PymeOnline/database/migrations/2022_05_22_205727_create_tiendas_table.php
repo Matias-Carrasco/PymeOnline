@@ -28,6 +28,7 @@ class CreateTiendasTable extends Migration
             $table->String('tienda_nombre')->unique();
             $table->String('tienda_numero_contacto');
             $table->String('tienda_mail_contacto')->unique();
+            $table->boolean('verificado')->default(false);
         });
     }
 

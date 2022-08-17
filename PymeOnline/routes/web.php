@@ -41,6 +41,7 @@ Route::middleware(['CheckBan'])->group(function () {
         Route::get('admin/verificare/{id}','\App\Http\Controllers\AdminController@verificare');
         Route::get('admin/verificarb/{id}','\App\Http\Controllers\AdminController@verificarb');
         Route::get('admin/verificarb2/{id}','\App\Http\Controllers\AdminController@verificarb2');
+        Route::get('admin/desverificarb/{id}','\App\Http\Controllers\AdminController@deverificarb');
         Route::resource('admin', '\App\Http\Controllers\AdminController');
 
 
