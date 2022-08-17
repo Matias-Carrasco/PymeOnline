@@ -65,4 +65,53 @@ class AdminTest extends TestCase
         //Devuelve al usuario de prueba al estado original
         $response = $this->actingAs($user)->get('/admin/desbanear/2');
     }
+
+    public function test_Verificacion(){
+        $user = User::factory()->create(['rol_id' => 1]);
+
+        $response = $this->actingAs($user)->get('/admin/verificarb/2');
+
+        $response->assertStatus(302);
+
+        //Devuelve al usuario de prueba al estado original
+        $response = $this->actingAs($user)->get('/admin/desverificarb/2');
+    }
+
+    public function test_VerificacionYaVerificado(){
+
+        $user = User::factory()->create(['rol_id' => 1]);
+
+        $response = $this->actingAs($user)->get('/admin/verificarb/2');
+        $response = $this->actingAs($user)->get('/admin/verificarb/2');
+
+        $response->assertStatus(404);
+
+        //Devuelve al usuario de prueba al estado original
+        $response = $this->actingAs($user)->get('/admin/desverificarb/2');
+    }
+
+    public function test_BaneearVerificacion(){
+        $user = User::factory()->create(['rol_id' => 1]);
+
+        $response = $this->actingAs($user)->get('/admin/verificarb2/2');
+
+        $response->assertStatus(302);
+
+        //Devuelve al usuario de prueba al estado original
+        $response = $this->actingAs($user)->get('/admin/desverificarb/2');
+        $response = $this->actingAs($user)->get('/admin/desbanear/2');
+    }
+
+    public function test_BaneearVerificacionYaBaneado(){
+        $user = User::factory()->create(['rol_id' => 1]);
+
+        $response = $this->actingAs($user)->get('/admin/verificarb2/2');
+        $response = $this->actingAs($user)->get('/admin/verificarb2/2');
+
+        $response->assertStatus(404);
+
+        //Devuelve al usuario de prueba al estado original
+        $response = $this->actingAs($user)->get('/admin/desverificarb/2');
+        $response = $this->actingAs($user)->get('/admin/desbanear/2');
+    }
 }

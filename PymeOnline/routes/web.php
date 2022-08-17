@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,16 +34,22 @@ Auth::routes();
 Route::middleware(['CheckBan'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    
+
     Route::group(['middleware' => 'CheckRole:admin'], function () {
         Route::get('admin/banear/{id}','\App\Http\Controllers\AdminController@banear');
         Route::get('admin/desbanear/{id}','\App\Http\Controllers\AdminController@desbanear');
+        Route::get('admin/verificari','\App\Http\Controllers\AdminController@verificari');
+        Route::get('admin/verificare/{id}','\App\Http\Controllers\AdminController@verificare');
+        Route::get('admin/verificarb/{id}','\App\Http\Controllers\AdminController@verificarb');
+        Route::get('admin/verificarb2/{id}','\App\Http\Controllers\AdminController@verificarb2');
+        Route::get('admin/desverificarb/{id}','\App\Http\Controllers\AdminController@deverificarb');
         Route::resource('admin', '\App\Http\Controllers\AdminController');
 
 
     });
 
     Route::group(['middleware' => 'CheckRole:cliente'], function () {
+
 
     });
 
@@ -51,6 +58,17 @@ Route::middleware(['CheckBan'])->group(function () {
         Route::resource('producto', '\App\Http\Controllers\ProductoController');
         Route::resource( 'tags', TagController::class );
         Route::resource('publicacion', '\App\Http\Controllers\PublicacionController');
+
+        //no va aqui, provisional
+
+        Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
+        Route::post('/add', [CartController::class, 'add'])->name('cart.store');
+        Route::post('/update', [CartController::class, 'update'])->name('cart.update');
+        Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
+        Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');
+
+        
+
 
     });
 
