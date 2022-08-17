@@ -19,7 +19,6 @@ class TagControllerTest extends TestCase
         // Redireccionar y comprobar vista
         $response = $this->actingAs($user)->get('/tags');
         $response->assertStatus(200);
-        
     }
 
     public function test_store_new_tag()
