@@ -103,12 +103,10 @@
 
         <div class="row">
             <div class="col-12">
-                <a href="{{url('/admin/')}}" class="btn btn-secondary" >Volver</a>
+                <a href="{{url('/admin/')}}" class="btn btn-secondary" style="margin: 10px">Volver</a>
                 <a href="{{url('/admin/'.$datosVermas->id.'/edit')}}">
-                    <input type="submit" value="Editar" class="btn btn-warning float-right">
+                    <input type="submit" value="Editar" class="btn btn-warning float-right" style="margin: 10px">
                 </a>
-                <br>
-                <br>
             </div>
         </div>
 

@@ -34,10 +34,15 @@ Auth::routes();
 Route::middleware(['CheckBan'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    
+
     Route::group(['middleware' => 'CheckRole:admin'], function () {
         Route::get('admin/banear/{id}','\App\Http\Controllers\AdminController@banear');
         Route::get('admin/desbanear/{id}','\App\Http\Controllers\AdminController@desbanear');
+        Route::get('admin/verificari','\App\Http\Controllers\AdminController@verificari');
+        Route::get('admin/verificare/{id}','\App\Http\Controllers\AdminController@verificare');
+        Route::get('admin/verificarb/{id}','\App\Http\Controllers\AdminController@verificarb');
+        Route::get('admin/verificarb2/{id}','\App\Http\Controllers\AdminController@verificarb2');
+        Route::get('admin/desverificarb/{id}','\App\Http\Controllers\AdminController@deverificarb');
         Route::resource('admin', '\App\Http\Controllers\AdminController');
 
 
