@@ -515,7 +515,7 @@ class DatabaseSeeder extends Seeder
             'rol_id' => 2 ,
             'email' => 'cliente@cliente.com',
             'email_verified_at' => now() ,
-            'password' => Hash::make('tiendatienda'),
+            'password' => Hash::make('clientecliente'),
             'baneado' => false ,
             'created_at' => now() ,
             'updated_at' => now()

@@ -50,6 +50,17 @@
             @else
                 @include('adminlte::partials.navbar.menu-item-logout-link')
             @endif
+        @else
+   
+       
+        <li class="nav-item">
+            <a class="nav-link"  href="\login">
+                <i class="fa fa-fw fa-power-off text-green"></i>
+                Iniciar sesión
+            </a>
+        </li>
+
+        
         @endif
 
         {{-- Right sidebar toggler link --}}

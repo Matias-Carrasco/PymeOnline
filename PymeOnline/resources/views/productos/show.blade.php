@@ -23,13 +23,15 @@
             </div>
 
             <div class="form-group">
-                <label for="files">Imagenes</label>
-                <p>Actualmente tiene seleccionadas x imagenes</p>
-                @foreach ($imagenes as $img)
+                <label for="files">Imágenes</label>
+                <div>
+                    @foreach ($imagenes as $img)
                  
                     <img src="{{$img->imagen_url}}" width="30%">
                     
                 @endforeach
+                </div>
+                
                 
             </div>
 
