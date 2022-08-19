@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\tienda;
+use App\Models\direccion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TiendaController extends Controller
 {
@@ -15,6 +17,10 @@ class TiendaController extends Controller
     public function index()
     {
         //
+        $id = Auth::id();
+        $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
+        $tienda['tienda']=tienda::where('tienda_id','=',$id_tienda)->get();
+        return view('tienda.index', $tienda);
     }
 
     /**
@@ -25,6 +31,7 @@ class TiendaController extends Controller
     public function create()
     {
         //
+        return view('tienda.create');
     }
 
     /**
@@ -36,6 +43,9 @@ class TiendaController extends Controller
     public function store(Request $request)
     {
         //
+        $datosTienda = request()-> except('_token');
+        tienda::insert($datosTienda);
+        return response()->json($datosTienda);
     }
 
     /**
@@ -55,9 +65,11 @@ class TiendaController extends Controller
      * @param  \App\Models\tienda  $tienda
      * @return \Illuminate\Http\Response
      */
-    public function edit(tienda $tienda)
+    public function edit($tienda_id)
     {
         //
+        $perfil=tienda::findOrFail($tienda_id);
+        return view('tienda.edit', compact('perfil'));
     }
 
     /**
@@ -67,9 +79,14 @@ class TiendaController extends Controller
      * @param  \App\Models\tienda  $tienda
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, tienda $tienda)
+    public function update(Request $request,$tienda_id)
     {
         //
+        $datosTienda = request()-> except(['_token','_method']);
+        tienda::where('tienda_id','=',$tienda_id)->update($datosTienda);
+
+        
+        return redirect('tienda');
     }
 
     /**
@@ -78,8 +95,10 @@ class TiendaController extends Controller
      * @param  \App\Models\tienda  $tienda
      * @return \Illuminate\Http\Response
      */
-    public function destroy(tienda $tienda)
+    public function destroy($tienda_id)
     {
         //
+        tienda::destroy($tienda_id);
+        return redirect('tienda')->with('alert_danger','Producto borrado exitosamente.');;
     }
 }
