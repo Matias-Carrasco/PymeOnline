@@ -213,4 +213,63 @@ class AdminController extends Controller
         }
 
     }
+
+    public function verificari(){
+        $rol = rol::all();
+        $tiendas = tienda::where('verificado',0)->get('id');
+        $usuarios = User::whereIn('id', $tiendas)->get();
+
+        return view('administra.verificar.index',compact('usuarios'));
+    }
+
+    public function verificare($id){
+        $datosVermas = tienda::where('id',$id)->first();
+        $idDireccion = tienda::where('id',$id)->value('direccion_id');
+        $direccionTienda = direccion::where('direccion_id',$idDireccion)->first();
+        $idComuna = direccion::where('direccion_id',$idDireccion)->value('comuna_id');
+        $comunaTienda = comuna::where('comuna_id',$idComuna)->first();
+
+        $data = [];
+        $data['datosVermas'] = $datosVermas;
+        $data['comunaTienda'] = $comunaTienda;
+        $data['direccionTienda'] = $direccionTienda;
+            return view('administra.verificar.edit', $data);
+    }
+
+    public function verificarb($id){
+        $tienda = tienda::where('id',$id)->first();
+         if($tienda->verificado == 1){
+             abort(404, "El Usuario ya esta verificado");
+         }else{
+             $tienda->verificado = 1;
+             $tienda->save();
+             return redirect('/admin/verificari');
+         }
+    }
+    
+    public function deverificarb($id){
+        $tienda = tienda::where('id',$id)->first();
+         if($tienda->verificado == 0){
+             abort(404, "El Usuario ya esta desverificado");
+         }else{
+             $tienda->verificado = 0;
+             $tienda->save();
+             return redirect('/admin/verificari');
+         }
+    }
+
+
+    public function verificarb2($id){
+        $usuario = User::find($id);
+        if($usuario->baneado == 1){
+            abort(404, "El Usuario ya esta baneado");
+        }else{
+            $tienda = tienda::where('id',$id)->first();
+            $tienda->verificado = 1;
+            $tienda->save();
+            $usuario->baneado = 1;
+            $usuario->save();
+            return redirect('/admin/verificari');
+        }
+    }
 }
