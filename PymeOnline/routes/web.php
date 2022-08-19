@@ -58,6 +58,8 @@ Route::middleware(['CheckBan'])->group(function () {
         Route::resource('producto', '\App\Http\Controllers\ProductoController');
         Route::resource( 'tags', TagController::class );
         Route::resource('publicacion', '\App\Http\Controllers\PublicacionController');
+        Route::get('publicacion/res/{id}','\App\Http\Controllers\ResenaController@getList')->name('PubliGetRes');
+        Route::get('publicacion/score/{id}','\App\Http\Controllers\ResenaController@getScore')->name('PubliGetScore');
 
         //no va aqui, provisional
 
@@ -66,10 +68,6 @@ Route::middleware(['CheckBan'])->group(function () {
         Route::post('/update', [CartController::class, 'update'])->name('cart.update');
         Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
         Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');
-
-        
-
-
     });
 
 });
