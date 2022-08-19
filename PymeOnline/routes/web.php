@@ -22,7 +22,7 @@ Route::get('/', function () {
 Auth::routes();
 
 
-
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 /*
     NO BORRAR LOS COMENTARIOS Route::group!!!
@@ -31,8 +31,8 @@ Auth::routes();
     Dscomentar los grupos cuando se terminen de hacer pruebas o se suba todo a la main branch!
 */
 
-Route::middleware(['CheckBan'])->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['CheckBan','auth'])->group(function () {
+    
 
 
     Route::group(['middleware' => 'CheckRole:admin'], function () {
