@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\tag;
-use App\Models\tag_publicacion;
 use App\Models\tienda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
