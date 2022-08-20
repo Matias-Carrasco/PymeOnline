@@ -16,7 +16,7 @@
                         <lavel for="tag_nombre" class="text-danger"> *campo obligatorio</lavel>
                         <input type="text" class="form-control {{$errors->has('tag_nombre')?'is-invalid':''}} " name="tag_nombre" id="tag_nombre">
 
-                        {!! $errors->first('nombre','<div class="invalid-feedback">:message</div>') !!}
+                        {!! $errors->first('tag_nombre','<div class="invalid-feedback">:message</div>') !!}
                         <!--Si se encuentra un error en ese campo mostrara el mensaje de error-->
                     </div>
                 </div>
