@@ -32,9 +32,6 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <!-- Highcharts CSS-->
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-
 </head>
 
 <body>
