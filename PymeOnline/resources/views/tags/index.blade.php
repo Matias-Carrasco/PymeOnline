@@ -84,7 +84,7 @@
                                 <div>
                                     <!--Boton para editar Tag -->
                                     <div class="acciones">
-                                        <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditar" data-bs-id="{{$tag->tag_id}}" data-bs-nombre="{{$tag->tag_nombre}}">
+                                        <a href="#" id="b_crear" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditar" data-bs-id="{{$tag->tag_id}}" data-bs-nombre="{{$tag->tag_nombre}}">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                     </div>
@@ -150,7 +150,7 @@
                             <lavel for="tag_nombre" class="text-danger"> *campo obligatorio</lavel>
                             <input type="text" class="form-control {{$errors->has('tag_nombre')?'is-invalid':''}} " name="tag_nombre" value="{{isset($tag->tag_nombre)?$tag->tag_nombre:old('tag_nombre') }}" id="tag_nombre">
 
-                            {!! $errors->first('nombre','<div class="invalid-feedback">:message</div>') !!}
+                            {!! $errors->first('tag_nombre','<div class="invalid-feedback">:message</div>') !!}
                             <!--Si se encuentra un error en ese campo mostrara el mensaje de error-->
                         </div>
                     </div>
@@ -166,12 +166,12 @@
             </form>
         </div>
     </div>
-
     <!-- / Modal Edit -->
 
 </body>
 
 </html>
+
 
 @section('js')
 
@@ -190,6 +190,15 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
 </script>
+
+<!-- Re abrir modal y mostrar error -->
+@if(!empty(Session::get('error_code')) && Session::get('error_code') == 1)
+<script>
+    $(function() {
+        $('#b_crear')[0].click();
+    })
+</script>
+@endif
 
 <!-- Datable y chart -->
 <script>
@@ -243,7 +252,7 @@
                 title: {
                     text: 'Distribucion de tags',
                 },
-                tooltip:{
+                tooltip: {
                     headerFormat: ''
                 },
                 plotOptions: {
@@ -253,6 +262,7 @@
                         dataLabels: {
                             enabled: true,
                             formatter: function() {
+                                //if(this.y > 0){}
                                 var sliceIndex = this.point.index;
                                 var sliceName = this.series.chart.axes[0].categories[sliceIndex];
                                 return sliceName;
