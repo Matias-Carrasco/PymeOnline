@@ -234,7 +234,6 @@ return [
             'topnav_right' => true,
             'can' => 'tienda-only',
         ],
-        
 
     
         // Sidebar items:
@@ -283,6 +282,13 @@ return [
         [
             'text'        => 'Tags',
             'url'         => '/tags',
+            'icon_color'        => 'green',
+            'can' => 'tienda-only',
+        ],
+        [
+            'text'        => 'Perfil de tienda',
+            'url'         => '/tienda',
+            'icon'        => 'fa fa-user-check',
             'icon_color'        => 'green',
             'can' => 'tienda-only',
         ],

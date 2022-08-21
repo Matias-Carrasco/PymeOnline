@@ -18,8 +18,8 @@ class TiendaController extends Controller
     {
         //
         $id = Auth::id();
-        $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
-        $tienda['tienda']=tienda::where('tienda_id','=',$id_tienda)->get();
+        // $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;
+        $tienda['tienda']=tienda::where('id','=',$id)->get();
         return view('tienda.index', $tienda);
     }
 
@@ -43,9 +43,45 @@ class TiendaController extends Controller
     public function store(Request $request)
     {
         //
-        $datosTienda = request()-> except('_token');
+        $campos=[
+            'tienda_rut_responsable'=>'required|alpha_num',
+            'tienda_nombre'=>'required|string|max:20',
+            'tienda_nombre_responsable'=>'required|string|max:20',
+            'tienda_primer_apellido_responsable'=>'required|string|max:20',
+            'tienda_segundo_apellido_responsable'=>'required|string|max:20',
+            'tienda_numero_contacto' => 'required|alpha_dash',
+            'tienda_mail_contacto'=>'required|email'
+
+        ];
+        $mensaje=[
+            "tienda_numero_contacto.required"=>'El Número de Contacto es requerido',
+            "tienda_numero_contacto.alpha_dash"=>'El Número de Contacto debe poseer números, letras o guiones',
+            "tienda_mail_contacto.required"=>'El Mail es requerido',
+            "tienda_mail_contacto.email"=>'El Mail no es valido',
+            "tienda_rut_responsable.required"=>'El Rut del Responsable es requerido',
+            "tienda_rut_responsable.alpha"=>'El Rut del Responsable debe poseer números o letras',
+            "tienda_nombre.required"=>'El Nombre de la Tienda es requerido',
+            "tienda_nombre.alpha"=>'El Nombre de la Tienda sólo debe tener letras',
+            "tienda_nombre.max"=>"El Nombre de la Tienda es demasiado largo",
+            "tienda_nombre_responsable.required"=>'El Nombre del Responsable es requerido',
+            "tienda_nombre_responsable.alpha"=>'El Nombre del Responsable sólo debe tener letras',
+            "tienda_nombre_responsable.max"=>"El Nombre del Responsable es demasiado largo",
+            "tienda_primer_apellido_responsable.required"=>'El Primer Apellido del Responsable es requerido',
+            "tienda_primer_apellido_responsable.max"=>"El Primer Apellido es demasiado largo",
+            "tienda_primer_apellido_responsable.alpha"=>'El Primer Apellido del Responsable sólo debe tener letras',
+            "tienda_segundo_apellido_responsable.required"=>'El Segundo Apellido del Responsable es requerido',
+            "tienda_segundo_apellido_responsable.alpha"=>'El Segundo Apellido del Responsable sólo debe tener letras',
+            "tienda_segundo_apellido_responsable.max"=>"El Segundo Apellido es demasiado largo",
+        ];
+        $this->validate($request, $campos, $mensaje);
+
+        $datosTienda = request()-> except('_token'); 
+        $datosTienda['id']= Auth::id();
+        $datosTienda['estilo_id']= 1;
+        $datosTienda['direccion_id']= 1;
         tienda::insert($datosTienda);
-        return response()->json($datosTienda);
+        // return response()->json($datosTienda);
+        return redirect('tienda')->with('mensaje', 'Tienda creata con éxito.');
     }
 
     /**
@@ -81,12 +117,43 @@ class TiendaController extends Controller
      */
     public function update(Request $request,$tienda_id)
     {
-        //
-        $datosTienda = request()-> except(['_token','_method']);
+        $campos=[
+            'tienda_rut_responsable'=>'required|alpha_num',
+            'tienda_nombre'=>'required|string|max:20',
+            'tienda_nombre_responsable'=>'required|string|max:20',
+            'tienda_primer_apellido_responsable'=>'required|string|max:20',
+            'tienda_segundo_apellido_responsable'=>'required|string|max:20',
+            'tienda_numero_contacto' => 'required|alpha_dash',
+            'tienda_mail_contacto'=>'required|email'
+
+        ];
+        $mensaje=[
+            "tienda_numero_contacto.required"=>'El Número de Contacto es requerido',
+            "tienda_numero_contacto.alpha_dash"=>'El Número de Contacto debe poseer números, letras o guiones',
+            "tienda_mail_contacto.required"=>'El Mail es requerido',
+            "tienda_mail_contacto.email"=>'El Mail no es valido',
+            "tienda_rut_responsable.required"=>'El Rut del Responsable es requerido',
+            "tienda_rut_responsable.alpha"=>'El Rut del Responsable debe poseer números o letras',
+            "tienda_nombre.required"=>'El Nombre de la Tienda es requerido',
+            "tienda_nombre.alpha"=>'El Nombre de la Tienda sólo debe tener letras',
+            "tienda_nombre.max"=>"El Nombre de la Tienda es demasiado largo",
+            "tienda_nombre_responsable.required"=>'El Nombre del Responsable es requerido',
+            "tienda_nombre_responsable.alpha"=>'El Nombre del Responsable sólo debe tener letras',
+            "tienda_nombre_responsable.max"=>"El Nombre del Responsable es demasiado largo",
+            "tienda_primer_apellido_responsable.required"=>'El Primer Apellido del Responsable es requerido',
+            "tienda_primer_apellido_responsable.max"=>"El Primer Apellido es demasiado largo",
+            "tienda_primer_apellido_responsable.alpha"=>'El Primer Apellido del Responsable sólo debe tener letras',
+            "tienda_segundo_apellido_responsable.required"=>'El Segundo Apellido del Responsable es requerido',
+            "tienda_segundo_apellido_responsable.alpha"=>'El Segundo Apellido del Responsable sólo debe tener letras',
+            "tienda_segundo_apellido_responsable.max"=>"El Segundo Apellido es demasiado largo",
+        ];
+          //
+        $this->validate($request, $campos, $mensaje);
+        $datosTienda =($request)-> except(['_token','_method']);
         tienda::where('tienda_id','=',$tienda_id)->update($datosTienda);
 
         
-        return redirect('tienda');
+        return redirect('tienda')->with('mensaje', 'Tienda editada exitosamente.');
     }
 
     /**
@@ -99,6 +166,6 @@ class TiendaController extends Controller
     {
         //
         tienda::destroy($tienda_id);
-        return redirect('tienda')->with('alert_danger','Producto borrado exitosamente.');;
+        return redirect('tienda')->with('mensaje','Tienda borrada exitosamente.');
     }
 }
