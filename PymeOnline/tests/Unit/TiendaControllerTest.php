@@ -86,7 +86,7 @@ class TiendaControllerTest extends TestCase
             'tienda_mail_contacto' => 'sample@text.ar'
         ];
         // Realizar consulta a tienda.store
-        $response = $this->actingAs($user)->patch('/tienda/',$request);
+        $response = $this->actingAs($user)->post('/tienda/',$request);
         $tienda = tienda::where('id','=',$user->id)->first();
         $request =[
             'tienda_rut_responsable' => '98987986',
@@ -118,7 +118,7 @@ class TiendaControllerTest extends TestCase
             'tienda_mail_contacto' => 'sample@text.ar'
         ];
         // Realizar consulta a tienda.store
-        $response = $this->actingAs($user)->patch('/tienda/',$request);
+        $response = $this->actingAs($user)->post('/tienda/',$request);
         $tienda = tienda::where('id','=',$user->id)->first();
         $request =[
             'tienda_nombre' => 'MAGNETSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS',
