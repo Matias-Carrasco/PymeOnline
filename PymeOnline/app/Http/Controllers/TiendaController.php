@@ -45,7 +45,7 @@ class TiendaController extends Controller
         //
         $campos=[
             'tienda_rut_responsable'=>'required|alpha_num',
-            'tienda_nombre'=>'required|string|max:20',
+            'tienda_nombre'=>'required|string|max:30',
             'tienda_nombre_responsable'=>'required|string|max:20',
             'tienda_primer_apellido_responsable'=>'required|string|max:20',
             'tienda_segundo_apellido_responsable'=>'required|string|max:20',
@@ -119,7 +119,7 @@ class TiendaController extends Controller
     {
         $campos=[
             'tienda_rut_responsable'=>'required|alpha_num',
-            'tienda_nombre'=>'required|string|max:20',
+            'tienda_nombre'=>'required|string|max:30',
             'tienda_nombre_responsable'=>'required|string|max:20',
             'tienda_primer_apellido_responsable'=>'required|string|max:20',
             'tienda_segundo_apellido_responsable'=>'required|string|max:20',
@@ -153,7 +153,7 @@ class TiendaController extends Controller
         tienda::where('tienda_id','=',$tienda_id)->update($datosTienda);
 
         
-        return redirect('tienda')->with('mensaje', 'Tienda editada exitosamente.');
+        return redirect('/tienda')->with('mensaje', 'Tienda editada exitosamente.');
     }
 
     /**
