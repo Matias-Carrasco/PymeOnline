@@ -234,6 +234,7 @@ return [
             'topnav_right' => true,
             'can' => 'tienda-only',
         ],
+        
 
     
         // Sidebar items:

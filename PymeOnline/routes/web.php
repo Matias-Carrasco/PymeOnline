@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TiendaController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +54,7 @@ Route::middleware(['CheckBan'])->group(function () {
 
     });
 
-  
+
     Route::group(['middleware' => 'CheckRole:tienda'], function () {
         Route::resource('producto', '\App\Http\Controllers\ProductoController');
         Route::resource( 'tags', TagController::class );
