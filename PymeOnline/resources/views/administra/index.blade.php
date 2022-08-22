@@ -13,7 +13,7 @@
                         <th>ID usuario</th>
                         <th>Tipo de Usuario</th>
                         <th>Email</th>
-                        <th>Verificado</th>
+                        <th>Creación</th>
                         <th>Opciones</th>
 
                     </tr>
