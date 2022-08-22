@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\TiendaController;
+use App\Http\Controllers\CartController;
+use \App\Http\Controllers\PreguntaController;
+use \App\Http\Controllers\RespuestaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +35,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Dscomentar los grupos cuando se terminen de hacer pruebas o se suba todo a la main branch!
 */
 
+
 Route::middleware(['CheckBan','auth'])->group(function () {
     
-
-
     Route::group(['middleware' => 'CheckRole:admin'], function () {
         Route::get('admin/banear/{id}','\App\Http\Controllers\AdminController@banear');
         Route::get('admin/desbanear/{id}','\App\Http\Controllers\AdminController@desbanear');
@@ -53,11 +56,15 @@ Route::middleware(['CheckBan','auth'])->group(function () {
 
     });
 
-  
     Route::group(['middleware' => 'CheckRole:tienda'], function () {
         Route::resource('producto', '\App\Http\Controllers\ProductoController');
         Route::resource( 'tags', TagController::class );
         Route::resource('publicacion', '\App\Http\Controllers\PublicacionController');
+
+        Route::resource( 'tienda', TiendaController::class );
+        Route::resource('pregunta',PreguntaController::class);
+        Route::resource('respuesta',RespuestaController::class);
+
         Route::get('publicacion/res/{id}','\App\Http\Controllers\ResenaController@getList')->name('PubliGetRes');
         Route::get('publicacion/score/{id}','\App\Http\Controllers\ResenaController@getScore')->name('PubliGetScore');
 
