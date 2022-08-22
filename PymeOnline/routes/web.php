@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\CartController;
-
+use \App\Http\Controllers\PreguntaController;
+use \App\Http\Controllers\RespuestaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,6 +61,8 @@ Route::middleware(['CheckBan'])->group(function () {
         Route::resource( 'tags', TagController::class );
         Route::resource('publicacion', '\App\Http\Controllers\PublicacionController');
         Route::resource( 'tienda', TiendaController::class );
+        Route::resource('pregunta',PreguntaController::class);
+        Route::resource('respuesta',RespuestaController::class);
         Route::get('publicacion/res/{id}','\App\Http\Controllers\ResenaController@getList')->name('PubliGetRes');
         Route::get('publicacion/score/{id}','\App\Http\Controllers\ResenaController@getScore')->name('PubliGetScore');
 
