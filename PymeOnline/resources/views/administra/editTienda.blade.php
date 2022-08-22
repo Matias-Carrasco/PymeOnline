@@ -9,7 +9,7 @@
         <div class="container card">
 
                 <div class="card-header">
-                    <h3 class="card-title">Cliente</h3>
+                    <h3 class="card-title">Tienda</h3>
                 </div>
 
                 <div class="card-body" style="display: block;">

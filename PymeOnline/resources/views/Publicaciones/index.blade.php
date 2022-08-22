@@ -95,7 +95,6 @@
                                     </button>
                                 </form>
                             </div>
-
                             <!-- Preguntas y respuestas -->
                             <div class="acciones">
                                 <form method="post" action="{{ url('/pregunta/'.$publi->publicacion_id) }}">
@@ -104,7 +103,6 @@
                                     <button type="submit" class="btn btn-block btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Preguntas y Respuestas">
                                         <i class="fas fa-comment"></i>
                                     </button>
-
                         </div>
                     </td>
 

@@ -235,7 +235,6 @@ return [
             'can' => 'tienda-only',
         ],
         
-
     
         // Sidebar items:
         [
@@ -265,12 +264,19 @@ return [
             'can' => 'cliente-only',
         ],
 
-
         ['header' => 'Panel de Tienda',
         'can' => 'tienda-only',],
+       [
+            'text'        => 'Perfil de tienda',
+            'url'         => '/tienda',
+            'icon'        => 'fa fa-user-check',
+            'icon_color'        => 'green',
+            'can' => 'tienda-only',
+        ],
         [
             'text' => 'Productos',
             'url'  => '/producto',
+
             'icon_color'        => 'green',
             'can' => 'tienda-only',
         ],
@@ -283,15 +289,6 @@ return [
         [
             'text'        => 'Tags',
             'url'         => '/tags',
-            'icon_color'        => 'green',
-            'can' => 'tienda-only',
-        ],
-        [
-            'text'        => 'Perfil de tienda',
-            'url'         => '/tienda',
-            'icon'        => 'fa fa-user-check',
-            'icon_color'        => 'green',
-            'can' => 'tienda-only',
         ],
     ],
 
