@@ -34,6 +34,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Dscomentar los grupos cuando se terminen de hacer pruebas o se suba todo a la main branch!
 */
 
+Route::resource('vistacliente', '\App\Http\Controllers\VistaClientesController');
+
+
+
 
 Route::middleware(['CheckBan','auth'])->group(function () {
     
@@ -77,5 +81,7 @@ Route::middleware(['CheckBan','auth'])->group(function () {
     });
 
 });
+
+
 
 
