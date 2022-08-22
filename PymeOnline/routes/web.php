@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\TiendaController;
-use App\Http\Controllers\CartController;
 use \App\Http\Controllers\PreguntaController;
 use \App\Http\Controllers\RespuestaController;
 

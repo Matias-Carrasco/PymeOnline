@@ -289,6 +289,7 @@ return [
         [
             'text'        => 'Tags',
             'url'         => '/tags',
+            'can'=> 'tienda-only',
         ],
     ],
 
