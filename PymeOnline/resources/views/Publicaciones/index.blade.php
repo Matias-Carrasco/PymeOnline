@@ -38,6 +38,7 @@
                     <th style="text-align: left">Precio</th>
                     <th style="text-align: left">Porcentaje Descuento</th>
                     <th style="text-align: left">Reseñas</th>
+                    <th style="text-align: left">Estado</th>
                     <th style="text-align: left">Acciones</th>
                 </tr>
 
@@ -62,6 +63,36 @@
                         <div class="resenas" id="resenas">
                         </div>
                     </td>
+                    @if($publi->pulicacion_activo==0)
+
+
+                    <td> 
+                    <div class="info-box  bg-danger">
+                        <span class="info-box-icon"><i class="fas fa-thumbs-down"></i></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Desactiva</span>
+                        </div>
+
+                    </div>
+                    </td>
+
+
+                    @else
+                    <td>
+                        <div class="info-box bg-success">
+                            <span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Activa</span>
+                            </div>
+                        </div>
+                    </td>
+
+
+                    @endif
+
+
+
+
                     <td>
                         <div class="container-md">
 
@@ -69,7 +100,8 @@
                                 <form method="post" action="{{ url('/publicacion/'.$publi->publicacion_id) }}">
                                     {{ csrf_field() }}
                                     {{ method_field('GET') }}
-                                    <button type="submit" class="btn btn-block btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ver más">
+                                    <button type="submit" class="btn btn-block btn-success" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" title="Ver más">
                                         <i class="fas fa-search"></i>
                                     </button>
 
@@ -78,19 +110,25 @@
 
 
                             <div class="acciones">
-                                <form action="{{ url('/publicacion/' . $publi->publicacion_id . '/edit') }}" class="d-inline">
-                                    <button type="submit" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar Producto"><i class="fas fa-edit"></i></button>
+                                <form action="{{ url('/publicacion/' . $publi->publicacion_id . '/edit') }}"
+                                    class="d-inline">
+                                    <button type="submit" class="btn btn-warning" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" title="Editar Producto"><i
+                                            class="fas fa-edit"></i></button>
                                 </form>
                             </div>
 
 
 
                             <div class="acciones">
-                                <form action="{{ url('/publicacion/'.$publi->publicacion_id) }}" class="d-inline" method="post">
+                                <form action="{{ url('/publicacion/'.$publi->publicacion_id) }}" class="d-inline"
+                                    method="post">
                                     @csrf
                                     {{ method_field('DELETE') }}
 
-                                    <button class="btn btn-danger" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar Producto" onclick="return confirm('¿Estás seguro/a que deseas eliminar esta publicacion? Esto  no es reversible.')">
+                                    <button class="btn btn-danger" type="submit" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" title="Eliminar Producto"
+                                        onclick="return confirm('¿Estás seguro/a que deseas eliminar esta publicacion? Esto  no es reversible.')">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
@@ -116,7 +154,8 @@
 <!-- Modal Reseñas -->
 <div class="modal fade" id="ModalRes" tabindex="-1" role="dialog" aria-labelledby="ModalRes" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="{{ route('PubliGetRes',0) }}" data-bs-action="{{route('PubliGetRes',0)}}" id="modalFormRes" method="get">
+        <form action="{{ route('PubliGetRes',0) }}" data-bs-action="{{route('PubliGetRes',0)}}" id="modalFormRes"
+            method="get">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -152,7 +191,8 @@
 @stop
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
 <style>
     .acciones {
@@ -165,6 +205,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
 </style>
 @stop
 
@@ -172,11 +213,13 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
 </script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         // Construir botones de reseñas antes de crear datatable
         var tabla = document.getElementById("tabla3")
@@ -200,7 +243,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 dataType: 'json',
-                success: function(dataResult) {
+                success: function (dataResult) {
                     resultData = dataResult.data;
                     contador = 0
                     while (resultData >= 1) {
@@ -208,14 +251,14 @@
                         contador++
                         newHtml += "<i class=\"fas fa-star\"></i>";
                     }
-                    if(resultData>0){
+                    if (resultData > 0) {
                         contador++
                         newHtml += "<i class=\"fas fa-star-half-alt\"></i>";
                     }
                     for (let index = contador; index < 5; index++) {
                         newHtml += "<i class=\"far fa-star\"></i>"
                     }
-                    newHtml += " "+ dataResult.data.toFixed(2) + "</a>";
+                    newHtml += " " + dataResult.data.toFixed(2) + "</a>";
                 }
             })
             rowResena.innerHTML = newHtml
@@ -230,21 +273,22 @@
                 targets: [0, 1],
                 className: "truncate"
             }],
-            createdRow: function(row) {
-                $(row).find(".truncate").each(function() {
+            createdRow: function (row) {
+                $(row).find(".truncate").each(function () {
                     $(this).attr("title", this.innerText);
                 });
             }
         });
     });
+
 </script>
 
 <!-- Funcion para invocar al modal de reseñas -->
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var modalRes = document.getElementById('ModalRes')
 
-        modalRes.addEventListener('show.bs.modal', function(event) {
+        modalRes.addEventListener('show.bs.modal', function (event) {
 
             // Button que llamo al modal
             var button = event.relatedTarget
@@ -272,13 +316,13 @@
                     _token: '{{ csrf_token() }}'
                 },
                 dataType: 'json',
-                success: function(dataResult) {
+                success: function (dataResult) {
 
                     $("#modalResTable tbody").html("");
 
                     var resultData = dataResult.data;
                     var bodyData = '';
-                    $.each(resultData, function(index, row) {
+                    $.each(resultData, function (index, row) {
                         bodyData += "<tr>";
                         bodyData += "<td>"
                         for (let index = 0; index < 5; index++) {
@@ -299,6 +343,7 @@
             })
         });
     })
+
 </script>
 
 @stop

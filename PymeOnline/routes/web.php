@@ -31,8 +31,12 @@ Auth::routes();
     Dscomentar los grupos cuando se terminen de hacer pruebas o se suba todo a la main branch!
 */
 
+Route::resource('vistacliente', '\App\Http\Controllers\VistaClientesController');
+
+
 Route::middleware(['CheckBan'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+   
 
 
     Route::group(['middleware' => 'CheckRole:admin'], function () {
@@ -71,5 +75,7 @@ Route::middleware(['CheckBan'])->group(function () {
     });
 
 });
+
+
 
 
