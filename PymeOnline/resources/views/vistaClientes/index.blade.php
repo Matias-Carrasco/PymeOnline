@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-@extends('adminlte::cliente')
+@extends('adminlte::page')
 
 @section('title', 'Tu página')
 
@@ -62,10 +62,17 @@
                         <!-- Product actions-->
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 
-                            <form action="{{ url('/publicacion/' . $publicacion->publicacion_id . '/edit') }}" class="d-inline">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-
-
+                            <form action="{{ route('cart.store') }}" method="POST">
+                                {{ csrf_field() }}
+                                <input type="hidden" value="{{ $publicacion->producto_id }}" id="id" name="id">
+                                
+                                <input type="hidden" value="1" id="quantity" name="quantity">
+                                <div class="text-center" >
+                                    
+                                        <button class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
+                                            <i class="fa fa-shopping-cart"></i> agregar al carrito
+                                        </button>
+                                </div>
                             </form>
 
                         </div>
