@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class publicacion extends Model
 {
    protected $primaryKey='publicacion_id';
+
+   public function preguntas(){
+      return $this->hasMany(pregunta::class, 'publicacion_id');
+   }
 }

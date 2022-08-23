@@ -7,6 +7,9 @@ use App\Http\Controllers\TiendaController;
 use \App\Http\Controllers\PreguntaController;
 use \App\Http\Controllers\RespuestaController;
 
+
+use App\Http\Controllers\ClienteController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +24,13 @@ use \App\Http\Controllers\RespuestaController;
 Route::get('/', function () {
     return view('home');
 });
+/*
+Route::get('/PaginaTienda', function () {
+    return view('PaginaTienda/PaginaTienda');
+});
+
+*/
+
 
 Auth::routes();
 
@@ -56,7 +66,9 @@ Route::middleware(['CheckBan','auth'])->group(function () {
 
     Route::group(['middleware' => 'CheckRole:cliente'], function () {
 
+        Route::get('/perfil', [App\Http\Controllers\ClienteController::class, 'verPerfil']);
 
+        Route::resource('clientes',ClienteController::class);
     });
 
     Route::group(['middleware' => 'CheckRole:tienda'], function () {
@@ -65,12 +77,11 @@ Route::middleware(['CheckBan','auth'])->group(function () {
         Route::resource('publicacion', '\App\Http\Controllers\PublicacionController');
 
         Route::resource( 'tienda', TiendaController::class );
-        Route::resource('pregunta',PreguntaController::class);
-        Route::resource('respuesta',RespuestaController::class);
 
         Route::get('publicacion/res/{id}','\App\Http\Controllers\ResenaController@getList')->name('PubliGetRes');
         Route::get('publicacion/score/{id}','\App\Http\Controllers\ResenaController@getScore')->name('PubliGetScore');
-
+        Route::get('/tienda', [App\Http\Controllers\PaginaTiendaController::class, 'index']);
+        //Route::get('tienda/{id}', 'App\Http\Controllers\PaginaTiendaController@index');
         //no va aqui, provisional
 
         Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
@@ -78,6 +89,8 @@ Route::middleware(['CheckBan','auth'])->group(function () {
         Route::post('/update', [CartController::class, 'update'])->name('cart.update');
         Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
         Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');
+        Route::post('pregunta', [PreguntaController::class, 'store'])->name('pregunta.store');
+        Route::post('respuesta',[RespuestaController::class, 'store'])->name('respuesta.store');
     });
 
 });

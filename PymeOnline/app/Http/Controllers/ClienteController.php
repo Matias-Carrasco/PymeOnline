@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClienteController extends Controller
 {
@@ -14,7 +15,12 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        //
+        /**
+         * Show the form for creating a new resource.
+         *    $datos['clientes']=cliente::paginate(5);
+         *   return view('clientes.index',$datos);
+         * 
+         */
     }
 
     /**
@@ -24,7 +30,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        //
+        return view('clientes.create');
     }
 
     /**
@@ -35,7 +41,8 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $datosCliente = request()->except('_token');
+        cliente::insert($datosCliente);
     }
 
     /**
@@ -46,7 +53,6 @@ class ClienteController extends Controller
      */
     public function show(cliente $cliente)
     {
-        //
     }
 
     /**
@@ -55,9 +61,10 @@ class ClienteController extends Controller
      * @param  \App\Models\cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function edit(cliente $cliente)
+    public function edit($cliente_id)
     {
-        //
+        $cliente = cliente::findOrFail($cliente_id);
+        return view('clientes.edit', compact('cliente'));
     }
 
     /**
@@ -67,9 +74,14 @@ class ClienteController extends Controller
      * @param  \App\Models\cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, cliente $cliente)
+    public function update(Request $request, $cliente_id)
     {
-        //
+        $datosCliente = request()->except(['_token', '_method']);
+
+        cliente::where('cliente_id', '=', $cliente_id)->update($datosCliente);
+
+        $cliente = cliente::FindOrFail($cliente_id);
+        return view('clientes.perfil', compact('cliente'));
     }
 
     /**
@@ -78,8 +90,17 @@ class ClienteController extends Controller
      * @param  \App\Models\cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function destroy(cliente $cliente)
+    public function destroy($cliente_id)
     {
-        //
+        cliente::destroy($cliente_id);
+        return redirect('clientes');
+    }
+    public function verPerfil()
+    {
+        $id = Auth::id();
+        $cliente = cliente::where('id', '=', $id)->first();
+       
+
+        return view('clientes.perfil', compact('cliente'));
     }
 }
