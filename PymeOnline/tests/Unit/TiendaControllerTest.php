@@ -69,19 +69,8 @@ class TiendaControllerTest extends TestCase
     {
          // Crear usuario y request
         $user = User::factory()->create(['rol_id' => '3']);
-        $request = [
-            'tienda_rut_responsable' => '989879876',
-            'tienda_nombre_responsable' => 'John',
-            'tienda_primer_apellido_responsable' => 'Doe',
-            'tienda_segundo_apellido_responsable' => 'McLovin',
-            'tienda_nombre' => 'Cafe con sabor a cartón',
-            'tienda_numero_contacto' => '12345678',
-            'tienda_mail_contacto' => 'sample@text.ar'
-        ];
-        // Realizar consulta a tienda.store
-        $response = $this->actingAs($user)->post('/tienda/',$request);
         $tienda = tienda::where('id','=',$user->id)->first();
-        $request2 =[
+        $request =[
             'tienda_rut_responsable' => '989879874',
             'tienda_nombre_responsable' => 'EU',
             'tienda_primer_apellido_responsable' => 'RE',
@@ -91,7 +80,7 @@ class TiendaControllerTest extends TestCase
             'tienda_mail_contacto' => 'sample@text.arg'
         ];
         // Realizar consulta a tienda.update
-        $response = $this->actingAs($user)->patch('/tienda/'.$tienda->tienda_id, $request2);
+        $response = $this->actingAs($user)->patch('/tienda/'.$tienda->tienda_id, $request);
         // Comprobar el cambio a la bdd
         $response->assertSessionHasNoErrors();
         // tienda::where('id','=',$user->id)->delete();
@@ -102,17 +91,6 @@ class TiendaControllerTest extends TestCase
     {
         // Crear usuario y request
         $user = User::factory()->create(['rol_id' => '3']);
-        $request = [
-            'tienda_rut_responsable' => '98987985',
-            'tienda_nombre_responsable' => 'John',
-            'tienda_primer_apellido_responsable' => 'Doe',
-            'tienda_segundo_apellido_responsable' => 'McLovin',
-            'tienda_nombre' => 'Cafe con sabor a cartón',
-            'tienda_numero_contacto' => '12345678',
-            'tienda_mail_contacto' => 'sample@text.ar'
-        ];
-        // Realizar consulta a tienda.store
-        $response = $this->actingAs($user)->post('/tienda/',$request);
         $tienda = tienda::where('id','=',$user->id)->first();
         $request =[
             'tienda_nombre' => 'MAGNETSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS',
@@ -124,5 +102,18 @@ class TiendaControllerTest extends TestCase
         // Comprobar error de editado
         $response->assertSessionHasErrors();
 
+    }
+
+    public function test_delete_tienda()
+    {
+        // Crear request
+        $user = User::factory()->create(['rol_id' => '3']);
+        $tienda = tienda::where('tienda_rut_responsable','=','989879878')->first(); //hard-codeado por el test de store
+
+        // Realizar consulta a tienda.destroy
+        $response = $this->actingAs($user)->delete('/tienda/'.$tienda->tienda_id);
+        
+        // Comprobar que no se elimino de la bdd debido a dependencias de llaves foraneas
+        $response->assertStatus(302);
     }
 }
