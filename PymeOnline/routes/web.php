@@ -61,8 +61,6 @@ Route::middleware(['CheckBan','auth'])->group(function () {
         Route::resource('publicacion', '\App\Http\Controllers\PublicacionController');
 
         Route::resource( 'tienda', TiendaController::class );
-        Route::resource('pregunta',PreguntaController::class);
-        Route::resource('respuesta',RespuestaController::class);
 
         Route::get('publicacion/res/{id}','\App\Http\Controllers\ResenaController@getList')->name('PubliGetRes');
         Route::get('publicacion/score/{id}','\App\Http\Controllers\ResenaController@getScore')->name('PubliGetScore');
@@ -74,6 +72,8 @@ Route::middleware(['CheckBan','auth'])->group(function () {
         Route::post('/update', [CartController::class, 'update'])->name('cart.update');
         Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
         Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');
+        Route::post('pregunta', [PreguntaController::class, 'store'])->name('pregunta.store');
+        Route::post('respuesta',[RespuestaController::class, 'store'])->name('respuesta.store');
     });
 
 });

@@ -47,17 +47,16 @@ class PreguntaController extends Controller
             "pregunta_texto" => "required|string|max:220",
           ];
         $mensaje=[
-              "producto_nombre.required"=>'La pregunta es requerida',
-              "producto_nombre.string"=>'La pregunta debe poseer numeros o letras',
-              "producto_nombre.max"=>'La pregunta no puede contener mas de 220 carácteres',
+              "pregunta_texto.required"=>'La pregunta es requerida',
+              "pregunta_texto.string"=>'La pregunta debe poseer numeros o letras',
+              "pregunta_texto.max"=>'La pregunta no puede contener mas de 220 carácteres',
         ];
       
       $this->validate($request,$campos,$mensaje);
       $datosPregunta= request()->except('_token');
-    //   $datosPregunta['publicacion_id']=$publicacion_id;
       $datosPregunta['pregunta_fecha']=date('y-m-d');
       pregunta::insert($datosPregunta);
-      return redirect('/publicacion')->with('mensaje', 'Pregunta realizada exitosamente.');
+      return redirect('/publicacion')->with('alert_success', 'Pregunta realizada exitosamente.');
     }
 
     /**
@@ -98,9 +97,9 @@ class PreguntaController extends Controller
             "pregunta_texto" => "required|string|max:220",
           ];
         $mensaje=[
-              "producto_nombre.required"=>'La pregunta es requerida',
-              "producto_nombre.string"=>'La pregunta debe poseer numeros o letras',
-              "producto_nombre.max"=>'La pregunta no puede contener mas de 220 carácteres',
+              "pregunta_texto.required"=>'La pregunta es requerida',
+              "pregunta_texto.string"=>'La pregunta debe poseer numeros o letras',
+              "pregunta_texto.max"=>'La pregunta no puede contener mas de 220 carácteres',
         ];
       
       $this->validate($request,$campos,$mensaje);
