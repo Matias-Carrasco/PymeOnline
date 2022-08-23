@@ -3,6 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\TiendaController;
+use \App\Http\Controllers\PreguntaController;
+use \App\Http\Controllers\RespuestaController;
+
+
+use App\Http\Controllers\ClienteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +24,18 @@ use App\Http\Controllers\CartController;
 Route::get('/', function () {
     return view('home');
 });
+/*
+Route::get('/PaginaTienda', function () {
+    return view('PaginaTienda/PaginaTienda');
+});
+
+*/
+
 
 Auth::routes();
 
 
-
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 /*
     NO BORRAR LOS COMENTARIOS Route::group!!!
@@ -31,10 +44,13 @@ Auth::routes();
     Dscomentar los grupos cuando se terminen de hacer pruebas o se suba todo a la main branch!
 */
 
-Route::middleware(['CheckBan'])->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('vistacliente', '\App\Http\Controllers\VistaClientesController');
 
 
+
+
+Route::middleware(['CheckBan','auth'])->group(function () {
+    
     Route::group(['middleware' => 'CheckRole:admin'], function () {
         Route::get('admin/banear/{id}','\App\Http\Controllers\AdminController@banear');
         Route::get('admin/desbanear/{id}','\App\Http\Controllers\AdminController@desbanear');
@@ -50,17 +66,22 @@ Route::middleware(['CheckBan'])->group(function () {
 
     Route::group(['middleware' => 'CheckRole:cliente'], function () {
 
+        Route::get('/perfil', [App\Http\Controllers\ClienteController::class, 'verPerfil']);
 
+        Route::resource('clientes',ClienteController::class);
     });
 
-  
     Route::group(['middleware' => 'CheckRole:tienda'], function () {
         Route::resource('producto', '\App\Http\Controllers\ProductoController');
         Route::resource( 'tags', TagController::class );
         Route::resource('publicacion', '\App\Http\Controllers\PublicacionController');
+
+        Route::resource( 'tienda', TiendaController::class );
+
         Route::get('publicacion/res/{id}','\App\Http\Controllers\ResenaController@getList')->name('PubliGetRes');
         Route::get('publicacion/score/{id}','\App\Http\Controllers\ResenaController@getScore')->name('PubliGetScore');
-
+        Route::get('/tienda', [App\Http\Controllers\PaginaTiendaController::class, 'index']);
+        //Route::get('tienda/{id}', 'App\Http\Controllers\PaginaTiendaController@index');
         //no va aqui, provisional
 
         Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
@@ -68,8 +89,12 @@ Route::middleware(['CheckBan'])->group(function () {
         Route::post('/update', [CartController::class, 'update'])->name('cart.update');
         Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
         Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');
+        Route::post('pregunta', [PreguntaController::class, 'store'])->name('pregunta.store');
+        Route::post('respuesta',[RespuestaController::class, 'store'])->name('respuesta.store');
     });
 
 });
+
+
 
 

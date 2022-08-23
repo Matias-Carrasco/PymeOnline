@@ -44,9 +44,11 @@ class ProductoController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * 
      */
     public function store(Request $request)
     {   
+        
         
         $id = Auth::id();
         $id_tienda=tienda::where('id','=',$id)->first()->tienda_id;

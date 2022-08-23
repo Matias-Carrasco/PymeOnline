@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\producto;
+use App\Models\publicacion;
 use App\Models\imagen;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,12 +36,12 @@ class CartController extends Controller
         
         $producto=producto::where('producto_id','=',$id_producto)->first();
         $imagen=imagen::where('producto_id','=',$id_producto)->first();
-        
+        $publicacion=publicacion::where('producto_id','=',$id_producto)->first();
         
         \Cart::add(array(
             'id' => $request->id,
             'name' => $producto->producto_nombre,
-            'price' => 1,
+            'price' => $publicacion->publicacion_precio,
             'quantity' => 1,
             'attributes' => array(
                 'image' => $imagen->imagen_url
