@@ -7,6 +7,9 @@ use App\Http\Controllers\TiendaController;
 use \App\Http\Controllers\PreguntaController;
 use \App\Http\Controllers\RespuestaController;
 
+
+use App\Http\Controllers\ClienteController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +24,13 @@ use \App\Http\Controllers\RespuestaController;
 Route::get('/', function () {
     return view('home');
 });
+/*
+Route::get('/PaginaTienda', function () {
+    return view('PaginaTienda/PaginaTienda');
+});
+
+*/
+
 
 Auth::routes();
 
@@ -56,7 +66,9 @@ Route::middleware(['CheckBan','auth'])->group(function () {
 
     Route::group(['middleware' => 'CheckRole:cliente'], function () {
 
+        Route::get('/perfil', [App\Http\Controllers\ClienteController::class, 'verPerfil']);
 
+        Route::resource('clientes',ClienteController::class);
     });
 
     Route::group(['middleware' => 'CheckRole:tienda'], function () {
@@ -68,7 +80,8 @@ Route::middleware(['CheckBan','auth'])->group(function () {
 
         Route::get('publicacion/res/{id}','\App\Http\Controllers\ResenaController@getList')->name('PubliGetRes');
         Route::get('publicacion/score/{id}','\App\Http\Controllers\ResenaController@getScore')->name('PubliGetScore');
-
+        Route::get('/tienda', [App\Http\Controllers\PaginaTiendaController::class, 'index']);
+        //Route::get('tienda/{id}', 'App\Http\Controllers\PaginaTiendaController@index');
         //no va aqui, provisional
 
         Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
