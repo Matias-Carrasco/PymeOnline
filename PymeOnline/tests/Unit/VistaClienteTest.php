@@ -21,12 +21,4 @@ class VistaClienteTest extends TestCase
     }
 
 
-
-    public function testAcces()
-    {
-        $user = User::factory()->create(['rol_id' => '2']);
-        // Redireccionar y comprobar vista
-        $response = $this->actingAs($user)->get('/vistacliente/10');
-        $response->assertStatus(200);
-    }
 }
