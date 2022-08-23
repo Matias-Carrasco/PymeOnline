@@ -730,12 +730,15 @@ class DatabaseSeeder extends Seeder
     public function  insertarResenas($faker){
 
         $ID_Publicaciones = DB::table('publicacions')->pluck('publicacion_id');
+        
         foreach($ID_Publicaciones as $publicacion_id) {
-            DB::table('resenas')->insert([
-                'publicacion_id' => $publicacion_id,
-                'resena_califacion' => rand(1,5),
-                'resena_texto' => $faker->word(),
-            ]);
+            for ($i=0; $i < rand(1,20); $i++) { 
+                DB::table('resenas')->insert([
+                    'publicacion_id' => $publicacion_id,
+                    'resena_califacion' => rand(1,5),
+                    'resena_texto' => $faker->sentence(),
+                ]);
+            }
         }
 
 

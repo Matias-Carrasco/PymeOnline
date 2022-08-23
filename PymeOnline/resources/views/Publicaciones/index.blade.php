@@ -33,9 +33,12 @@
 
 
                 <tr>
+                    <th style="text-align: left">ID</th>
                     <th style="text-align: left">Titulo Publicacion</th>
                     <th style="text-align: left">Precio</th>
                     <th style="text-align: left">Porcentaje Descuento</th>
+                    <th style="text-align: left">Reseñas</th>
+                    <th style="text-align: left">Estado</th>
                     <th style="text-align: left">Acciones</th>
                 </tr>
 
@@ -52,63 +55,137 @@
                 @foreach($publicaciones as $publi)
 
                 <tr>
+                    <td>{{$publi->publicacion_id}}</td>
                     <td>{{$publi->publicacion_titulo}}</td>
                     <td>{{$publi->publicacion_precio}}</td>
                     <td>{{$publi->publicacion_oferta_porcentual}}</td>
+                    <td>
+                        <div class="resenas" id="resenas">
+                        </div>
+                    </td>
+                    @if($publi->pulicacion_activo==0)
+
+
                     <td> 
+                    <div class="info-box  bg-danger">
+                        <span class="info-box-icon"><i class="fas fa-thumbs-down"></i></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Desactiva</span>
+                        </div>
+
+                    </div>
+                    </td>
+
+
+                    @else
+                    <td>
+                        <div class="info-box bg-success">
+                            <span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Activa</span>
+                            </div>
+                        </div>
+                    </td>
+
+
+                    @endif
+
+
+
+
+                    <td>
                         <div class="container-md">
 
-                        <div class="acciones">
-                            <form method="post" action="{{ url('/publicacion/'.$publi->publicacion_id) }}">
-                        {{ csrf_field() }}
-                        {{ method_field('GET') }}
-                        <button type="submit" class="btn btn-block btn-success" data-bs-toggle="tooltip"
-                            data-bs-placement="bottom" title="Ver más">
-                            <i class="fas fa-search"></i>
-                        </button>
+                            <div class="acciones">
+                                <form method="post" action="{{ url('/publicacion/'.$publi->publicacion_id) }}">
+                                    {{ csrf_field() }}
+                                    {{ method_field('GET') }}
+                                    <button type="submit" class="btn btn-block btn-success" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" title="Ver más">
+                                        <i class="fas fa-search"></i>
+                                    </button>
 
-                        </form>
+                                </form>
+                            </div>
+
+
+                            <div class="acciones">
+                                <form action="{{ url('/publicacion/' . $publi->publicacion_id . '/edit') }}"
+                                    class="d-inline">
+                                    <button type="submit" class="btn btn-warning" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" title="Editar Producto"><i
+                                            class="fas fa-edit"></i></button>
+                                </form>
+                            </div>
+
+
+
+                            <div class="acciones">
+                                <form action="{{ url('/publicacion/'.$publi->publicacion_id) }}" class="d-inline"
+                                    method="post">
+                                    @csrf
+                                    {{ method_field('DELETE') }}
+
+                                    <button class="btn btn-danger" type="submit" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" title="Eliminar Producto"
+                                        onclick="return confirm('¿Estás seguro/a que deseas eliminar esta publicacion? Esto  no es reversible.')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                    </td>
+
+
+
+                </tr>
+
+                @endforeach
+
+
+
+
+
+        </table>
     </div>
+</div>
 
+<!-- Modal Reseñas -->
+<div class="modal fade" id="ModalRes" tabindex="-1" role="dialog" aria-labelledby="ModalRes" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="{{ route('PubliGetRes',0) }}" data-bs-action="{{route('PubliGetRes',0)}}" id="modalFormRes"
+            method="get">
+            <div class="modal-content">
 
-    <div class="acciones">
-        <form action="{{ url('/publicacion/' . $publi->publicacion_id . '/edit') }}" class="d-inline">
-            <button type="submit" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                title="Editar Producto"><i class="fas fa-edit"></i></button>
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <table class="table-hover display" id="modalResTable">
+
+                        <colgroup>
+                            <col style="width:25%">
+                            <col style="width:75%">
+                        </colgroup>
+
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Reseña</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
         </form>
     </div>
-
-
-
-    <div class="acciones">
-        <form action="{{ url('/publicacion/'.$publi->publicacion_id) }}" class="d-inline" method="post">
-            @csrf
-            {{ method_field('DELETE') }}
-
-            <button class="btn btn-danger" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                title="Eliminar Producto"
-                onclick="return confirm('¿Estás seguro/a que deseas eliminar esta publicacion? Esto  no es reversible.')">
-                <i class="fas fa-trash"></i>
-            </button>
-        </form>
-    </div>
-
 </div>
-</td>
+<!-- / Modal Reseñas -->
 
-
-
-</tr>
-
-@endforeach
-
-
-
-
-
-</table>
-</div>
-</div>
 @stop
 
 @section('css')
@@ -142,6 +219,50 @@
 <script>
     $(document).ready(function () {
 
+        // Construir botones de reseñas antes de crear datatable
+        var tabla = document.getElementById("tabla3")
+        for (var i = 1, row; row = tabla.rows[i]; i++) {
+            var rowResena = row.cells[4]
+            var rowID = row.cells[0].innerText;;
+            var rowTitle = row.cells[1].innerText;
+
+            var newHtml =
+                "<a href=\"#\" class=\"btn btn-info\" data-bs-toggle=\"modal\" data-bs-target=\"#ModalRes\" data-bs-id=\"" +
+                rowID +
+                "\" data-bs-nombre=\"" +
+                rowTitle +
+                "\">";
+
+            $.ajax({
+                url: 'publicacion/score/' + rowID,
+                type: 'GET',
+                async: false,
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function (dataResult) {
+                    resultData = dataResult.data;
+                    contador = 0
+                    while (resultData >= 1) {
+                        resultData--;
+                        contador++
+                        newHtml += "<i class=\"fas fa-star\"></i>";
+                    }
+                    if (resultData > 0) {
+                        contador++
+                        newHtml += "<i class=\"fas fa-star-half-alt\"></i>";
+                    }
+                    for (let index = contador; index < 5; index++) {
+                        newHtml += "<i class=\"far fa-star\"></i>"
+                    }
+                    newHtml += " " + dataResult.data.toFixed(2) + "</a>";
+                }
+            })
+            rowResena.innerHTML = newHtml
+        }
+
+
         $("#tabla3").DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
@@ -159,4 +280,68 @@
     });
 
 </script>
+
+<!-- Funcion para invocar al modal de reseñas -->
+<script>
+    $(document).ready(function () {
+        var modalRes = document.getElementById('ModalRes')
+
+        modalRes.addEventListener('show.bs.modal', function (event) {
+
+            // Button que llamo al modal
+            var button = event.relatedTarget
+            // Atributos pasados
+            var publicacion_id = button.getAttribute('data-bs-id')
+            var publicacion_titulo = button.getAttribute('data-bs-nombre')
+
+            // Remover ID default de la ruta de accion y cambiarlo por el de la publicacion
+            action = $('#modalFormRes').attr('data-bs-action').slice(0, -1)
+            action += publicacion_id
+            $('#modalFormRes').attr('action', action)
+
+            // Componentes
+            var modalTitle = modalRes.querySelector('.modal-title')
+            var modalBody = modalRes.querySelector('.modal-body')
+
+            // Actualizar titulo mopdal
+            modalTitle.textContent = 'Reseñas de publicacion ' + publicacion_titulo
+
+            // Mostrar reseñas usando AJAX
+            $.ajax({
+                url: 'publicacion/res/' + publicacion_id,
+                type: 'GET',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function (dataResult) {
+
+                    $("#modalResTable tbody").html("");
+
+                    var resultData = dataResult.data;
+                    var bodyData = '';
+                    $.each(resultData, function (index, row) {
+                        bodyData += "<tr>";
+                        bodyData += "<td>"
+                        for (let index = 0; index < 5; index++) {
+                            if (index < row.resena_califacion) {
+                                bodyData += "<i class=\"fas fa-star\"></i>";
+                            } else {
+                                bodyData += "<i class=\"far fa-star\"></i>";
+                            }
+                        }
+                        bodyData += "</td>";
+                        bodyData += "<td>" + row.resena_texto + "</td>";
+                        bodyData += "</tr>";
+                    })
+
+                    // Actualizar body modal
+                    $("#modalResTable tbody").append(bodyData);
+                }
+            })
+        });
+    })
+
+</script>
+
 @stop

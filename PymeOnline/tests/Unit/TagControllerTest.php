@@ -11,7 +11,7 @@ use Tests\TestCase;
 class TagControllerTest extends TestCase
 {
     
-    public function test_view_index_while_logged()
+    public function test_generar_vista_tags()
     {
         // Crear usuario 
         $user = User::factory()->create(['rol_id' => '3']);
@@ -19,10 +19,9 @@ class TagControllerTest extends TestCase
         // Redireccionar y comprobar vista
         $response = $this->actingAs($user)->get('/tags');
         $response->assertStatus(200);
-        
     }
 
-    public function test_store_new_tag()
+    public function test_insertar_nuevo_tag()
     {
         // Crear usuario y request
         $user = User::factory()->create(['rol_id' => '3']);
@@ -41,7 +40,7 @@ class TagControllerTest extends TestCase
         ]);
     }
 
-    public function test_update_existing_tag()
+    public function test_actualizar_tag_existente()
     {
         // Crear usuario y request
         $user = User::factory()->create(['rol_id' => '3']);
@@ -62,7 +61,7 @@ class TagControllerTest extends TestCase
         ]);
     }
 
-    public function test_update_nonexisting_tag()
+    public function test_actualizar_tag_no_existente()
     {
         
         // Crear request y nuevo tag_id el cual no se encuentre presente en el array
@@ -87,7 +86,7 @@ class TagControllerTest extends TestCase
         ]);
     }
 
-    public function test_destroy_used_existing_tag()
+    public function test_eliminar_tag_en_uso()
     {
         // Crear request
         $user = User::factory()->create(['rol_id' => '3']);
@@ -105,7 +104,7 @@ class TagControllerTest extends TestCase
         ]);
     }
 
-    public function test_destroy_unused_existing_tag()
+    public function test_eliminar_tag_sin_uso()
     {
         // Obtener primer tag de la tienda que no se encuentre linkeado a un producto
         $user = User::factory()->create(['rol_id' => '3']);

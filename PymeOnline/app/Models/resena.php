@@ -7,5 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class resena extends Model
 {
-    use HasFactory;
+    protected $table = 'resenas';
+
+    protected $primarykey = 'resena_id';
+
+    protected $fillable = [
+        'publicacion_id',
+        'resena_califacion',
+        'resena_texto'
+    ];
 }
