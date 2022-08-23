@@ -52,7 +52,7 @@
                                     $numimg = 0;
                                 @endphp
                                 <div id="carousel{{ $pro->producto_id }}" class="carousel slide" data-ride="carousel">
-                                    
+
                                     <div class="carousel-inner">
                                         @foreach ($imagenes as $img)
                                             @if ($img['producto_id'] == $pro['producto_id'])
@@ -73,7 +73,7 @@
                                             @endif
                                         @endforeach
                                     </div>
-                                    
+
                                 </div>
 
 
@@ -122,24 +122,6 @@
                                         </form>
                                     </div>
 
-                                    <div class="acciones">
-                                        <a href=""><h6 class="card-title">{{ $pro->name }}</h6></a>
-                                        
-                                        <form action="{{ route('cart.store') }}" method="POST">
-                                            {{ csrf_field() }}
-                                            <input type="hidden" value="{{ $pro->producto_id }}" id="id" name="id">
-                                            
-                                            <input type="hidden" value="1" id="quantity" name="quantity">
-                                            <div class="card-footer" >
-                                                  <div class="row">
-                                                    <button class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
-                                                        <i class="fa fa-shopping-cart"></i> agregar al carrito
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-
                                 </div>
 
                             </td>
@@ -164,7 +146,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        } 
+        }
 
     </style>
 @stop
