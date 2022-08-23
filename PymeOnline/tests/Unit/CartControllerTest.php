@@ -21,7 +21,7 @@ class CartControllerTest extends TestCase
     
 
     /** @test*/
-    public function test_aumentarCantidadDeProductoEnCarro(){
+    public function carrito_aumentarCantidadDeProductoEnCarro(){
 
         $user = User::factory()->create(['rol_id' => 3]);
 
@@ -29,23 +29,19 @@ class CartControllerTest extends TestCase
             'id' => 194,
             'quantity' => 2
         ];
-
-        // Realizar consulta a tags.store
         $response = $this->actingAs($user)->post('/update/',$request);
 
         $response->assertSessionHasNoErrors();
         $response->assertRedirect('/cart');
     }
     /** @test*/
-    public function test_borrarProductoDeCarro(){
+    public function carrito_borrarProductoDeCarro(){
 
         $user = User::factory()->create(['rol_id' => 3]);
 
         $request = [
             'id' => 194
         ];
-
-        // Realizar consulta a tags.store
         $response = $this->actingAs($user)->post('/remove/',$request);
 
         $response->assertSessionHasNoErrors();
@@ -53,12 +49,11 @@ class CartControllerTest extends TestCase
     }
 
     /** @test*/
-    public function test_limpiarCarrito(){
+    public function carrito_limpiarCarrito(){
 
         $user = User::factory()->create(['rol_id' => 3]);
 
 
-        // Realizar consulta a tags.store
         $response = $this->actingAs($user)->post('/clear');
 
         $response->assertSessionHasNoErrors();

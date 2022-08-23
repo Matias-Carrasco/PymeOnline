@@ -7,7 +7,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Post;
-use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoControllerTest extends TestCase
 {
@@ -16,11 +17,7 @@ class ProductoControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
-    {
-        $this->assertTrue(true);
-    }
-
+    
     /** @test*/
     public function test_productoUpdate(){
 
@@ -61,5 +58,38 @@ class ProductoControllerTest extends TestCase
 
         $response->assertSessionHasErrors();
     }
+
+    public function test_productoCreateError2(){
+
+        $user = User::factory()->create(['rol_id' => 3]);
+        $request = [
+            'producto_nombre' => '',
+            'producto_descripcion' => '',
+        ];
+
+        $response = $this->actingAs($user)->post('/producto/',$request);
+
+        $response->assertSessionHasErrors();
+    }
+
+    // public function test_productoCreate(){
+    //     //Storage::fake('local');
+    //     //$file = UploadedFile::fake()->create('file.png');
+    //     Storage::fake('avatars');
+ 
+    //     $file = UploadedFile::fake()->image('avatar.jpg',100, 100)->size(100);
+    //     $user = User::factory()->create(['rol_id' => 3]);
+    //     $request = [
+    //         'producto_nombre' => 'Zapatillas',
+    //         'producto_descripcion' => 'Comodas',
+    //         'file' => $file
+    //     ];
+        
+    //     $response = $this->actingAs($user)->post('/producto/',$request);
+
+
+    //     $response->assertSessionHasNoErrors();
+    //     $response->assertRedirect('/producto');
+    // }
 
 }
