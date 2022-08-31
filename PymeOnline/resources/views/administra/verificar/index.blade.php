@@ -8,12 +8,15 @@
                 <thead>
                     <div style="display: flex; justify-content: space-between;">
                         <h4>Tabla de Tiendas por Verificar</h4>
+
                     </div>
                     <tr>
                         <th>ID usuario</th>
                         <th>Tipo de Usuario</th>
                         <th>Email</th>
+
                         <th>Creación</th>
+
                         <th>Opciones</th>
 
                     </tr>

@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class ResenaController extends Controller
 {
-
     public function getList($id_publicacion)
     {
         $resenas = resena::where('publicacion_id', '=', $id_publicacion)->get();
@@ -26,5 +25,7 @@ class ResenaController extends Controller
             $promedio = $promedio / count($resenas);
         }
         return json_encode(array('data' => $promedio));
+
     }
+    
 }

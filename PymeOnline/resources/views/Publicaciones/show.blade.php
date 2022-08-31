@@ -67,4 +67,6 @@
 
     </div>
 
+    @include('Publicaciones.preguntas', ['preguntas' => $publicacion->preguntas, 'publicacion_id' => $publicacion->publicacion_id])
+
 @stop

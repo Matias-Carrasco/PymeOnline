@@ -36,7 +36,23 @@ class RespuestaController extends Controller
     public function store(Request $request)
     {
         //
+        $campos=[
+            "respuesta_texto" => "required|string|max:220",
+          ];
+        $mensaje=[
+              "respuesta_texto.required"=>'La respuesta es requerida',
+              "respuesta_texto.string"=>'La respuesta debe poseer numeros o letras',
+              "respuesta_texto.max"=>'La respuesta no puede contener mas de 220 carácteres',
+        ];
+      
+      $this->validate($request,$campos,$mensaje);
+      $datosRespuesta= request()->except('_token');
+    //   $datosPregunta['publicacion_id']=$publicacion_id;
+      $datosRespuesta['respuesta_fecha']=date('y-m-d');
+      respuesta::insert($datosRespuesta);
+      return redirect('/publicacion')->with('alert_success', 'Respuesta realizada exitosamente.');
     }
+    
 
     /**
      * Display the specified resource.

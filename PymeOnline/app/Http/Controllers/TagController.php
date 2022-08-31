@@ -38,7 +38,7 @@ class TagController extends Controller
         $tiendaID = tienda::where('id', '=', $id)->first()->tienda_id;
 
         $camposTags = [
-            'tag_nombre' => 'required|string|max:32',
+            'tag_nombre' => 'required|string|max:32|alpha_num',
         ];
 
         $mensaje = [
@@ -51,7 +51,7 @@ class TagController extends Controller
 
 
         if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator)->with('error_code', 1);
+            return Redirect::back()->withErrors($validator)->with(['error_code'=> 1, 'r_id' => '', 'r_nombre' => $request->tag_nombre]);
         } else {
             // Dropea el token e inserta los datos
             $datosTag = request()->except(['_token', '_method']);
@@ -68,7 +68,7 @@ class TagController extends Controller
         $tiendaID = tienda::where('id', '=', $id)->first()->tienda_id;
 
         $camposTags = [
-            'tag_nombre' => 'required|string|max:32',
+            'tag_nombre' => 'required|string|max:32|alpha_num',
         ];
 
         $mensaje = [
