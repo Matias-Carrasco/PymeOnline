@@ -58,7 +58,7 @@
                             <h4>Tabla de tags</h4>
 
                             <!-- Boton Crear, Modal -->
-                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalCreate" style="align-self: center">
+                            <a href="#" id="b_crear" class="btn btn-primary" data-toggle="modal" data-target="#ModalCreate" style="align-self: center">
                                 <i class="fas fa-plus-circle"></i>
                             </a>
 
@@ -81,7 +81,7 @@
                                 <div>
                                     <!--Boton para editar Tag -->
                                     <div class="acciones">
-                                        <a href="#" id="b_crear" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditar" data-bs-id="{{$tag->tag_id}}" data-bs-nombre="{{$tag->tag_nombre}}">
+                                        <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditar" data-bs-id="{{$tag->tag_id}}" data-bs-nombre="{{$tag->tag_nombre}}">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                     </div>
