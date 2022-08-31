@@ -133,6 +133,23 @@
                                     </button>
                                 </form>
                             </div>
+                            <div class="acciones">
+                                
+                                
+                                <form action="{{ route('cart.store') }}" method="POST">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" value="{{ $publi->producto_id }}" id="id" name="id">
+                                    
+                                    <input type="hidden" value="1" id="quantity" name="quantity">
+                                    <div class="card-footer" >
+                                          <div class="row">
+                                            <button class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
+                                                <i class="fa fa-shopping-cart"></i> agregar al carrito
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                     </td>
 
 
