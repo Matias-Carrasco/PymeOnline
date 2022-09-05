@@ -691,8 +691,9 @@ class DatabaseSeeder extends Seeder
         foreach ($ID_Tiendas as $tienda_id) {
             foreach (range(1,$numeroPorTienda) as $index) {
                 DB::table('categorias')->insert([
-                    'categoria_id_padre' => NULL,
+                    'tienda_id' => $tienda_id,
                     'categoria_nombre' => $faker->word(),
+
                 ]);
             }
         }
