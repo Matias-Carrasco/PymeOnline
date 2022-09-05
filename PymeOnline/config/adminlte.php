@@ -226,7 +226,7 @@ return [
 
     'menu' => [
         // Navbar items:
-      
+
         [
             'text'    => 'Carrito',
             'icon'    => 'fa fa-shopping-cart',
@@ -234,15 +234,17 @@ return [
             'topnav_right' => true,
             'can' => 'tienda-only',
         ],
-        
-    
+
+
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-        ['header' => 'Panel de administrador',
-        'can' => 'admin-only',],
+        [
+            'header' => 'Panel de administrador',
+            'can' => 'admin-only',
+        ],
         [
             'text' => 'Usuarios',
             'url'  => 'admin/',
@@ -255,8 +257,10 @@ return [
             'icon'        => 'fa fa-user-check',
             'can' => 'admin-only',
         ],
-        ['header' => 'Panel de cliente',
-        'can' => 'cliente-only',],
+        [
+            'header' => 'Panel de cliente',
+            'can' => 'cliente-only',
+        ],
         [
             'text'        => 'Perfil',
             'url'         => '/perfil',
@@ -264,15 +268,18 @@ return [
             'can' => 'cliente-only',
         ],
 
-        ['header' => 'Panel de Tienda',
-        'can' => 'tienda-only',],
-       [
+        [
+            'header' => 'Panel de Tienda',
+            'can' => 'tienda-only',
+        ],
+        [
             'text'        => 'Perfil de tienda',
             'url'         => '/tienda',
             'icon'        => 'fa fa-user-check',
             'icon_color'        => 'green',
             'can' => 'tienda-only',
         ],
+
         [
             'text' => 'Productos',
             'url'  => '/producto',
@@ -289,7 +296,14 @@ return [
         [
             'text'        => 'Tags',
             'url'         => '/tags',
-            'can'=> 'tienda-only',
+            'can' => 'tienda-only',
+        ],
+        [
+            'text'        => 'Categorias',
+            'url'         => '/categorias',
+
+            'icon_color'        => 'green',
+            'can' => 'tienda-only',
         ],
     ],
 

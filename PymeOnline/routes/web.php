@@ -6,7 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\TiendaController;
 use \App\Http\Controllers\PreguntaController;
 use \App\Http\Controllers\RespuestaController;
-
+use \App\Http\Controllers\CategoriaController;
 
 use App\Http\Controllers\ClienteController;
 
@@ -25,12 +25,11 @@ Route::get('/', function () {
     return view('home');
 });
 /*
-Route::get('/PaginaTienda', function () {
-    return view('PaginaTienda/PaginaTienda');
-});
+
 
 */
 
+Route::resource('categorias', '\App\Http\Controllers\CategoriaController');
 
 Auth::routes();
 

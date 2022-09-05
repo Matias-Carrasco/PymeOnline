@@ -7,9 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class publicacion extends Model
 {
-   protected $primaryKey='publicacion_id';
-
-   public function preguntas(){
+   protected $table = 'publicacions';
+   protected $primaryKey = 'publicacion_id';
+   protected $fillable = [
+      'publicacion_id',
+      'tienda_id',
+      'producto_id',
+      'categoria_id',
+      'publicacion_activo',
+      'publicacion_titulo',
+      'publicacion_precio',
+      'publicacion_oferta_porcentual'
+      
+   ];
+   public function preguntas()
+   {
       return $this->hasMany(pregunta::class, 'publicacion_id');
    }
 }

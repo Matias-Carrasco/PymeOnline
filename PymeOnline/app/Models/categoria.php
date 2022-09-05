@@ -10,4 +10,8 @@ class categoria extends Model
     protected $table = 'categorias';
 
     protected $primarykey = 'categoria_id';
+    protected $fillable = [
+        'tienda_id',
+        'categoria_nombre'
+    ];
 }
